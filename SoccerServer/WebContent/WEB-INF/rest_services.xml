@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <entity>
+        <uri>players/*</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.players.GetPlayerAction</class>
+    </entity>
+    <entity>
+        <uri>players</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.players.GetPlayersAction</class>
+    </entity>
+    <entity>
+        <uri>players/*</uri>
+        <method>PUT</method>
+        <class>com.soccer.actions.players.PutPlayersAction</class>
+    </entity>
+    <entity>
+        <uri>games/*</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.games.GetGameAction</class>
+    </entity>
+    <entity>
+        <uri>games</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.games.GetGamesAction</class>
+    </entity>
+</services>
