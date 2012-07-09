@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" reloadable="true">
+<Resource auth="Container"
+driverClassName="com.mysql.jdbc.Driver"
+maxActive="30"
+maxIdle="1000"
+name="jdbc/SoccerServerDB"
+password=""
+type="javax.sql.DataSource"
+url="jdbc:mysql://localhost:3306/ellagal_soccer"
+username="root"/>
+</Context>
