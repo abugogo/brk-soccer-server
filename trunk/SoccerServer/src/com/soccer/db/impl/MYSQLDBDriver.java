@@ -10,6 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.apache.commons.dbutils.QueryRunner;
+
 import com.soccer.dal.db.api.IGamesAPI;
 import com.soccer.dal.db.api.IPlayersAPI;
 import com.soccer.dal.entities.api.IDAOGame;
@@ -17,18 +19,24 @@ import com.soccer.dal.entities.api.IDAOPlayer;
 import com.soccer.dal.entities.impl.DAOGame;
 import com.soccer.dal.entities.impl.DAOPlayer;
 import com.soccer.db.utils.QueryUtils;
+import com.soccer.db.utils.handlers.GetGamesResultSetHandler;
+import com.soccer.db.utils.handlers.GetPlayersResultSetHandler;
+import com.soccer.db.utils.handlers.GetSingleGameResultSetHandler;
+import com.soccer.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.lib.SoccerException;
 
 public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
-	public static final String DRIVER_STRING = "com.mysql.jdbc.Driver";
-	public static final String DB_HOST = "localhost";
-	public static final String DB_PORT = "3306";
-	public static final String DB_USER = "root";
-	public static final String DB_PASSWORD = "";
-	public static final String DB_NAME = "ellagal_soccer";
+//	public static final String DRIVER_STRING = "com.mysql.jdbc.Driver";
+//	public static final String DB_HOST = "localhost";
+//	public static final String DB_PORT = "3306";
+//	public static final String DB_USER = "root";
+//	public static final String DB_PASSWORD = "";
+//	public static final String DB_NAME = "ellagal_soccer";
 
 	protected static MYSQLDBDriver _inst = null;
 	private static DataSource _datasource = null;
 	private static Connection _conn = null;
+	private static QueryRunner _queryRunner = null;
 
 	private MYSQLDBDriver() {
 
@@ -40,6 +48,7 @@ public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 
 			_datasource = (DataSource) envContext.lookup("jdbc/SoccerServerDB");
+			_queryRunner = new QueryRunner(_datasource);
 			
 			// Getting a connection object
 			_conn = _datasource.getConnection();
@@ -72,95 +81,45 @@ public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
 			_inst = new MYSQLDBDriver();
 			initSQLDriver(_inst);
 		}
-		return (MYSQLDBDriver) _inst;
+		return _inst;
 	}
 
 	public List<IDAOPlayer> getActivePlayers() {
-		List<IDAOPlayer> retList = new ArrayList<IDAOPlayer>();
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-
 		try {
-
-			list = QueryUtils.query(_datasource,
-					"SELECT * FROM players WHERE Active=1");
-			if (list != null) {
-				Iterator<HashMap<String, Object>> itr = list.iterator();
-				while (itr.hasNext()) {
-					HashMap<String, Object> hm = (HashMap<String, Object>) itr
-							.next();
-					DAOPlayer p = new DAOPlayer(hm);
-					retList.add(p);
-				}
-			}
+			return _queryRunner.query(GetPlayersResultSetHandler.QUERY, new GetPlayersResultSetHandler(), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		return retList;
 	}
 
+	
 	public List<IDAOGame> getGames() {
-		List<IDAOGame> retList = new ArrayList<IDAOGame>();
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-
 		try {
 
-			list = QueryUtils.query(_datasource, "SELECT * FROM games_tbl");
-			Iterator<HashMap<String, Object>> itr = list.iterator();
-			while (itr.hasNext()) {
-				HashMap<String, Object> hm = (HashMap<String, Object>) itr
-						.next();
-				DAOGame p = new DAOGame(hm);
-				retList.add(p);
-			}
-		} catch (Exception e) {
+			return _queryRunner.query(GetGamesResultSetHandler.QUERY, new GetGamesResultSetHandler());
+		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		return retList;
 	}
 
 	public IDAOPlayer getPlayer(String pid) {
-		IDAOPlayer retP = new DAOPlayer();
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-
 		try {
-
-			list = QueryUtils.query(_datasource,
-					"SELECT * FROM players WHERE id=" + pid);
-			Iterator<HashMap<String, Object>> itr = list.iterator();
-			while (itr.hasNext()) {
-				HashMap<String, Object> hm = (HashMap<String, Object>) itr
-						.next();
-				retP = new DAOPlayer(hm);
-			}
-		} catch (Exception e) {
+			return _queryRunner.query(GetSinglePlayerResultSetHandler.QUERY, new GetSinglePlayerResultSetHandler(), pid);
+		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		return retP;
 	}
 
 	public IDAOGame getGame(String gid) {
-		IDAOGame retG = new DAOGame();
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-
 		try {
-
-			list = (ArrayList<HashMap<String, Object>>) QueryUtils
-					.query(_datasource,
-							"SELECT * FROM games_tbl WHERE game_id=" + gid);
-			Iterator<HashMap<String, Object>> itr = list.iterator();
-			while (itr.hasNext()) {
-				HashMap<String, Object> hm = (HashMap<String, Object>) itr
-						.next();
-				retG = new DAOGame(hm);
-			}
+			return _queryRunner.query(GetSingleGameResultSetHandler.QUERY, new GetSingleGameResultSetHandler(), gid);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		return retG;
 	}
 
 	public void createPlayer(IDAOPlayer p) {
