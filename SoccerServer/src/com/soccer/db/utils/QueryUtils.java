@@ -14,17 +14,17 @@ public class QueryUtils {
 
 	private QueryUtils() {}
 	
-	public static List<HashMap<String, Object>> query(DataSource ds, String query) {
-		List<HashMap<String, Object>> result = null;
-	    try {
-	    	QueryRunner qrun = new QueryRunner(ds);
-	        result = (List) qrun.query(ds.getConnection(), query, new MapListHandler());
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	    }
-	    return result;
-	}
-
+//	public static List<HashMap<String, Object>> query(DataSource ds, String query) {
+//		List<HashMap<String, Object>> result = null;
+//	    try {
+//	    	QueryRunner qrun = new QueryRunner(ds);
+//	        result = (List) qrun.query(ds.getConnection(), query, new MapListHandler());
+//	    } catch (Exception ex) {
+//	        ex.printStackTrace();
+//	    }
+//	    return result;
+//	}
+//
 	public static int update(Connection con, String query) {
 		int result = 0;
 	    try {
