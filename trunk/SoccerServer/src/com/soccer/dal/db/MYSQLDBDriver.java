@@ -1,4 +1,4 @@
-package com.soccer.db.impl;
+package com.soccer.dal.db;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,15 +14,15 @@ import org.apache.commons.dbutils.QueryRunner;
 
 import com.soccer.dal.db.api.IGamesAPI;
 import com.soccer.dal.db.api.IPlayersAPI;
-import com.soccer.dal.entities.api.IDAOGame;
-import com.soccer.dal.entities.api.IDAOPlayer;
-import com.soccer.dal.entities.impl.DAOGame;
-import com.soccer.dal.entities.impl.DAOPlayer;
-import com.soccer.db.utils.QueryUtils;
-import com.soccer.db.utils.handlers.GetGamesResultSetHandler;
-import com.soccer.db.utils.handlers.GetPlayersResultSetHandler;
-import com.soccer.db.utils.handlers.GetSingleGameResultSetHandler;
-import com.soccer.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.dal.db.utils.QueryUtils;
+import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.entities.IDAOGame;
+import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.lib.SoccerException;
 
 public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {

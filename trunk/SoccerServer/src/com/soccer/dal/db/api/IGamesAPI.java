@@ -2,7 +2,7 @@ package com.soccer.dal.db.api;
 
 import java.util.List;
 
-import com.soccer.dal.entities.api.IDAOGame;
+import com.soccer.entities.IDAOGame;
 
 public interface IGamesAPI {
 	public List<IDAOGame> getGames();

@@ -7,8 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.dal.entities.api.IDAOGame;
 import com.soccer.db.entities.handlers.GamesActionHandler;
+import com.soccer.entities.IDAOGame;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 

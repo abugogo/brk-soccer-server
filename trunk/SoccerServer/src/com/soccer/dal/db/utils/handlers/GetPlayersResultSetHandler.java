@@ -1,4 +1,4 @@
-package com.soccer.db.utils.handlers;
+package com.soccer.dal.db.utils.handlers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
-import com.soccer.dal.entities.api.IDAOPlayer;
-import com.soccer.db.utils.EntityFactory;
+import com.soccer.dal.db.utils.EntityFactory;
+import com.soccer.entities.IDAOPlayer;
 
 public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPlayer>> {
 
