@@ -1,4 +1,4 @@
-package com.soccer.db.utils;
+package com.soccer.dal.db.utils;
 
 import java.util.HashMap;
 import java.util.List;

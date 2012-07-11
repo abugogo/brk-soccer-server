@@ -2,8 +2,8 @@ package com.soccer.db.entities.handlers;
 
 import java.util.List;
 
-import com.soccer.dal.entities.api.IDAOPlayer;
-import com.soccer.db.impl.MYSQLDBDriver;
+import com.soccer.dal.db.MYSQLDBDriver;
+import com.soccer.entities.IDAOPlayer;
 
 public class PlayersActionHandler {
 	static public List<IDAOPlayer> getAllPlayers() {

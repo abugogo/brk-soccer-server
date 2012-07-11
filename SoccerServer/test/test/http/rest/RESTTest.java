@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-import com.soccer.dal.entities.api.IDAOPlayer;
+import com.soccer.entities.IDAOPlayer;
 import com.soccer.http.HttpMethod;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;

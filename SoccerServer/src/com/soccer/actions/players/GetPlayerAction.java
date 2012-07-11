@@ -5,8 +5,8 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.dal.entities.api.IDAOPlayer;
 import com.soccer.db.entities.handlers.PlayersActionHandler;
+import com.soccer.entities.IDAOPlayer;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 
