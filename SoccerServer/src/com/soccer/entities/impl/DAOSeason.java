@@ -1,10 +1,9 @@
 package com.soccer.entities.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.soccer.entities.IDAOSeason;
-
-import java.util.Date;
 
 
 /**

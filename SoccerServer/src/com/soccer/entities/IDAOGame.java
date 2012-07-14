@@ -1,7 +1,6 @@
 package com.soccer.entities;
 
 import java.util.Date;
-import java.util.HashMap;
 
 
 /**

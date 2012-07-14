@@ -1,13 +1,8 @@
 package com.soccer.dal.db.utils;
 
-import java.util.HashMap;
-import java.util.List;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 import java.sql.Connection;
-import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
+
+import org.apache.commons.dbutils.QueryRunner;
 
 
 public class QueryUtils {
