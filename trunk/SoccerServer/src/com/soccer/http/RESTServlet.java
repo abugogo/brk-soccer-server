@@ -20,7 +20,7 @@ import com.soccer.http.rest.RESTPath;
 import com.soccer.http.rest.RESTRegistry;
 import com.soccer.http.rest.impl.RESTPathImpl;
 import com.soccer.http.rest.impl.RESTRegistryMapImpl;
-import com.soccer.utils.XMLUtils;
+import com.soccer.lib.XMLUtils;
 
 /**
  * Servlet implementation class RESTServlet.

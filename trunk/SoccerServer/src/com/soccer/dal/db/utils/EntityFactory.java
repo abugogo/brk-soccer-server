@@ -3,7 +3,6 @@ package com.soccer.dal.db.utils;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;

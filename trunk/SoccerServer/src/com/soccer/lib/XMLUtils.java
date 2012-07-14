@@ -1,4 +1,4 @@
-package com.soccer.utils;
+package com.soccer.lib;
 
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
