@@ -1,9 +1,7 @@
 package com.soccer.dal.db;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.naming.Context;
@@ -21,24 +19,14 @@ import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
-import com.soccer.entities.impl.DAOGame;
-import com.soccer.entities.impl.DAOPlayer;
-import com.soccer.lib.SoccerException;
 
-public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
-//	public static final String DRIVER_STRING = "com.mysql.jdbc.Driver";
-//	public static final String DB_HOST = "localhost";
-//	public static final String DB_PORT = "3306";
-//	public static final String DB_USER = "root";
-//	public static final String DB_PASSWORD = "";
-//	public static final String DB_NAME = "ellagal_soccer";
-
-	protected static MYSQLDBDriver _inst = null;
+public class SqlDBDal implements IPlayersAPI, IGamesAPI {
+	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static Connection _conn = null;
 	private static QueryRunner _queryRunner = null;
 
-	private MYSQLDBDriver() {
+	private SqlDBDal() {
 
 	}
 
@@ -59,7 +47,7 @@ public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
 		}
 	}
 
-	private static void initSQLDriver(MYSQLDBDriver inst) {
+	private static void initSQLDriver(SqlDBDal inst) {
 		try {
 			initDB();
 		} catch (Exception e) {
@@ -76,9 +64,9 @@ public class MYSQLDBDriver implements IPlayersAPI, IGamesAPI {
 		return _datasource;
 	}
 
-	synchronized public static MYSQLDBDriver getInst() {
+	synchronized public static SqlDBDal getInst() {
 		if (_inst == null) {
-			_inst = new MYSQLDBDriver();
+			_inst = new SqlDBDal();
 			initSQLDriver(_inst);
 		}
 		return _inst;
