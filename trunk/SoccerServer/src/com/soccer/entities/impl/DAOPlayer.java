@@ -1,13 +1,12 @@
 package com.soccer.entities.impl;
 
 import java.io.Serializable;
-
-import com.soccer.entities.IDAOPlayer;
-import com.soccer.entities.IDAOPosition;
-
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+
+import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IDAOPosition;
 
 
 /**
