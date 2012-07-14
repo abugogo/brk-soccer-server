@@ -1,6 +1,5 @@
 package com.soccer.dal.db;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,9 +9,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
 
-import com.soccer.dal.db.api.IGamesAPI;
-import com.soccer.dal.db.api.IPlayersAPI;
-import com.soccer.dal.db.utils.QueryUtils;
+import com.soccer.dal.api.IGamesAPI;
+import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
@@ -23,7 +21,6 @@ import com.soccer.entities.IDAOPlayer;
 public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
-	private static Connection _conn = null;
 	private static QueryRunner _queryRunner = null;
 
 	private SqlDBDal() {
@@ -37,11 +34,6 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 
 			_datasource = (DataSource) envContext.lookup("jdbc/SoccerServerDB");
 			_queryRunner = new QueryRunner(_datasource);
-			
-			// Getting a connection object
-			_conn = _datasource.getConnection();
-			// Class.forName(sDriver);
-			// _conn = DriverManager.getConnection(connStr, dbUser, dbPassword);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,15 +47,6 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 		}
 	}
 
-	public Connection getConnection() {
-		return _conn;
-
-	}
-
-	public DataSource getDS() {
-		return _datasource;
-	}
-
 	synchronized public static SqlDBDal getInst() {
 		if (_inst == null) {
 			_inst = new SqlDBDal();
@@ -72,6 +55,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 		return _inst;
 	}
 
+	@Override
 	public List<IDAOPlayer> getActivePlayers() {
 		try {
 			return _queryRunner.query(GetPlayersResultSetHandler.QUERY, new GetPlayersResultSetHandler(), 1);
@@ -82,6 +66,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 	}
 
 	
+	@Override
 	public List<IDAOGame> getGames() {
 		try {
 
@@ -92,6 +77,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 		}
 	}
 
+	@Override
 	public IDAOPlayer getPlayer(String pid) {
 		try {
 			return _queryRunner.query(GetSinglePlayerResultSetHandler.QUERY, new GetSinglePlayerResultSetHandler(), pid);
@@ -101,6 +87,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 		}
 	}
 
+	@Override
 	public IDAOGame getGame(String gid) {
 		try {
 			return _queryRunner.query(GetSingleGameResultSetHandler.QUERY, new GetSingleGameResultSetHandler(), gid);
@@ -110,29 +97,19 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 		}
 	}
 
+	@Override
 	public void createPlayer(IDAOPlayer p) {
-		if (p != null && p.getId() != null) {
-			String query = null;
-			query = "INSERT INTO players (id, id_num, fname, lname, position, tel1, tel2, email, bday, fb_user, occupation, address1, address2, description, P_img, Active) VALUES (";
-			query += (p.getId() + ",");
-			query += (p.getIdNum() + ",");
-			query += ("'" + p.getFname() + "',");
-			query += ("'" + p.getLname() + "',");
-			query += ("2,");
-			query += ("'" + p.getTel1() + "',");
-			query += ("'" + p.getTel2() + "',");
-			query += ("'" + p.getEmail() + "',");
-			query += ("'1971-06-28',");
-			query += ("'" + p.getFbUser() + "',");
-			query += ("'" + p.getOccupation() + "',");
-			query += ("'" + p.getAddress1() + "',");
-			query += ("'" + p.getAddress2() + "',");
-			query += ("'" + p.getDescription() + "',");
-			query += ("0,");
-			query += ("1)");
-
-			QueryUtils.update(getConnection(), query);
+		try {
+			_queryRunner.update("INSERT INTO players " +
+					"(id, id_num, fname, lname, position, " +
+					"tel1, tel2, email, bday, fb_user, " +
+					"occupation, address1, address2, " +
+					"description, P_img, Active) " +
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+					p.getId(), p.getIdNum(), p.getFname(), p.getLname(), 2, p.getTel1(), 
+					p.getTel2(), p.getEmail(), "1971-06-28", p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), 0, 1);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.soccer.oauth;
+package com.soccer.http.oauth;
 
 import java.io.IOException;
 import java.util.Enumeration;

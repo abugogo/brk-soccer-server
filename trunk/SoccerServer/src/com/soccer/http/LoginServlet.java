@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.openid4java.consumer.ConsumerException;
 
-import com.soccer.oauth.SoccerOpenIDConsumer;
+import com.soccer.http.oauth.SoccerOpenIDConsumer;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {

@@ -6,10 +6,10 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.db.entities.handlers.GamesActionHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
+import com.soccer.services.SoccerService;
 
 import flexjson.JSONSerializer;
 
@@ -23,7 +23,7 @@ public class GetGameAction implements RESTAction {
 		IDAOGame g = null;
 		try {
 			if (pathInfo != null && pathInfo.length == 2) {
-				g = GamesActionHandler.getGame(pathInfo[1]);
+				g = SoccerService.getInstance().getGame(pathInfo[1]);
 			}
 
 			JSONSerializer serializer = new JSONSerializer();

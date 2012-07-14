@@ -7,10 +7,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.db.entities.handlers.GamesActionHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
+import com.soccer.services.SoccerService;
 
 import flexjson.JSONSerializer;
 
@@ -22,7 +22,7 @@ public class GetGamesAction implements RESTAction {
 		String ser = "";
 		List<IDAOGame> l = null;
 		try {
-			l = GamesActionHandler.getAllGames();
+			l = SoccerService.getInstance().getGames();
 
 			JSONSerializer serializer = new JSONSerializer();
 			ser = serializer.serialize(l);

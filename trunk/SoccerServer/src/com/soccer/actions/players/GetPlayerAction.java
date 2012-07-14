@@ -6,10 +6,10 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.db.entities.handlers.PlayersActionHandler;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
+import com.soccer.services.SoccerService;
 
 import flexjson.JSONSerializer;
 
@@ -23,7 +23,7 @@ public class GetPlayerAction implements RESTAction {
 		String[] pathInfo = path.getPathArray();
 		try {
 			if (pathInfo != null && pathInfo.length == 2) {
-				p = PlayersActionHandler.getPlayer(pathInfo[1]);
+				p = SoccerService.getInstance().getPlayer(pathInfo[1]);
 			}
 
 			JSONSerializer serializer = new JSONSerializer();
