@@ -8,10 +8,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.db.entities.handlers.PlayersActionHandler;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
+import com.soccer.services.SoccerService;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
@@ -32,7 +32,7 @@ public class PutPlayersAction implements RESTAction {
 
 			IDAOPlayer p = new JSONDeserializer<IDAOPlayer>().deserialize(jb.toString());
 			if(p!=null) {
-				PlayersActionHandler.createPlayer(p);
+				SoccerService.getInstance().createPlayer(p);
 			}
 			
 			
