@@ -1,0 +1,16 @@
+<project name="SoccerEntities" default="dist" basedir=".">
+    
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="bin"/>
+  <property name="dist"  location="../SoccerServer/WebContent/WEB-INF/lib"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+  </target>
+
+  <target name="dist" depends="init" description="generate the distribution" >
+    <jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}"/>
+  </target>
+</project>
