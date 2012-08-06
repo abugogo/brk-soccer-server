@@ -21,6 +21,14 @@ public class EntityManager {
 		}
 	}
 	
+	public static IDAOPlayer readPlayer(String str) throws SoccerException {
+		try {
+			return mapper.readValue(str.getBytes(), DAOPlayer.class);
+		} catch (IOException e) {
+			throw new SoccerException("Could not create Player from Input Stream", e);
+		}
+	}
+	
 	public static String writePlayer(IDAOPlayer player) throws SoccerException {
 		try {
 			return mapper.writeValueAsString(player);
