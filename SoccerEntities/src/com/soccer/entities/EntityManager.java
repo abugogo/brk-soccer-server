@@ -3,9 +3,11 @@ package com.soccer.entities;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.lib.SoccerException;
@@ -29,6 +31,14 @@ public class EntityManager {
 		}
 	}
 	
+	public static ArrayList<IDAOPlayer> readPlayers(String str) throws SoccerException {
+		try {
+			return mapper.readValue(str.getBytes(), new TypeReference<ArrayList<DAOPlayer>>(){});
+		} catch (IOException e) {
+			throw new SoccerException("Could not create Player from Input Stream", e);
+		}
+	}
+
 	public static String writePlayer(IDAOPlayer player) throws SoccerException {
 		try {
 			return mapper.writeValueAsString(player);
