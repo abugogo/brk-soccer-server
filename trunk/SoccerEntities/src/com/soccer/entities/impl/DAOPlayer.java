@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.soccer.entities.IDAOPlayer;
-import com.soccer.entities.IDAOPosition;
 
 
 /**
@@ -30,7 +29,7 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 	private byte[] p_img;
 	private String tel1;
 	private String tel2;
-	private IDAOPosition positionBean;
+	private DAOPosition positionBean;
 
     public DAOPlayer() {
     }
@@ -193,11 +192,11 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 		this.tel2 = tel2;
 	}
 
-	public IDAOPosition getPositionBean() {
+	public DAOPosition getPositionBean() {
 		return this.positionBean;
 	}
 
-	public void setPositionBean(IDAOPosition positionBean) {
+	public void setPositionBean(DAOPosition positionBean) {
 		this.positionBean = positionBean;
 	}
 }

@@ -3,6 +3,8 @@ package com.soccer.entities;
 import java.math.BigInteger;
 import java.util.Date;
 
+import com.soccer.entities.impl.DAOPosition;
+
 
 /**
  * The persistent class for the players database table.
@@ -39,6 +41,6 @@ public interface IDAOPlayer {
 	public void setTel1(String tel1);
     public String getTel2();
 	public void setTel2(String tel2);
-	public IDAOPosition getPositionBean();
-	public void setPositionBean(IDAOPosition positionBean);
+	public DAOPosition getPositionBean();
+	public void setPositionBean(DAOPosition positionBean);
 }
