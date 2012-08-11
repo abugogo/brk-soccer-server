@@ -1,0 +1,32 @@
+<project name="SoccerEntities" default="build" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="dist" location="dist" />
+	<property name="build" location="${dist}/bin" />
+	<property name="deploy" location="../SoccerServer/WebContent/WEB-INF/lib" />
+
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}">
+		    <classpath>
+		      <fileset dir="libs">
+		        <include name="**/*.jar"/>
+		      </fileset>
+		    </classpath>
+		</javac>
+	</target>
+	
+	<target name="build" depends="compile" description="Compile all sources and builds the jar file">
+		<jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}" />
+	</target>
+
+	<target name="deploy" depends="build" description="deploy yhe jar file">
+		<copy file="${dist}/${ant.project.name}.jar" todir="${deploy}"/>
+	</target>
+</project>
