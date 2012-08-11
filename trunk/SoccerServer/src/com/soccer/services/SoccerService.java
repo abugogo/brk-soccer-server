@@ -49,4 +49,14 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	public void createPlayer(IDAOPlayer p) {
 		playersAPI.createPlayer(p);
 	}
+
+	@Override
+	public void createGame(IDAOGame game) {
+		gameApi.createGame(game);
+	}
+
+	@Override
+	public void updatePlayer(IDAOPlayer p) {
+		playersAPI.updatePlayer(p);
+	}
 }
