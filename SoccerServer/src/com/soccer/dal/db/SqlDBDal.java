@@ -106,8 +106,50 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 					"occupation, address1, address2, " +
 					"description, P_img, Active) " +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-					p.getId(), p.getIdNum(), p.getFname(), p.getLname(), 2, p.getTel1(), 
-					p.getTel2(), p.getEmail(), "1971-06-28", p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), 0, 1);
+					p.getId(), p.getIdNum(), p.getFname(), p.getLname(), p.getPositionBean().getId(), p.getTel1(), 
+					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), 0, 1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void createGame(IDAOGame game) {
+		try {
+			_queryRunner.update("INSERT INTO games_tbl " +
+					"(game_id, game_name, game_date, winner, " +
+					"wgoals, bgoals, has_draft, description, " +
+					"misc, more) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					game.getGameId(), game.getGameName(), game.getGameDate(), 
+					game.getWinner(), game.getWgoals(), game.getBgoals(), 
+					game.getHasDraft(), game.getDescription(), game.getMisc(), 
+					game.getMore());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void updatePlayer(IDAOPlayer p) {
+		try {
+			_queryRunner.update("UPDATE players " +
+					"SET id_num = ?, " +
+					"fname = ?, " +
+					"lname = ?, " +
+					"position = ?, " +
+					"tel1 = ?, " +
+					"tel2 = ?, " +
+					"email = ?, " +
+					"bday = ?, " +
+					"fb_user = ?, " +
+					"occupation = ?, " +
+					"address1 = ?, " +
+					"address2 = ?, " +
+					"description = ? " +
+					"WHERE id = ?", 
+					p.getIdNum(), p.getFname(), p.getLname(), p.getPositionBean().getId(), p.getTel1(), 
+					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

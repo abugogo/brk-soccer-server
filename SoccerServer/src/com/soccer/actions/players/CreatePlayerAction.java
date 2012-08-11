@@ -12,7 +12,7 @@ import com.soccer.http.rest.RESTPath;
 import com.soccer.lib.SoccerException;
 import com.soccer.services.SoccerService;
 
-public class PutPlayerAction implements RESTAction {
+public class CreatePlayerAction implements RESTAction {
 
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
