@@ -42,7 +42,7 @@ public final class EntityFactory {
 		player.setAddress1(rslt.getString("address1"));
 		player.setAddress2(rslt.getString("address2"));
 		player.setDescription(rslt.getString("description"));
-		player.setP_img(null);
+		player.setP_img(rslt.getString("P_img"));
 		player.setActive(null);
 		return player;
 	}
