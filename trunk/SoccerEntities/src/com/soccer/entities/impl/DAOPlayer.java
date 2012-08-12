@@ -27,7 +27,7 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 	private BigInteger idNum;
 	private String lname;
 	private String occupation;
-	private byte[] p_img;
+	private String p_img;
 	private String tel1;
 	private String tel2;
 	private DAOPosition positionBean;
@@ -180,11 +180,11 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 	}
 
 
-    public byte[] getP_img() {
+    public String getP_img() {
 		return this.p_img;
 	}
 
-	public void setP_img(byte[] p_img) {
+	public void setP_img(String p_img) {
 		this.p_img = p_img;
 	}
 
