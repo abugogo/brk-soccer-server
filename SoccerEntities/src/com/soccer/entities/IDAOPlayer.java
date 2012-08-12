@@ -35,8 +35,8 @@ public interface IDAOPlayer {
 	public void setLname(String lname);
 	public String getOccupation();
 	public void setOccupation(String occupation);
-	public byte[] getP_img();
-	public void setP_img(byte[] p_img);
+	public String getP_img();
+	public void setP_img(String p_img);
 	public String getTel1();
 	public void setTel1(String tel1);
     public String getTel2();
