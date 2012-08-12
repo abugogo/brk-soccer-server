@@ -106,8 +106,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 					"occupation, address1, address2, " +
 					"description, P_img, Active) " +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-					p.getId(), p.getIdNum(), p.getFname(), p.getLname(), p.getPositionBean().getId(), p.getTel1(), 
-					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), 0, 1);
+					p.getId(), p.getIdNum(), p.getFname(), p.getLname(), (p.getPositionBean()==null)?null:p.getPositionBean().getId(), p.getTel1(), 
+					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), p.getP_img(), 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -146,10 +146,11 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 					"occupation = ?, " +
 					"address1 = ?, " +
 					"address2 = ?, " +
-					"description = ? " +
+					"description = ?, " +
+					"P_img = ? " +
 					"WHERE id = ?", 
-					p.getIdNum(), p.getFname(), p.getLname(), p.getPositionBean().getId(), p.getTel1(), 
-					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), p.getId());
+					p.getIdNum(), p.getFname(), p.getLname(), (p.getPositionBean()==null)?null:p.getPositionBean().getId(), p.getTel1(), 
+					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), p.getP_img(), p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
