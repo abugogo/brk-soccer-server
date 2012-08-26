@@ -37,7 +37,7 @@ public class RESTServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig cfg) throws ServletException {
 		super.init(cfg);
-		this.registry = new RESTRegistryMapImpl<>();
+		this.registry = new RESTRegistryMapImpl();
 		//this.registry.registerAction(new RESTPathImpl("players/*", HttpMethod.GET), new GetPlayerAction());
 		initServices(cfg);
 	}
