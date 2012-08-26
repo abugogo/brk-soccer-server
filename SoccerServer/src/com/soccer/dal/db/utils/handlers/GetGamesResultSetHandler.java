@@ -16,7 +16,7 @@ public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>
 	
 	@Override
 	public List<IDAOGame> handle(ResultSet rslt) throws SQLException {
-		List<IDAOGame> games = new ArrayList<>();
+		List<IDAOGame> games = new ArrayList();
 		while (rslt.next()) {
 			games.add(EntityFactory.createGame(rslt));
 		}

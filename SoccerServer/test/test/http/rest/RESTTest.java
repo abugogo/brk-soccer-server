@@ -21,7 +21,7 @@ import flexjson.JSONDeserializer;
 
 public class RESTTest {
 
-	private RESTRegistry<RESTAction> registry = new RESTRegistryMapImpl<>();
+	private RESTRegistry<RESTAction> registry = new RESTRegistryMapImpl();
 	private RESTPath path = new RESTPathImpl("a/b/c/d", HttpMethod.GET);
 	private RESTAction mockAction = new RESTActionMock();
 

@@ -20,7 +20,10 @@ public class GetPlayersAction implements RESTAction {
 		List<IDAOPlayer> activePlayers = SoccerService.getInstance().getActivePlayers();
 		try {
 			EntityManager.writePlayersToStream(activePlayers, resp.getOutputStream());
-		} catch (IOException | SoccerException e) {
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SoccerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
