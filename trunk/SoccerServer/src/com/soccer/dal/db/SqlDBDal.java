@@ -1,5 +1,6 @@
 package com.soccer.dal.db;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,16 +10,20 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
 
+import com.soccer.actions.images.ImageContentType;
 import com.soccer.dal.api.IGamesAPI;
+import com.soccer.dal.api.IImageAPI;
 import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.image.IImage;
 
-public class SqlDBDal implements IPlayersAPI, IGamesAPI {
+public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static QueryRunner _queryRunner = null;
@@ -153,6 +158,27 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI {
 					p.getTel2(), p.getEmail(), p.getBday(), p.getFbUser(), p.getOccupation(), p.getAddress1(), p.getAddress2(), p.getDescription(), p.getP_img(), p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void storeImage(String id, ImageContentType type, InputStream imgStream) {
+		try {
+			_queryRunner.update("INSERT INTO images (id, mime_type, image) VALUES (?, ?, ?)", id, type.getContentType(), imgStream);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public IImage readImage(String id) {
+		try {
+			return _queryRunner.query(GetIImageResultHandler.QUERY, new GetIImageResultHandler(), id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
