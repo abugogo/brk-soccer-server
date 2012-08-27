@@ -12,8 +12,10 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	private static SoccerService instance = null;
 	
 	public static SoccerService getInstance() {
-		if (instance == null) {
-			instance = new SoccerService();
+		synchronized (SoccerService.class) {
+			if (instance == null) {
+				instance = new SoccerService();
+			}
 		}
 		
 		return instance;
