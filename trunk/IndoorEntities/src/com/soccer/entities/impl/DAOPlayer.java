@@ -104,7 +104,7 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
     	if(this.bday != null) {
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(this.bday);
-            int day = cal.get(Calendar.DATE);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
     		retStr = day + "." + month + "." + year;
