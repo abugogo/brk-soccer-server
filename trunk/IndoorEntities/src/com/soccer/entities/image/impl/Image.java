@@ -15,17 +15,14 @@ public class Image implements IImage {
 		this.img = img;
 	}
 
-	@Override
 	public String getId() {
 		return this.id;
 	}
 
-	@Override
 	public String getMimeType() {
 		return this.mimeType;
 	}
 
-	@Override
 	public InputStream getImage() {
 		return this.img;
 	}

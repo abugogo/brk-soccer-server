@@ -21,6 +21,11 @@
         <class>com.soccer.actions.players.UpdatePlayerAction</class>
     </entity>
     <entity>
+        <uri>players/*/stats</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.players.stats.GetPlayerStatsAction</class>
+    </entity>
+    <entity>
         <uri>games/*</uri>
         <method>GET</method>
         <class>com.soccer.actions.games.GetGameAction</class>

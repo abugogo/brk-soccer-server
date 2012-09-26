@@ -71,4 +71,12 @@ public class EntityManager {
 			throw new SoccerException("Could not write List of Players as JSON string", e);
 		}
 	}
+	
+	public static void writeWinLoseStripToStream(List<IWinLoseStrip> strips, OutputStream out) throws SoccerException {
+		try {
+			mapper.writeValue(out, strips);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write List<IWinLoseStrip> to OutputStream", e);
+		}
+	}
 }

@@ -16,7 +16,7 @@ public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPla
 	
 	@Override
 	public List<IDAOPlayer> handle(ResultSet rslt) throws SQLException {
-		List<IDAOPlayer> players = new ArrayList();
+		List<IDAOPlayer> players = new ArrayList<IDAOPlayer>();
 		while (rslt.next()) {
 			players.add(EntityFactory.createPlayer(rslt));
 		}
