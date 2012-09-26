@@ -7,8 +7,8 @@ import com.soccer.http.HttpMethod;
 import com.soccer.http.rest.RESTNode;
 
 public class RESTNodeImpl<T> implements RESTNode<T> {
-	private Map<String, RESTNodeImpl<T>> subNodes = new HashMap();
-	private Map<HttpMethod, T> actions = new HashMap();
+	private Map<String, RESTNodeImpl<T>> subNodes = new HashMap<String, RESTNodeImpl<T>>();
+	private Map<HttpMethod, T> actions = new HashMap<HttpMethod, T>();
 	
 	/* (non-Javadoc)
 	 * @see com.soccer.http.rest.RESTNode#getSubNode(java.lang.String)

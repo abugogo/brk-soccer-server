@@ -7,6 +7,7 @@ import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.SqlDBDal;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IWinLoseStrip;
 
 public class SoccerService implements IGamesAPI, IPlayersAPI {
 	private static SoccerService instance = null;
@@ -60,5 +61,10 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	@Override
 	public void updatePlayer(IDAOPlayer p) {
 		playersAPI.updatePlayer(p);
+	}
+
+	@Override
+	public List<IWinLoseStrip> getWinLoseStrips(String pid) {
+		return playersAPI.getWinLoseStrips(pid);
 	}
 }

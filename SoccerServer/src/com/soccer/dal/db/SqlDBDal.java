@@ -19,8 +19,10 @@ import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
@@ -175,6 +177,17 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	public IImage readImage(String id) {
 		try {
 			return _queryRunner.query(GetIImageResultHandler.QUERY, new GetIImageResultHandler(), id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<IWinLoseStrip> getWinLoseStrips(String pid) {
+		try {
+			return _queryRunner.query(GetWinLoseStripResultSetHandler.QUERY, new GetWinLoseStripResultSetHandler(), pid);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
