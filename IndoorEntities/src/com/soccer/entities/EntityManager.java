@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.soccer.entities.impl.DAOPlayer;
+import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.lib.SoccerException;
 
 public class EntityManager {
@@ -77,6 +78,14 @@ public class EntityManager {
 			mapper.writeValue(out, strips);
 		} catch (IOException e) {
 			throw new SoccerException("Could not write List<IWinLoseStrip> to OutputStream", e);
+		}
+	}
+	
+	public static ArrayList<IWinLoseStrip> readPlayerStats(String str) throws SoccerException {
+		try {
+			return mapper.readValue(str.getBytes(), new TypeReference<ArrayList<WinLoseStrip>>(){});
+		} catch (IOException e) {
+			throw new SoccerException("Could not create Player stats from Input Stream", e);
 		}
 	}
 }
