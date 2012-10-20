@@ -11,6 +11,11 @@ import com.soccer.entities.image.impl.Image;
 public class GetIImageResultHandler implements ResultSetHandler<IImage> {
 
 	public static final String QUERY = "SELECT id, mime_type, image FROM images WHERE id = ?";
+	private static final GetIImageResultHandler instance = new GetIImageResultHandler();
+	
+	public static GetIImageResultHandler getInstance() {
+		return instance;
+	}
 
 	@Override
 	public IImage handle(ResultSet rslt) throws SQLException {

@@ -14,18 +14,21 @@ import com.soccer.actions.images.ImageContentType;
 import com.soccer.dal.api.IGamesAPI;
 import com.soccer.dal.api.IImageAPI;
 import com.soccer.dal.api.IPlayersAPI;
+import com.soccer.dal.api.ITableAPI;
 import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
 
-public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
+public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI {
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static QueryRunner _queryRunner = null;
@@ -65,7 +68,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	@Override
 	public List<IDAOPlayer> getActivePlayers() {
 		try {
-			return _queryRunner.query(GetPlayersResultSetHandler.QUERY, new GetPlayersResultSetHandler(), 1);
+			return _queryRunner.query(GetPlayersResultSetHandler.QUERY, GetPlayersResultSetHandler.getInstance(), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -77,7 +80,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	public List<IDAOGame> getGames() {
 		try {
 
-			return _queryRunner.query(GetGamesResultSetHandler.QUERY, new GetGamesResultSetHandler());
+			return _queryRunner.query(GetGamesResultSetHandler.QUERY, GetGamesResultSetHandler.getInstance());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -87,7 +90,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	@Override
 	public IDAOPlayer getPlayer(String pid) {
 		try {
-			return _queryRunner.query(GetSinglePlayerResultSetHandler.QUERY, new GetSinglePlayerResultSetHandler(), pid);
+			return _queryRunner.query(GetSinglePlayerResultSetHandler.QUERY, GetSinglePlayerResultSetHandler.getInstance(), pid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -97,7 +100,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	@Override
 	public IDAOGame getGame(String gid) {
 		try {
-			return _queryRunner.query(GetSingleGameResultSetHandler.QUERY, new GetSingleGameResultSetHandler(), gid);
+			return _queryRunner.query(GetSingleGameResultSetHandler.QUERY, GetSingleGameResultSetHandler.getInstance(), gid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -176,7 +179,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	@Override
 	public IImage readImage(String id) {
 		try {
-			return _queryRunner.query(GetIImageResultHandler.QUERY, new GetIImageResultHandler(), id);
+			return _queryRunner.query(GetIImageResultHandler.QUERY, GetIImageResultHandler.getInstance(), id);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,7 +190,18 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI {
 	@Override
 	public List<IWinLoseStrip> getWinLoseStrips(String pid) {
 		try {
-			return _queryRunner.query(GetWinLoseStripResultSetHandler.QUERY, new GetWinLoseStripResultSetHandler(), pid);
+			return _queryRunner.query(GetWinLoseStripResultSetHandler.QUERY, GetWinLoseStripResultSetHandler.getInstance(), pid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ITableRow> getPlayersTable() {
+		try {
+			return _queryRunner.query(GetTableResultSetHandler.QUERY, GetTableResultSetHandler.getInstance());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

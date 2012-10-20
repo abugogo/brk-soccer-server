@@ -11,6 +11,11 @@ import com.soccer.entities.IDAOPlayer;
 public class GetSinglePlayerResultSetHandler implements ResultSetHandler<IDAOPlayer> {
 
 	public static final String QUERY = "SELECT * FROM players WHERE id = ?";
+	private static final GetSinglePlayerResultSetHandler instance = new GetSinglePlayerResultSetHandler();
+	
+	public static GetSinglePlayerResultSetHandler getInstance() {
+		return instance;
+	}
 	
 	@Override
 	public IDAOPlayer handle(ResultSet rslt) throws SQLException {
