@@ -55,4 +55,9 @@
         <method>GET</method>
         <class>com.soccer.actions.images.GetImageAction</class>
     </entity>
+    <entity>
+        <uri>table</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.table.GetTableAction</class>
+    </entity>
 </services>

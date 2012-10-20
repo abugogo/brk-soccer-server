@@ -11,6 +11,11 @@ import com.soccer.entities.IDAOGame;
 public class GetSingleGameResultSetHandler implements ResultSetHandler<IDAOGame> {
 
 	public static final String QUERY = "SELECT * FROM games_tbl WHERE game_id = ?";
+	private static final GetSingleGameResultSetHandler instance = new GetSingleGameResultSetHandler();
+	
+	public static GetSingleGameResultSetHandler getInstance() {
+		return instance;
+	}
 	
 	@Override
 	public IDAOGame handle(ResultSet rslt) throws SQLException {

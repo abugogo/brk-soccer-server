@@ -13,6 +13,11 @@ import com.soccer.entities.IDAOPlayer;
 public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPlayer>> {
 
 	public static final String QUERY = "SELECT * FROM players WHERE Active = ?";
+	private static final GetPlayersResultSetHandler instance = new GetPlayersResultSetHandler();
+	
+	public static GetPlayersResultSetHandler getInstance() {
+		return instance;
+	}
 	
 	@Override
 	public List<IDAOPlayer> handle(ResultSet rslt) throws SQLException {

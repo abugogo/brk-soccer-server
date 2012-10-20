@@ -19,6 +19,11 @@ public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<IW
 			"  ON LNP.game_id=GMS.game_id " +
 			"WHERE LNP.player_id = ? " +
 			"ORDER BY LNP.game_id";
+	private static final GetWinLoseStripResultSetHandler instance = new GetWinLoseStripResultSetHandler();
+	
+	public static GetWinLoseStripResultSetHandler getInstance() {
+		return instance;
+	}
 
 	@Override
 	public List<IWinLoseStrip> handle(ResultSet rslt) throws SQLException {

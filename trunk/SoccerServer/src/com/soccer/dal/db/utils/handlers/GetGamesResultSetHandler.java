@@ -13,6 +13,11 @@ import com.soccer.entities.IDAOGame;
 public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>> {
 
 	public static final String QUERY = "SELECT * FROM games_tbl";
+	private static final GetGamesResultSetHandler instance = new GetGamesResultSetHandler();
+	
+	public static GetGamesResultSetHandler getInstance() {
+		return instance;
+	}
 	
 	@Override
 	public List<IDAOGame> handle(ResultSet rslt) throws SQLException {
