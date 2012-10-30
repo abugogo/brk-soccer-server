@@ -3,7 +3,6 @@ package com.soccer.entities.impl;
 import java.io.Serializable;
 
 import com.soccer.entities.IDAOLineup;
-import com.soccer.entities.ILineupPK;
 
 
 /**
@@ -12,7 +11,8 @@ import com.soccer.entities.ILineupPK;
  */
 public class DAOLineup implements Serializable, IDAOLineup {
 	private static final long serialVersionUID = 1L;
-	private ILineupPK id;
+	private String gameId;
+	private String playerId;
 	private Object color;
 	private int goal;
 	private String misc;
@@ -23,14 +23,19 @@ public class DAOLineup implements Serializable, IDAOLineup {
     }
 
 
-	public ILineupPK getId() {
-		return this.id;
+	public String getGameId() {
+		return this.gameId;
+	}
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
 	}
 
-	public void setId(ILineupPK id) {
-		this.id = id;
+	public String getPlayerId() {
+		return this.playerId;
 	}
-	
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
+	}
 
 	public Object getColor() {
 		return this.color;

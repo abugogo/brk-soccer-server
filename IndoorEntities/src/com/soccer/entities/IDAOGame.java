@@ -1,6 +1,9 @@
 package com.soccer.entities;
 
 import java.util.Date;
+import java.util.List;
+
+import com.soccer.entities.impl.DAOLineup;
 
 
 /**
@@ -28,4 +31,6 @@ public interface IDAOGame {
 	public void setWgoals(int wgoals);
 	public Object getWinner();
 	public void setWinner(Object winner);
+	public List<DAOLineup> getLineup();
+	public void setLineup(List<DAOLineup> lineup);
 }

@@ -7,25 +7,38 @@ import java.sql.SQLException;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOLineup;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOPosition;
 
 public final class EntityFactory {
 	public static IDAOGame createGame(ResultSet rslt) throws SQLException {
 		DAOGame game = new DAOGame();
-		game.setGameId(rslt.getString("game_id"));
-		game.setBgoals(rslt.getInt("bgoals"));
-		game.setDescription(rslt.getString("description"));
-		game.setGameDate(rslt.getDate("game_date"));
-		game.setGameName(rslt.getString("game_name"));
-		game.setHasDraft((byte)(rslt.getBoolean("has_draft")?1:0));
-		game.setMisc(rslt.getString("misc"));
-		game.setMore(rslt.getString("more"));
-		game.setWgoals(rslt.getInt("wgoals"));
-		game.setWinner(rslt.getString("winner"));
+		game.setGameId(rslt.getString("g.game_id"));
+		game.setBgoals(rslt.getInt("g.bgoals"));
+		game.setDescription(rslt.getString("g.description"));
+		game.setGameDate(rslt.getDate("g.game_date"));
+		game.setGameName(rslt.getString("g.game_name"));
+		game.setHasDraft((byte)(rslt.getBoolean("g.has_draft")?1:0));
+		game.setMisc(rslt.getString("g.misc"));
+		game.setMore(rslt.getString("g.more"));
+		game.setWgoals(rslt.getInt("g.wgoals"));
+		game.setWinner(rslt.getString("g.winner"));
 		return game;
 	}
-
+	
+	public static DAOLineup createLineup(ResultSet rslt) throws SQLException {
+		DAOLineup lineup = new DAOLineup();
+		lineup.setGameId(rslt.getString("g.game_id"));
+		lineup.setPlayerId(rslt.getString("l.player_id"));
+		lineup.setColor(rslt.getString("l.color"));
+		lineup.setGoal(rslt.getInt("l.goal"));
+		lineup.setOGoal(rslt.getInt("l.o_goal"));
+		lineup.setMisc(rslt.getString("l.misc"));
+		lineup.setPoints(rslt.getShort("l.points"));
+		return lineup;
+	}
+	
 	public static IDAOPlayer createPlayer(ResultSet rslt) throws SQLException {
 		IDAOPlayer player = new DAOPlayer();
 		player.setId(rslt.getString("id"));

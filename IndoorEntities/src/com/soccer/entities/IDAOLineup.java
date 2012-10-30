@@ -5,11 +5,13 @@ package com.soccer.entities;
  * 
  */
 public interface IDAOLineup {
-	public ILineupPK getId();
-	public void setId(ILineupPK id);
+	public String getGameId();
+	public void setGameId(String gameId);
+	public String getPlayerId();
+	public void setPlayerId(String playerId);
+
 	public Object getColor();
 	public void setColor(Object color);
-
 	public int getGoal();
 	public void setGoal(int goal);
 	public String getMisc();
