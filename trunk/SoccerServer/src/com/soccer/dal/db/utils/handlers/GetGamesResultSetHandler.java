@@ -9,10 +9,17 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOGame;
+import com.soccer.entities.impl.DAOLineup;
 
 public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>> {
 
-	public static final String QUERY = "SELECT * FROM games_tbl";
+	public static final String QUERY = 
+			" SELECT g.game_id, g.game_name, g.game_date, " + 
+			"   g.winner, g.wgoals, g.bgoals, g.has_draft, " + 
+			"   g.description, g.misc, g.more, l.player_id, " + 
+			"   l.color, l.goal, l.o_goal, l.points, l.misc " + 
+			" FROM games_tbl g " + 
+			" LEFT OUTER JOIN lineup l ON g.game_id = l.game_id ";
 	private static final GetGamesResultSetHandler instance = new GetGamesResultSetHandler();
 	
 	public static GetGamesResultSetHandler getInstance() {
@@ -22,8 +29,19 @@ public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>
 	@Override
 	public List<IDAOGame> handle(ResultSet rslt) throws SQLException {
 		List<IDAOGame> games = new ArrayList<IDAOGame>();
+		IDAOGame lastGame = null;
 		while (rslt.next()) {
-			games.add(EntityFactory.createGame(rslt));
+			if (lastGame == null || !rslt.getString("g.game_id").equals(lastGame.getGameId())) {
+				lastGame = EntityFactory.createGame(rslt);
+				games.add(lastGame);
+			}
+			
+			if (rslt.getString("l.player_id") != null) {
+				if (lastGame.getLineup() == null) {
+					lastGame.setLineup(new ArrayList<DAOLineup>());
+				}
+				lastGame.getLineup().add(EntityFactory.createLineup(rslt));
+			}
 		}
 		return games;
 	}

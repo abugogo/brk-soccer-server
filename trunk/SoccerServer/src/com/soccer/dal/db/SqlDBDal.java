@@ -1,7 +1,9 @@
 package com.soccer.dal.db;
 
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.Context;
@@ -27,8 +29,18 @@ import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
+import com.soccer.entities.impl.DAOLineup;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI {
+	private static final String INSERT_GAME = "INSERT INTO games_tbl " +
+	"(game_id, game_name, game_date, winner, " +
+	"wgoals, bgoals, has_draft, description, " +
+	"misc, more) " + 
+	"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_LINEUP = "INSERT INTO lineup" +
+	"(game_id, player_id, color, goal, " +
+	"o_goal, points, misc) " +
+	"VALUES (?,?,?,?,?,?,?)";
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static QueryRunner _queryRunner = null;
@@ -126,15 +138,22 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI {
 	@Override
 	public void createGame(IDAOGame game) {
 		try {
-			_queryRunner.update("INSERT INTO games_tbl " +
-					"(game_id, game_name, game_date, winner, " +
-					"wgoals, bgoals, has_draft, description, " +
-					"misc, more) " + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			Connection conn = _queryRunner.getDataSource().getConnection();
+			conn.setAutoCommit(false);
+			
+			_queryRunner.update(conn,
+					INSERT_GAME,
 					game.getGameId(), game.getGameName(), game.getGameDate(), 
 					game.getWinner(), game.getWgoals(), game.getBgoals(), 
 					game.getHasDraft(), game.getDescription(), game.getMisc(), 
 					game.getMore());
+			for (Iterator<DAOLineup> it = game.getLineup().iterator(); it.hasNext();) {
+				DAOLineup lineup = it.next();
+				_queryRunner.update(conn, 
+						INSERT_LINEUP, lineup.getGameId(), lineup.getPlayerId(),
+						lineup.getColor(), lineup.getGoal(), lineup.getOGoal(),
+						lineup.getPoints(), lineup.getMisc());
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

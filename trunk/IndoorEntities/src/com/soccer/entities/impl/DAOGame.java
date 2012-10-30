@@ -3,6 +3,7 @@ package com.soccer.entities.impl;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import com.soccer.entities.IDAOGame;
 
@@ -23,6 +24,7 @@ public class DAOGame implements Serializable, IDAOGame {
 	private String more;
 	private int wgoals;
 	private Object winner;
+	private List<DAOLineup> lineup;
 
     public DAOGame() {
     	
@@ -128,5 +130,13 @@ public class DAOGame implements Serializable, IDAOGame {
 
 	public void setWinner(Object winner) {
 		this.winner = winner;
+	}
+
+	public List<DAOLineup> getLineup() {
+		return this.lineup;
+	}
+
+	public void setLineup(List<DAOLineup> lineup) {
+		this.lineup = lineup;
 	}
 }
