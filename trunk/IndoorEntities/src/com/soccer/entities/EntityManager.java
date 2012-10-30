@@ -11,6 +11,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOPlayer;
+import com.soccer.entities.impl.DAOSeason;
 import com.soccer.entities.impl.TableRow;
 import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.lib.SoccerException;
@@ -152,6 +153,54 @@ public class EntityManager {
 			mapper.writeValue(out, games);
 		} catch (IOException e) {
 			throw new SoccerException("Could not write List of Games as JSON string", e);
+		}
+	}
+
+	public static DAOSeason readSeason(InputStream is) throws SoccerException {
+		try {
+			return mapper.readValue(is, DAOSeason.class);
+		} catch (IOException e) {
+			throw new SoccerException("Could not read Season from input stream", e);
+		}
+	}
+	
+	public static DAOSeason readSeason(String str) throws SoccerException {
+		try {
+			return mapper.readValue(str.getBytes(), DAOSeason.class);
+		} catch (IOException e) {
+			throw new SoccerException("Could not read Season from string", e);
+		}
+	}
+
+	public static String writeSeason(IDAOSeason season) throws SoccerException {
+		try {
+			return mapper.writeValueAsString(season);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write a Season to a JSON string", e);
+		}
+	}
+
+	public static void writeSeason(IDAOSeason season, OutputStream out) throws SoccerException {
+		try {
+			mapper.writeValue(out, season);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write a Season to a JSON string", e);
+		}
+	}
+	
+	public static String writeSeasons(List<IDAOSeason> seasons) throws SoccerException {
+		try {
+			return mapper.writeValueAsString(seasons);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write List of Seasons as JSON string", e);
+		}
+	}
+	
+	public static void writeSeasons(List<IDAOSeason> seasons, OutputStream out) throws SoccerException {
+		try {
+			mapper.writeValue(out, seasons);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write List of Seasons as JSON string", e);
 		}
 	}
 }

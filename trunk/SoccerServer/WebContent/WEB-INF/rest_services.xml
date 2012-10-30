@@ -60,4 +60,19 @@
         <method>GET</method>
         <class>com.soccer.actions.table.GetTableAction</class>
     </entity>
+    <entity>
+    	<uri>seasons</uri>
+    	<method>GET</method>
+    	<class>com.soccer.actions.season.GetSeasonsAction</class>
+    </entity>
+    <entity>
+    	<uri>seasons/*</uri>
+    	<method>GET</method>
+    	<class>com.soccer.actions.season.GetSeasonAction</class>
+    </entity>
+    <entity>
+    	<uri>seasons</uri>
+    	<method>PUT</method>
+    	<class>com.soccer.actions.season.CreateSeasonAction</class>
+    </entity>
 </services>

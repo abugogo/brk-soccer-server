@@ -6,10 +6,12 @@ import java.sql.SQLException;
 
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOLineup;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOPosition;
+import com.soccer.entities.impl.DAOSeason;
 
 public final class EntityFactory {
 	public static IDAOGame createGame(ResultSet rslt) throws SQLException {
@@ -58,5 +60,15 @@ public final class EntityFactory {
 		player.setP_img(rslt.getString("P_img"));
 		player.setActive(null);
 		return player;
+	}
+	
+	public static IDAOSeason createSeason(ResultSet rslt) throws SQLException {
+		IDAOSeason season = new DAOSeason();
+		season.setId(rslt.getInt("id"));
+		season.setSdate(rslt.getDate("sdate"));
+		season.setEdate(rslt.getDate("edate"));
+		season.setMisc(rslt.getString("misc"));
+
+		return season;
 	}
 }

@@ -16,22 +16,26 @@ import com.soccer.actions.images.ImageContentType;
 import com.soccer.dal.api.IGamesAPI;
 import com.soccer.dal.api.IImageAPI;
 import com.soccer.dal.api.IPlayersAPI;
+import com.soccer.dal.api.ISeasonAPI;
 import com.soccer.dal.api.ITableAPI;
 import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetSeasonsResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
+import com.soccer.dal.db.utils.handlers.GetSingleSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
 import com.soccer.entities.impl.DAOLineup;
 
-public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI {
+public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, ISeasonAPI {
 	private static final String INSERT_GAME = "INSERT INTO games_tbl " +
 	"(game_id, game_name, game_date, winner, " +
 	"wgoals, bgoals, has_draft, description, " +
@@ -225,6 +229,45 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public IDAOSeason getSeason(int id) {
+		try {
+			return _queryRunner.query(GetSingleSeasonResultSetHandler.QUERY, 
+					GetSingleSeasonResultSetHandler.getInstance(), id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<IDAOSeason> getSeasons() {
+		try {
+			return _queryRunner.query(GetSeasonsResultSetHandler.QUERY, 
+					GetSeasonsResultSetHandler.getInstance());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public void createSeason(IDAOSeason season) {
+		try {
+			_queryRunner.update(
+					" INSERT INTO seasons " +
+					" (id, sdate, edate, misc) " +
+					" VALUES (?, ?, ?, ?) ", 
+					season.getId(), season.getSdate(), 
+					season.getEdate(), season.getMisc());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
