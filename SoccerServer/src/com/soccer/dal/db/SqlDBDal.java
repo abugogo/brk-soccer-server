@@ -2,7 +2,11 @@ package com.soccer.dal.db;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,10 +41,10 @@ import com.soccer.entities.impl.DAOLineup;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, ISeasonAPI {
 	private static final String INSERT_GAME = "INSERT INTO games_tbl " +
-	"(game_id, game_name, game_date, winner, " +
+	"(game_name, game_date, winner, " +
 	"wgoals, bgoals, has_draft, description, " +
 	"misc, more) " + 
-	"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String INSERT_LINEUP = "INSERT INTO lineup" +
 	"(game_id, player_id, color, goal, " +
 	"o_goal, points, misc) " +
@@ -145,19 +149,43 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, I
 			Connection conn = _queryRunner.getDataSource().getConnection();
 			conn.setAutoCommit(false);
 			
+			PreparedStatement stmt = conn.prepareStatement(INSERT_GAME, 
+                    Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, "");
+			stmt.setDate(2, new java.sql.Date(game.getGameDate().getTime()));
+			stmt.setString(3, game.getWinner().toString());
+			stmt.setInt(4, game.getWgoals());
+			stmt.setInt(5, game.getBgoals());
+			stmt.setInt(6, 0);
+			stmt.setString(7, "");
+			stmt.setString(8, "");
+			stmt.setString(9, "");
+			
+			stmt.executeUpdate();
+			ResultSet res = stmt.getGeneratedKeys();
+			int game_id = 0;
+			if (res.next())
+				game_id = res.getInt(1);
+			if(game_id != 0) {
+				for (Iterator<DAOLineup> it = game.getLineup().iterator(); it.hasNext();) {
+					DAOLineup lineup = it.next();
+					_queryRunner.update(conn, 
+							INSERT_LINEUP, game_id, lineup.getPlayerId(),
+							lineup.getColor(), lineup.getGoal(), lineup.getOGoal(),
+							lineup.getPoints(), lineup.getMisc());
+				}
+				conn.commit();
+			}
+			else
+				conn.rollback();
+			/*
 			_queryRunner.update(conn,
 					INSERT_GAME,
 					game.getGameId(), game.getGameName(), game.getGameDate(), 
 					game.getWinner(), game.getWgoals(), game.getBgoals(), 
 					game.getHasDraft(), game.getDescription(), game.getMisc(), 
 					game.getMore());
-			for (Iterator<DAOLineup> it = game.getLineup().iterator(); it.hasNext();) {
-				DAOLineup lineup = it.next();
-				_queryRunner.update(conn, 
-						INSERT_LINEUP, lineup.getGameId(), lineup.getPlayerId(),
-						lineup.getColor(), lineup.getGoal(), lineup.getOGoal(),
-						lineup.getPoints(), lineup.getMisc());
-			}
+					*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
