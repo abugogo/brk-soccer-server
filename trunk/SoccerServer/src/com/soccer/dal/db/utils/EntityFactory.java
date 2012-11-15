@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
+import com.soccer.entities.IDAOUser;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOLineup;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOPosition;
 import com.soccer.entities.impl.DAOSeason;
+import com.soccer.entities.impl.DAOUser;
 
 public final class EntityFactory {
 	public static IDAOGame createGame(ResultSet rslt) throws SQLException {
@@ -70,5 +72,22 @@ public final class EntityFactory {
 		season.setMisc(rslt.getString("misc"));
 
 		return season;
+	}
+
+	public static IDAOUser createUser(ResultSet rslt) throws SQLException {
+		IDAOUser user = new DAOUser();
+		user.setId(BigInteger.valueOf(rslt.getLong("id")));
+		user.setFname(rslt.getString("fname"));
+		user.setLname(rslt.getString("lname"));
+		user.setTel1(rslt.getString("tel1"));
+		user.setTel2(rslt.getString("tel2"));
+		user.setEmail(rslt.getString("email"));
+		user.setBday(rslt.getDate("bday"));
+		user.setFbUser(rslt.getString("fb_user"));
+		user.setOccupation(rslt.getString("occupation"));
+		user.setAddress1(rslt.getString("address1"));
+		user.setAddress2(rslt.getString("address2"));
+		user.setP_img(rslt.getString("P_img"));
+		return user;
 	}
 }

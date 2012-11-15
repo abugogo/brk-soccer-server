@@ -2,7 +2,6 @@ package com.soccer.dal.db;
 
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +21,7 @@ import com.soccer.dal.api.IImageAPI;
 import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.api.ISeasonAPI;
 import com.soccer.dal.api.ITableAPI;
+import com.soccer.dal.api.IUsersAPI;
 import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
 import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
@@ -31,15 +31,18 @@ import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetSingleSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.CreateUserResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
+import com.soccer.entities.IDAOUser;
 import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
 import com.soccer.entities.impl.DAOLineup;
 
-public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, ISeasonAPI {
+public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, ISeasonAPI, IUsersAPI {
 	private static final String INSERT_GAME = "INSERT INTO games_tbl " +
 	"(game_name, game_date, winner, " +
 	"wgoals, bgoals, has_draft, description, " +
@@ -296,6 +299,28 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, I
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public IDAOUser getUser(String u, String p) {
+		try {
+			return _queryRunner.query(GetSingleUserResultSetHandler.QUERY, GetSingleUserResultSetHandler.getInstance(), u, p);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public int createUser(IDAOUser u, String salt) {
+		try {
+			return _queryRunner.update(CreateUserResultSetHandler.QUERY, u.getId().toString(), u.getPassword(), u.getFname(), "", u.getLname(),
+					u.getTel1(), u.getTel2(), u.getEmail(), u.getBday(), u.getFbUser(), 
+					u.getOccupation(), u.getAddress1(), u.getAddress2(), u.getP_img(), salt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
 		}
 	}
 }

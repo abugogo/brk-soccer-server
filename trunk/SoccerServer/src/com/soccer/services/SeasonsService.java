@@ -13,7 +13,7 @@ public class SeasonsService implements ISeasonAPI {
 		this.seasionAPI =  SqlDBDal.getInst();
 	}
 	
-	public static SeasonsService getInstance() {
+	public synchronized static SeasonsService getInstance() {
 		if (instance == null) {
 			instance = new SeasonsService();
 		}
