@@ -75,4 +75,9 @@
     	<method>PUT</method>
     	<class>com.soccer.actions.season.CreateSeasonAction</class>
     </entity>
+    <entity>
+    	<uri>users</uri>
+    	<method>PUT</method>
+    	<class>com.soccer.actions.user.CreateUserAction</class>
+    </entity>
 </services>

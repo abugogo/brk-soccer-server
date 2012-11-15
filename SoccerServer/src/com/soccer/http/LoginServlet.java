@@ -1,31 +1,94 @@
 package com.soccer.http;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Writer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openid4java.consumer.ConsumerException;
-
-import com.soccer.http.oauth.SoccerOpenIDConsumer;
+import com.soccer.entities.impl.DAOUser;
+import com.soccer.http.filters.AuthFilter;
+import com.soccer.services.SystemService;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	final static private String loginHeaderName = "socooklogin";
+	final static private String juser = "j_user";
+	final static private String jpassword = "j_password";
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try {
-			
-			SoccerOpenIDConsumer openIDConsumer = new SoccerOpenIDConsumer();
-			req.getSession().setAttribute("openid.consumer", openIDConsumer);
-			openIDConsumer.authRequest("https://www.google.com/accounts/o8/id", req, resp, getServletContext());
-		} catch (ConsumerException e) {
-			e.printStackTrace();
+		if (!basicAuthLogin(req, resp)) {
+			Writer writer = resp.getWriter();
+			writer.write("Error");
+			writer.flush();
+			writer.close();
 		}
+	}
+	
+	private boolean basicAuthLogin(HttpServletRequest request,
+			HttpServletResponse response) {
+		String userID = null;
+		String password = null;
+		boolean valid = false;
+
+		String authHeader = request.getHeader(loginHeaderName);
+		boolean cont = false;
+		
+		if(request.getParameter("u") != null) {
+			userID = request.getParameter("u");
+			password = request.getParameter("p");
+			cont = true;
+		}
+		
+		if (cont || (authHeader != null && !authHeader.equals(""))) {
+			if (request.getContentLength() > 0) {
+				String line;
+
+				try {
+					BufferedReader rd = new BufferedReader(request.getReader());
+					while ((line = rd.readLine()) != null) {
+						int index = line.indexOf("=");
+						if (index != -1) {
+							String name = line.substring(0, index);
+							String value = line.substring(index + 1);
+							if (name != null) {
+								if (name.equals(juser)) {
+									userID = value;
+								} else if (name.equals(jpassword)) {
+									password = value;
+								}
+							}
+						}
+					}
+					rd.close();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			DAOUser user = (DAOUser) SystemService.getInstance()
+					.getUser(userID, password);
+			if (user != null && user.getId().signum() == 1) {
+				//set cookie
+	            Cookie cookie = new Cookie(AuthFilter.authCookieName, "set");
+		        //cookie.setMaxAge(24*60*60);
+		        response.addCookie(cookie); 
+				valid = true;
+			}
+		} 
+
+		if (!valid) {
+			response.setStatus(401);
+		}
+
+		return valid;
 	}
 }
