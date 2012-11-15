@@ -12,6 +12,7 @@ import org.codehaus.jackson.type.TypeReference;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOSeason;
+import com.soccer.entities.impl.DAOUser;
 import com.soccer.entities.impl.TableRow;
 import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.lib.SoccerException;
@@ -203,4 +204,13 @@ public class EntityManager {
 			throw new SoccerException("Could not write List of Seasons as JSON string", e);
 		}
 	}
+	
+	public static IDAOUser readUser(InputStream is) throws SoccerException {
+		try {
+			return mapper.readValue(is, DAOUser.class);
+		} catch (IOException e) {
+			throw new SoccerException("Could not create User from Input Stream", e);
+		}
+	}
+	
 }
