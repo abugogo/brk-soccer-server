@@ -213,4 +213,13 @@ public class EntityManager {
 		}
 	}
 	
+	public static void writeUserToStream(IDAOUser user, OutputStream out) throws SoccerException {
+		try {
+			mapper.writeValue(out, user);
+		} catch (IOException e) {
+			throw new SoccerException("Could not write User to a JSON string", e);
+		}
+	}
+
+	
 }
