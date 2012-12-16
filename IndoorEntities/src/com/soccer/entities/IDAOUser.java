@@ -2,6 +2,7 @@ package com.soccer.entities;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.Set;
 
 
 /**
@@ -35,4 +36,6 @@ public interface IDAOUser {
 	public void setTel1(String tel1);
     public String getTel2();
 	public void setTel2(String tel2);
+	public Set<String> getAccounts();
+	public void addAccount(String accs);
 }
