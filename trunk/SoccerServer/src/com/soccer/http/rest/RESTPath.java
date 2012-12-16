@@ -27,4 +27,9 @@ public interface RESTPath {
 	 */
 	HttpMethod getMethod();
 
+	/**
+	 * This method return the context of the REST call
+	 * @return the string context of the HTTP call
+	 */
+	String getContext();
 }

@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.soccer.entities.EntityManager;
 import com.soccer.entities.impl.DAOUser;
+import com.soccer.http.cookie.CookieGen;
 import com.soccer.http.filters.AuthFilter;
+import com.soccer.lib.SoccerException;
 import com.soccer.services.SystemService;
 
 @WebServlet("/login")
@@ -21,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	final static private String loginHeaderName = "socooklogin";
 	final static private String juser = "j_user";
 	final static private String jpassword = "j_password";
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -32,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 			writer.close();
 		}
 	}
-	
+
 	private boolean basicAuthLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 		String userID = null;
@@ -41,13 +44,13 @@ public class LoginServlet extends HttpServlet {
 
 		String authHeader = request.getHeader(loginHeaderName);
 		boolean cont = false;
-		
-		if(request.getParameter("u") != null) {
+
+		if (request.getParameter("u") != null) {
 			userID = request.getParameter("u");
 			password = request.getParameter("p");
 			cont = true;
 		}
-		
+
 		if (cont || (authHeader != null && !authHeader.equals(""))) {
 			if (request.getContentLength() > 0) {
 				String line;
@@ -69,21 +72,36 @@ public class LoginServlet extends HttpServlet {
 						}
 					}
 					rd.close();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			DAOUser user = (DAOUser) SystemService.getInstance()
-					.getUser(userID, password);
+			DAOUser user = (DAOUser) SystemService.getInstance().getUser(
+					userID, password);
 			if (user != null && user.getId().signum() == 1) {
-				//set cookie
-	            Cookie cookie = new Cookie(AuthFilter.authCookieName, "set");
-		        //cookie.setMaxAge(24*60*60);
-		        response.addCookie(cookie); 
+				// set cookie
+				try {
+					String genCookie = CookieGen
+							.generateCookieForUser(user.getId(), "", password, SystemService.getInstance()
+									.getUserSalt(user.getId().toString()));
+					Cookie cookie = new Cookie(AuthFilter.authCookieName,
+							genCookie);
+					response.addCookie(cookie);
+
+					EntityManager.writeUserToStream(user,
+							response.getOutputStream());
+					response.setContentType("application/json");
+					response.setStatus(200);
+				} catch (SoccerException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				valid = true;
 			}
-		} 
+		}
 
 		if (!valid) {
 			response.setStatus(401);

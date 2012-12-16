@@ -10,7 +10,7 @@ import com.soccer.entities.IDAOUser;
 
 public class GetSingleUserResultSetHandler implements ResultSetHandler<IDAOUser> {
 
-	public static final String QUERY = "SELECT * FROM SOCCER_SYS.Users WHERE id = ? AND pwd = ?";
+	public static final String QUERY = "SELECT u.id, u.pwd, u.fname, u.lname, u.tel1, u.tel2, u.email, u.bday, u.fb_user, u.occupation, u.address1, u.address2, u.P_img, au.acc as acc FROM SOCCER_SYS.Users as u INNER JOIN SOCCER_SYS.USERSACC as au ON u.id=au.uid WHERE u.id = ? AND u.pwd = ?";
 	private static final GetSingleUserResultSetHandler instance = new GetSingleUserResultSetHandler();
 	
 	public static GetSingleUserResultSetHandler getInstance() {
@@ -19,8 +19,13 @@ public class GetSingleUserResultSetHandler implements ResultSetHandler<IDAOUser>
 	
 	@Override
 	public IDAOUser handle(ResultSet rslt) throws SQLException {
+		IDAOUser u = null;
 		if (rslt.next()) {
-			return EntityFactory.createUser(rslt);
+			u = EntityFactory.createUser(rslt);
+			do {
+				u.addAccount(rslt.getString("acc"));
+			} while(rslt.next());
+			return u;
 		} else {
 			return null;
 		}
