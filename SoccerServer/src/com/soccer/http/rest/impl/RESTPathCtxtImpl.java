@@ -1,14 +1,17 @@
 package com.soccer.http.rest.impl;
 
+import java.util.Arrays;
+
 import com.soccer.http.HttpMethod;
 import com.soccer.http.rest.RESTPath;
 
-public class RESTPathImpl implements RESTPath {
+public class RESTPathCtxtImpl implements RESTPath {
 	private String pathStr;
 	private String[] pathArray;
+	private String context;
 	private HttpMethod method;
 	
-	public RESTPathImpl(String path, HttpMethod method) {
+	public RESTPathCtxtImpl(String path, HttpMethod method) {
 		this.method = method;
 		
 		if (path == null) {
@@ -17,7 +20,11 @@ public class RESTPathImpl implements RESTPath {
 			if (path.startsWith("/")) { // Removing the first slash (/) if there is one.
 				path = path.substring(1);
 			}
-			this.pathArray = path.split("/");
+			String[] sarray = path.split("/");
+			if(sarray.length > 1) {
+				context = sarray[0];
+				this.pathArray = Arrays.copyOfRange(sarray, 1, sarray.length);//path.split("/");
+			}
 		}
 
 		this.pathStr = path;
@@ -31,6 +38,10 @@ public class RESTPathImpl implements RESTPath {
 		return this.pathStr;
 	}
 
+	public String getContext() {
+		return this.context;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.soccer.http.rest.RESTPath#getPathArray()
 	 */
@@ -46,7 +57,7 @@ public class RESTPathImpl implements RESTPath {
 	public HttpMethod getMethod() {
 		return method;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
@@ -56,11 +67,5 @@ public class RESTPathImpl implements RESTPath {
 	@Override
 	public String toString() {
 		return this.pathStr + ":" + this.method.toString();
-	}
-
-	@Override
-	public String getContext() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -33,6 +33,7 @@ import com.soccer.dal.db.utils.handlers.GetTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.CreateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.GetUserSaltResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
@@ -41,6 +42,7 @@ import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
 import com.soccer.entities.impl.DAOLineup;
+import com.soccer.http.cookie.CookieGen;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, ISeasonAPI, IUsersAPI {
 	private static final String INSERT_GAME = "INSERT INTO games_tbl " +
@@ -305,7 +307,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, I
 	@Override
 	public IDAOUser getUser(String u, String p) {
 		try {
-			return _queryRunner.query(GetSingleUserResultSetHandler.QUERY, GetSingleUserResultSetHandler.getInstance(), u, p);
+			String encPwd = CookieGen.encodeString(p.concat(getUserSalt(u)));
+			return _queryRunner.query(GetSingleUserResultSetHandler.QUERY, GetSingleUserResultSetHandler.getInstance(), u, encPwd);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -315,12 +318,23 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI, I
 	@Override
 	public int createUser(IDAOUser u, String salt) {
 		try {
-			return _queryRunner.update(CreateUserResultSetHandler.QUERY, u.getId().toString(), u.getPassword(), u.getFname(), "", u.getLname(),
+			String encPwd = CookieGen.encodeString(u.getPassword().concat(salt));
+			return _queryRunner.update(CreateUserResultSetHandler.QUERY, u.getId().toString(), encPwd, u.getFname(), "", u.getLname(),
 					u.getTel1(), u.getTel2(), u.getEmail(), u.getBday(), u.getFbUser(), 
 					u.getOccupation(), u.getAddress1(), u.getAddress2(), u.getP_img(), salt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
+		}
+	}
+	
+	@Override
+	public String getUserSalt(String u) {
+		try {
+			return _queryRunner.query(GetUserSaltResultSetHandler.QUERY, GetUserSaltResultSetHandler.getInstance(), u);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

@@ -6,5 +6,6 @@ public interface IUsersAPI {
 
 	IDAOUser getUser(String u, String p);
 	int createUser(IDAOUser u, String salt);
+	String getUserSalt(String u);
 
 }

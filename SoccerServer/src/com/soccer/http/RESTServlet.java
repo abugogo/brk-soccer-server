@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 import com.soccer.http.rest.RESTRegistry;
+import com.soccer.http.rest.impl.RESTPathCtxtImpl;
 import com.soccer.http.rest.impl.RESTPathImpl;
 import com.soccer.http.rest.impl.RESTRegistryMapImpl;
 import com.soccer.lib.XMLUtils;
@@ -103,15 +104,15 @@ public class RESTServlet extends HttpServlet {
 	
 	private void handleRequest(HttpMethod method, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			RESTPath path = new RESTPathImpl(request.getPathInfo(), method);
-			LOGGER.info("REST path is " + path);
-			RESTAction action = this.registry.getAction(path);
+			RESTPath ctxtpath = new RESTPathCtxtImpl(request.getPathInfo(), method);
+			LOGGER.info("REST path is " + ctxtpath);
+			RESTAction action = this.registry.getAction(ctxtpath);
 			
 			if (action != null) {
 				LOGGER.info("Invoking action " + action.getClass().getCanonicalName());
-				action.invoke(path, request, response);
+				action.invoke(ctxtpath, request, response);
 			} else {
-				response.getOutputStream().write(("{\"status\": \"error\", \"error\": {\"message\": " + JSONObject.quote("Path " + path.toString() + " is not registered") + "}}").getBytes("UTF-8"));
+				response.getOutputStream().write(("{\"status\": \"error\", \"error\": {\"message\": " + JSONObject.quote("Path " + ctxtpath.toString() + " is not registered") + "}}").getBytes("UTF-8"));
 				response.setContentType("application/json");
 			}
 		} catch (IOException e) {

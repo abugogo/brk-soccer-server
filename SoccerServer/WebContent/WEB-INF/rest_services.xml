@@ -77,6 +77,11 @@
     </entity>
     <entity>
     	<uri>users</uri>
+    	<method>GET</method>
+    	<class>com.soccer.actions.user.GetUserAction</class>
+    </entity>
+    <entity>
+    	<uri>users</uri>
     	<method>PUT</method>
     	<class>com.soccer.actions.user.CreateUserAction</class>
     </entity>

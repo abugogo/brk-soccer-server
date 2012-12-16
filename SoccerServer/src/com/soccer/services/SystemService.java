@@ -1,5 +1,6 @@
 package com.soccer.services;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
 import com.soccer.dal.api.IUsersAPI;
@@ -34,6 +35,11 @@ public class SystemService implements IUsersAPI {
 		//anomaly - salt (business logic) should be generated here (API forces to send it by the caller)
 		String salt = UUID.randomUUID().toString();
 		return this.usersApi.createUser(u, salt);
+	}
+
+	@Override
+	public String getUserSalt(String u) {
+		return this.usersApi.getUserSalt(u);
 	}
 
 }
