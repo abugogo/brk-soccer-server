@@ -42,4 +42,9 @@ public class SystemService implements IUsersAPI {
 		return this.usersApi.getUserSalt(u);
 	}
 
+	@Override
+	public String getUserPassword(String u) {
+		return this.usersApi.getUserPassword(u);
+	}
+
 }

@@ -11,8 +11,8 @@ import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOPlayer;
 
 public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPlayer>> {
-
-	public static final String QUERY = "SELECT * FROM players WHERE Active = ?";
+	public static final String TABLE = "PLAYERS";
+	public static final String QUERY = "SELECT * FROM ? WHERE Active = ?";
 	private static final GetPlayersResultSetHandler instance = new GetPlayersResultSetHandler();
 	
 	public static GetPlayersResultSetHandler getInstance() {
