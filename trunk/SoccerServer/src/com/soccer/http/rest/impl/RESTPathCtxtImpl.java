@@ -3,6 +3,7 @@ package com.soccer.http.rest.impl;
 import java.util.Arrays;
 
 import com.soccer.http.HttpMethod;
+import com.soccer.http.context.RequestContext;
 import com.soccer.http.rest.RESTPath;
 
 public class RESTPathCtxtImpl implements RESTPath {
@@ -23,6 +24,7 @@ public class RESTPathCtxtImpl implements RESTPath {
 			String[] sarray = path.split("/");
 			if(sarray.length > 1) {
 				context = sarray[0];
+				RequestContext.setAttribute(RequestContext.REQ_CONTEXT, context);
 				this.pathArray = Arrays.copyOfRange(sarray, 1, sarray.length);//path.split("/");
 			}
 		}

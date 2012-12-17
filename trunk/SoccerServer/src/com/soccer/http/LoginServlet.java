@@ -81,9 +81,10 @@ public class LoginServlet extends HttpServlet {
 			if (user != null && user.getId().signum() == 1) {
 				// set cookie
 				try {
-					String genCookie = CookieGen
-							.generateCookieForUser(user.getId(), "", password, SystemService.getInstance()
-									.getUserSalt(user.getId().toString()));
+					String uid = user.getId().toString();
+					String genCookie = CookieGen.generateCookieForUser(uid, "",
+							SystemService.getInstance().getUserPassword(uid),
+							SystemService.getInstance().getUserSalt(uid));
 					Cookie cookie = new Cookie(AuthFilter.authCookieName,
 							genCookie);
 					response.addCookie(cookie);

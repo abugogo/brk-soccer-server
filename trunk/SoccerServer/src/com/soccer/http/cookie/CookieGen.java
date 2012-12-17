@@ -6,7 +6,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class CookieGen {
-
+	
+	public final static String DELIMITER = "|";
 	public static void main(String[] args) {
 
 		char[] passwordChar = new char[6];
@@ -64,11 +65,11 @@ public class CookieGen {
 
 	}
 
-	public static String generateCookieForUser(BigInteger user,
+	public static String generateCookieForUser(String user,
 			String expiration, String pwd, String salt) {
-		String c = user.toString().concat("|").concat(expiration);
+		String c = user.concat(DELIMITER).concat(expiration);
 		String encDigest = encodeString(pwd.concat(expiration).concat(salt)); 
-		return c.concat("|").concat(encDigest);
+		return c.concat(DELIMITER).concat(encDigest);
 	}
 
 	public static String encodeString(String str) {
