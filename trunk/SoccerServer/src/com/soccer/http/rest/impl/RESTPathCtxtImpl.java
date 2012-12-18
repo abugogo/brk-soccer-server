@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.soccer.http.HttpMethod;
 import com.soccer.http.context.RequestContext;
 import com.soccer.http.rest.RESTPath;
+import com.soccer.services.SystemService;
 
 public class RESTPathCtxtImpl implements RESTPath {
 	private String pathStr;
@@ -12,7 +13,7 @@ public class RESTPathCtxtImpl implements RESTPath {
 	private String context;
 	private HttpMethod method;
 	
-	public RESTPathCtxtImpl(String path, HttpMethod method) {
+	public RESTPathCtxtImpl(String path, HttpMethod method) throws Exception {
 		this.method = method;
 		
 		if (path == null) {
@@ -24,7 +25,11 @@ public class RESTPathCtxtImpl implements RESTPath {
 			String[] sarray = path.split("/");
 			if(sarray.length > 1) {
 				context = sarray[0];
-				RequestContext.setAttribute(RequestContext.REQ_CONTEXT, context);
+				String uid = (String) RequestContext.getAttribute(RequestContext.LOGGED_IN_USER);
+				if(SystemService.getInstance().isUserInAccount(uid, context))
+					RequestContext.setAttribute(RequestContext.REQ_CONTEXT, context);
+				else 
+					throw new Exception("Unauthorised user. Does not belong to account");
 				this.pathArray = Arrays.copyOfRange(sarray, 1, sarray.length);//path.split("/");
 			}
 		}

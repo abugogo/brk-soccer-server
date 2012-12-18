@@ -36,10 +36,10 @@ public class GetTableResultSetHandler implements ResultSetHandler<List<ITableRow
 			" 			WHEN l.points = 0 THEN 1 " + 
 			" 			ELSE 0 " + 
 			" 	  	END losses " + 
-			" 	FROM players p " + 
-			" 	INNER JOIN lineup l " + 
+			" 	FROM %s.players p " + 
+			" 	INNER JOIN %s.lineup l " + 
 			" 		ON l.player_id = p.id " + 
-			" 	INNER JOIN games_tbl g " + 
+			" 	INNER JOIN %s.games_tbl g " + 
 			" 		ON g.game_id = l.game_id " + 
 			" 	WHERE p.active = 1 " + 
 			" ) as data_tbl " + 
@@ -49,6 +49,10 @@ public class GetTableResultSetHandler implements ResultSetHandler<List<ITableRow
 	
 	public static GetTableResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema, schema, schema);
 	}
 	
 	@Override

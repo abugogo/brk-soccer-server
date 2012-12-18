@@ -1,15 +1,16 @@
 package com.soccer.services;
 
-import java.math.BigInteger;
 import java.util.UUID;
 
+import com.soccer.dal.api.ISchemaAPI;
 import com.soccer.dal.api.IUsersAPI;
 import com.soccer.dal.db.SqlDBDal;
 import com.soccer.entities.IDAOUser;
 
-public class SystemService implements IUsersAPI {
+public class SystemService implements IUsersAPI, ISchemaAPI {
 	private static SystemService instance = null;
 	IUsersAPI usersApi = SqlDBDal.getInst();
+	ISchemaAPI schemaApi = SqlDBDal.getInst();
 	
 	public static SystemService getInstance() {
 		synchronized (SystemService.class) {
@@ -47,4 +48,10 @@ public class SystemService implements IUsersAPI {
 		return this.usersApi.getUserPassword(u);
 	}
 
+	@Override
+	public boolean isUserInAccount(String uid, String acc) {
+		return this.schemaApi.isUserInAccount(uid, acc);
+	}
+
+	
 }

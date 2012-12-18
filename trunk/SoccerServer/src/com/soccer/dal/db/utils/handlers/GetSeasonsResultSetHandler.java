@@ -13,12 +13,16 @@ import com.soccer.entities.IDAOSeason;
 public class GetSeasonsResultSetHandler implements ResultSetHandler<List<IDAOSeason>> {
 	public static String QUERY = 
 			" SELECT id, sdate, edate, misc " +
-			" FROM seasons " +
+			" FROM %s.seasons " +
 			" ORDER BY sdate DESC ";
 	private static GetSeasonsResultSetHandler instance = new GetSeasonsResultSetHandler();
 	
 	public static GetSeasonsResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema);
 	}
 
 	@Override

@@ -11,12 +11,15 @@ import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOPlayer;
 
 public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPlayer>> {
-	public static final String TABLE = "PLAYERS";
-	public static final String QUERY = "SELECT * FROM ? WHERE Active = ?";
+	public static final String QUERY = "SELECT * FROM %s.PLAYERS WHERE Active = ?";
 	private static final GetPlayersResultSetHandler instance = new GetPlayersResultSetHandler();
 	
 	public static GetPlayersResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema);
 	}
 	
 	@Override

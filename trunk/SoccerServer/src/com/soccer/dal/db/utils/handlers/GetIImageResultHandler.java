@@ -16,6 +16,10 @@ public class GetIImageResultHandler implements ResultSetHandler<IImage> {
 	public static GetIImageResultHandler getInstance() {
 		return instance;
 	}
+	
+	public static String getQuery(String schema) {
+		return QUERY;
+	}
 
 	@Override
 	public IImage handle(ResultSet rslt) throws SQLException {
