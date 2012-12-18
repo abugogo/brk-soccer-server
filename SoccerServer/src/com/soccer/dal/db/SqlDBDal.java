@@ -6,13 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -100,8 +98,21 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetPlayersResultSetHandler.getQuery(schema),
+			return _queryRunner.query(GetPlayersResultSetHandler.getQuery(schema, true),
 					GetPlayersResultSetHandler.getInstance(), 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<IDAOPlayer> getPlayers() {
+		try {
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT);
+			return _queryRunner.query(GetPlayersResultSetHandler.getQuery(schema, false),
+					GetPlayersResultSetHandler.getInstance());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -220,7 +231,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public void updatePlayer(IDAOPlayer p) {
+	public IDAOPlayer updatePlayer(IDAOPlayer p) {
+		IDAOPlayer result = null;
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
@@ -237,9 +249,11 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 							.getBday(), p.getFbUser(), p.getOccupation(), p
 							.getAddress1(), p.getAddress2(),
 					p.getDescription(), p.getP_img(), p.getId());
+			result = this.getPlayer(p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 
 	@Override

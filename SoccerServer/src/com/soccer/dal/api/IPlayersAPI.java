@@ -9,6 +9,7 @@ public interface IPlayersAPI {
 	List<IDAOPlayer> getActivePlayers();
 	IDAOPlayer getPlayer(String pid);
 	void createPlayer(IDAOPlayer p);
-	void updatePlayer(IDAOPlayer p);
+	IDAOPlayer updatePlayer(IDAOPlayer p);
 	List<IWinLoseStrip> getWinLoseStrips(String pid);
+	List<IDAOPlayer> getPlayers();
 }

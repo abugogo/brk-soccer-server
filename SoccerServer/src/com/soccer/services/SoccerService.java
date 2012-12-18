@@ -29,6 +29,11 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	IPlayersAPI playersAPI = SqlDBDal.getInst();
 	
 	@Override
+	public List<IDAOPlayer> getPlayers() {
+		return playersAPI.getPlayers();
+	}
+	
+	@Override
 	public List<IDAOPlayer> getActivePlayers() {
 		return playersAPI.getActivePlayers();
 	}
@@ -59,8 +64,8 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	}
 
 	@Override
-	public void updatePlayer(IDAOPlayer p) {
-		playersAPI.updatePlayer(p);
+	public IDAOPlayer updatePlayer(IDAOPlayer p) {
+		return playersAPI.updatePlayer(p);
 	}
 
 	@Override
