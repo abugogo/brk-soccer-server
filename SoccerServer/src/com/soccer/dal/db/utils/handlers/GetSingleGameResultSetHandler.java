@@ -17,13 +17,17 @@ public class GetSingleGameResultSetHandler implements ResultSetHandler<IDAOGame>
 			"   g.winner, g.wgoals, g.bgoals, g.has_draft, " + 
 			"   g.description, g.misc, g.more, l.player_id, " + 
 			"   l.color, l.goal, l.o_goal, l.points, l.misc " + 
-			" FROM games_tbl g " + 
-			" LEFT OUTER JOIN lineup l ON g.game_id = l.game_id " +
+			" FROM %s.games_tbl g " + 
+			" LEFT OUTER JOIN %s.lineup l ON g.game_id = l.game_id " +
 			" WHERE g.game_id = ?";
 	private static final GetSingleGameResultSetHandler instance = new GetSingleGameResultSetHandler();
 	
 	public static GetSingleGameResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema, schema);
 	}
 	
 	@Override

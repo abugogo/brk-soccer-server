@@ -10,11 +10,15 @@ import com.soccer.entities.IDAOPlayer;
 
 public class GetSinglePlayerResultSetHandler implements ResultSetHandler<IDAOPlayer> {
 
-	public static final String QUERY = "SELECT * FROM players WHERE id = ?";
+	public static final String QUERY = "SELECT * FROM %s.players WHERE id = ?";
 	private static final GetSinglePlayerResultSetHandler instance = new GetSinglePlayerResultSetHandler();
 	
 	public static GetSinglePlayerResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema);
 	}
 	
 	@Override

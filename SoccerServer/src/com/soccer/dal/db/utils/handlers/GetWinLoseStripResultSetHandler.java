@@ -14,8 +14,8 @@ public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<IW
 	
 	public static final String QUERY = 
 			"SELECT LNP.points, GMS.game_date " +
-			"FROM lineup LNP " +
-			"  INNER JOIN games_tbl GMS " +
+			"FROM %s.lineup LNP " +
+			"  INNER JOIN %s.games_tbl GMS " +
 			"  ON LNP.game_id=GMS.game_id " +
 			"WHERE LNP.player_id = ? " +
 			"ORDER BY LNP.game_id";
@@ -23,6 +23,10 @@ public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<IW
 	
 	public static GetWinLoseStripResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery(String schema) {
+		return String.format(QUERY, schema, schema);
 	}
 
 	@Override
