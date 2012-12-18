@@ -7,7 +7,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 public class GetUserSaltResultSetHandler implements ResultSetHandler<String> {
 
-	public static final String QUERY = "SELECT salt FROM ABUGOGO_SOCCER_SYS.Users as u WHERE u.id = ?";
+	public static final String QUERY = "SELECT salt FROM abugogo_soccer_sys.users as u WHERE u.id = ?";
 	private static final GetUserSaltResultSetHandler instance = new GetUserSaltResultSetHandler();
 
 	public static GetUserSaltResultSetHandler getInstance() {
