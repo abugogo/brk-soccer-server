@@ -7,7 +7,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 public class IsUserInAccountResultSetHandler implements
 		ResultSetHandler<Boolean> {
-	public static final String QUERY = "SELECT * FROM ABUGOGO_SOCCER_SYS.usersacc WHERE uid = ? AND acc = ?";
+	public static final String QUERY = "SELECT * FROM abugogo_soccer_sys.usersacc WHERE uid = ? AND acc = ?";
 	private static final IsUserInAccountResultSetHandler instance = new IsUserInAccountResultSetHandler();
 
 	public static IsUserInAccountResultSetHandler getInstance() {
