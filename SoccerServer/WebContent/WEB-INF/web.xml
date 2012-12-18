@@ -23,5 +23,8 @@
     <filter-name>AuthFilter</filter-name>
     <url-pattern>/rest/*</url-pattern>
   </filter-mapping>
-  
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/users/*</url-pattern>
+  </filter-mapping>
 </web-app>

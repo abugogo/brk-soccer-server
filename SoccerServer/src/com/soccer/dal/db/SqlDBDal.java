@@ -364,7 +364,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 					.encodeString(u.getPassword().concat(salt));
 			return _queryRunner
 					.update(CreateUserResultSetHandler.QUERY, u.getId()
-							.toString(), encPwd, u.getFname(), "",
+							.toString(), encPwd, u.getFname(),
 							u.getLname(), u.getTel1(), u.getTel2(), u
 									.getEmail(), u.getBday(), u.getFbUser(), u
 									.getOccupation(), u.getAddress1(), u
@@ -409,4 +409,5 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 			return false;
 		}
 	}
+
 }
