@@ -17,7 +17,7 @@ public class GetPlayersAction implements RESTAction {
 	
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
-		List<IDAOPlayer> activePlayers = SoccerService.getInstance().getActivePlayers();
+		List<IDAOPlayer> activePlayers = SoccerService.getInstance().getPlayers();
 		try {
 			EntityManager.writePlayersToStream(activePlayers, resp.getOutputStream());
 		} catch (IOException e) {
