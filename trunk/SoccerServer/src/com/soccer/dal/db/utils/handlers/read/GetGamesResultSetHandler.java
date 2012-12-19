@@ -1,4 +1,4 @@
-package com.soccer.dal.db.utils.handlers;
+package com.soccer.dal.db.utils.handlers.read;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

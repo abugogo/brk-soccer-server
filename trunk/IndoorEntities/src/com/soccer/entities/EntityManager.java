@@ -9,6 +9,7 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import com.google.gson.Gson;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOSeason;
@@ -71,7 +72,9 @@ public class EntityManager {
 
 	public static void writePlayersToStream(List<IDAOPlayer> players, OutputStream out) throws SoccerException {
 		try {
-			mapper.writeValue(out, players);
+			Gson gson = new Gson();
+			out.write(gson.toJson(players).getBytes());
+			//mapper.writeValue(out, players);
 		} catch (IOException e) {
 			throw new SoccerException("Could not write List of Players as JSON string", e);
 		}

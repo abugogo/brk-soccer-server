@@ -1,12 +1,7 @@
 package com.soccer.dal.db;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.Context;
@@ -23,20 +18,24 @@ import com.soccer.dal.api.ISchemaAPI;
 import com.soccer.dal.api.ISeasonAPI;
 import com.soccer.dal.api.ITableAPI;
 import com.soccer.dal.api.IUsersAPI;
-import com.soccer.dal.db.utils.handlers.GetGamesResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetIImageResultHandler;
-import com.soccer.dal.db.utils.handlers.GetPlayersResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetSeasonsResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetSingleGameResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetSinglePlayerResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetSingleSeasonResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetTableResultSetHandler;
-import com.soccer.dal.db.utils.handlers.GetWinLoseStripResultSetHandler;
+import com.soccer.dal.db.utils.handlers.create.CreateGameHandler;
+import com.soccer.dal.db.utils.handlers.create.CreatePlayerResultSetHandler;
+import com.soccer.dal.db.utils.handlers.create.CreateSeasonResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetGamesResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetIImageResultHandler;
+import com.soccer.dal.db.utils.handlers.read.GetPlayersResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetSeasonsResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetSingleGameResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetSinglePlayerResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetSingleSeasonResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetTableResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetWinLoseStripResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.CreateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserPasswordResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserSaltResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.IsUserInAccountResultSetHandler;
+import com.soccer.dal.db.utils.handlers.update.UpdatePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
@@ -44,19 +43,11 @@ import com.soccer.entities.IDAOUser;
 import com.soccer.entities.ITableRow;
 import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
-import com.soccer.entities.impl.DAOLineup;
 import com.soccer.http.context.RequestContext;
 import com.soccer.http.cookie.CookieGen;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		ISeasonAPI, IUsersAPI, ISchemaAPI {
-	private static final String INSERT_GAME = "INSERT INTO games_tbl "
-			+ "(game_name, game_date, winner, "
-			+ "wgoals, bgoals, has_draft, description, " + "misc, more) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String INSERT_LINEUP = "INSERT INTO lineup"
-			+ "(game_id, player_id, color, goal, " + "o_goal, points, misc) "
-			+ "VALUES (?,?,?,?,?,?,?)";
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static QueryRunner _queryRunner = null;
@@ -98,20 +89,22 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetPlayersResultSetHandler.getQuery(schema, true),
+			return _queryRunner.query(
+					GetPlayersResultSetHandler.getQuery(schema, true),
 					GetPlayersResultSetHandler.getInstance(), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<IDAOPlayer> getPlayers() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetPlayersResultSetHandler.getQuery(schema, false),
+			return _queryRunner.query(
+					GetPlayersResultSetHandler.getQuery(schema, false),
 					GetPlayersResultSetHandler.getInstance());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,8 +117,9 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			
-			return _queryRunner.query(GetGamesResultSetHandler.getQuery(schema),
+
+			return _queryRunner.query(
+					GetGamesResultSetHandler.getQuery(schema),
 					GetGamesResultSetHandler.getInstance());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,7 +132,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetSinglePlayerResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetSinglePlayerResultSetHandler.getQuery(schema),
 					GetSinglePlayerResultSetHandler.getInstance(), pid);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -151,7 +146,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetSingleGameResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetSingleGameResultSetHandler.getQuery(schema),
 					GetSingleGameResultSetHandler.getInstance(), gid);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,100 +156,40 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public void createPlayer(IDAOPlayer p) {
+	public int createPlayer(IDAOPlayer p) {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			String Query = "INSERT INTO %s.players "
-					+ "(id, id_num, fname, lname, position, "
-					+ "tel1, tel2, email, bday, fb_user, "
-					+ "occupation, address1, address2, "
-					+ "description, P_img, Active) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			_queryRunner
-					.update(String.format(Query, schema),
-							p.getId(), p.getIdNum(), p.getFname(),
-							p.getLname(), (p.getPositionBean() == null) ? null
-									: p.getPositionBean().getId(), p.getTel1(),
-							p.getTel2(), p.getEmail(), p.getBday(), p
-									.getFbUser(), p.getOccupation(), p
-									.getAddress1(), p.getAddress2(), p
-									.getDescription(), p.getP_img(), 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void createGame(IDAOGame game) {
-		try {
-			Connection conn = _queryRunner.getDataSource().getConnection();
-			conn.setAutoCommit(false);
-
-			PreparedStatement stmt = conn.prepareStatement(INSERT_GAME,
-					Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, "");
-			stmt.setDate(2, new java.sql.Date(game.getGameDate().getTime()));
-			stmt.setString(3, game.getWinner().toString());
-			stmt.setInt(4, game.getWgoals());
-			stmt.setInt(5, game.getBgoals());
-			stmt.setInt(6, 0);
-			stmt.setString(7, "");
-			stmt.setString(8, "");
-			stmt.setString(9, "");
-
-			stmt.executeUpdate();
-			ResultSet res = stmt.getGeneratedKeys();
-			int game_id = 0;
-			if (res.next())
-				game_id = res.getInt(1);
-			if (game_id != 0) {
-				for (Iterator<DAOLineup> it = game.getLineup().iterator(); it
-						.hasNext();) {
-					DAOLineup lineup = it.next();
-					_queryRunner.update(conn, INSERT_LINEUP, game_id,
-							lineup.getPlayerId(), lineup.getColor(),
-							lineup.getGoal(), lineup.getOGoal(),
-							lineup.getPoints(), lineup.getMisc());
-				}
-				conn.commit();
-			} else
-				conn.rollback();
-			/*
-			 * _queryRunner.update(conn, INSERT_GAME, game.getGameId(),
-			 * game.getGameName(), game.getGameDate(), game.getWinner(),
-			 * game.getWgoals(), game.getBgoals(), game.getHasDraft(),
-			 * game.getDescription(), game.getMisc(), game.getMore());
-			 */
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public IDAOPlayer updatePlayer(IDAOPlayer p) {
-		IDAOPlayer result = null;
-		try {
-			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
-			String Query = "UPDATE %s.players " + "SET id_num = ?, "
-					+ "fname = ?, " + "lname = ?, " + "position = ?, "
-					+ "tel1 = ?, " + "tel2 = ?, " + "email = ?, "
-					+ "bday = ?, " + "fb_user = ?, " + "occupation = ?, "
-					+ "address1 = ?, " + "address2 = ?, " + "description = ?, "
-					+ "P_img = ? " + "WHERE id = ?";
-			_queryRunner.update(String.format(Query, schema), p.getIdNum(),
-					p.getFname(), p.getLname(),
+			return _queryRunner.update(CreatePlayerResultSetHandler
+					.getQuery(schema), CreatePlayerResultSetHandler
+					.getInstance(), p.getId(),
 					(p.getPositionBean() == null) ? null : p.getPositionBean()
-							.getId(), p.getTel1(), p.getTel2(), p.getEmail(), p
-							.getBday(), p.getFbUser(), p.getOccupation(), p
-							.getAddress1(), p.getAddress2(),
-					p.getDescription(), p.getP_img(), p.getId());
-			result = this.getPlayer(p.getId());
+							.getId(), p.getDescription(), 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return 0;
+	}
+
+	@Override
+	public int createGame(IDAOGame game) {
+		return CreateGameHandler.handle(_queryRunner, game);
+	}
+
+	@Override
+	public int updatePlayer(IDAOPlayer p) {
+		try {
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT);
+			return _queryRunner.update(UpdatePlayerResultSetHandler
+					.getQuery(schema), UpdatePlayerResultSetHandler
+					.getInstance(), (p.getPositionBean() == null) ? null : p
+					.getPositionBean().getId(), p.getDescription(), p
+							.getActive(), p.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
@@ -286,7 +222,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetWinLoseStripResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetWinLoseStripResultSetHandler.getQuery(schema),
 					GetWinLoseStripResultSetHandler.getInstance(), pid);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -299,7 +236,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetTableResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetTableResultSetHandler.getQuery(schema),
 					GetTableResultSetHandler.getInstance());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -312,7 +250,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetSingleSeasonResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetSingleSeasonResultSetHandler.getQuery(schema),
 					GetSingleSeasonResultSetHandler.getInstance(), id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -325,7 +264,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(GetSeasonsResultSetHandler.getQuery(schema),
+			return _queryRunner.query(
+					GetSeasonsResultSetHandler.getQuery(schema),
 					GetSeasonsResultSetHandler.getInstance());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -334,15 +274,18 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public void createSeason(IDAOSeason season) {
+	public int createSeason(IDAOSeason season) {
 		try {
-			_queryRunner.update(" INSERT INTO seasons "
-					+ " (id, sdate, edate, misc) " + " VALUES (?, ?, ?, ?) ",
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT);
+			return _queryRunner.update(
+					CreateSeasonResultSetHandler.getQuery(schema),
 					season.getId(), season.getSdate(), season.getEdate(),
 					season.getMisc());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}
 
 	@Override
@@ -362,13 +305,11 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String encPwd = CookieGen
 					.encodeString(u.getPassword().concat(salt));
-			return _queryRunner
-					.update(CreateUserResultSetHandler.QUERY, u.getId()
-							.toString(), encPwd, u.getFname(),
-							u.getLname(), u.getTel1(), u.getTel2(), u
-									.getEmail(), u.getBday(), u.getFbUser(), u
-									.getOccupation(), u.getAddress1(), u
-									.getAddress2(), u.getP_img(), salt);
+			return _queryRunner.update(CreateUserResultSetHandler.QUERY, u
+					.getId().toString(), encPwd, u.getFname(), u.getLname(), u
+					.getTel1(), u.getTel2(), u.getEmail(), u.getBday(), u
+					.getFbUser(), u.getOccupation(), u.getAddress1(), u
+					.getAddress2(), u.getP_img(), salt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

@@ -13,7 +13,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.soccer.http.RESTServlet;
 import com.soccer.http.context.RequestContext;
 import com.soccer.http.cookie.CookieGen;
 import com.soccer.services.SystemService;

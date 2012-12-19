@@ -1,7 +1,7 @@
 <project name="SoccerEntities" default="build" basedir=".">
 
 	<!-- set global properties for this build -->
-	<property name="src" location="src" />
+	<property name="src" location="..\IndoorEntities\src" />
 	<property name="dist" location="dist" />
 	<property name="build" location="${dist}/bin" />
 	<property name="deploy" location="../SoccerServer/WebContent/WEB-INF/lib" />

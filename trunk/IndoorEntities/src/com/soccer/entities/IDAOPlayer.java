@@ -1,6 +1,5 @@
 package com.soccer.entities;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import com.soccer.entities.impl.DAOPosition;
@@ -29,8 +28,6 @@ public interface IDAOPlayer {
 	public void setFbUser(String fbUser);
 	public String getFname();
 	public void setFname(String fname);
-	public BigInteger getIdNum();
-	public void setIdNum(BigInteger idNum);
 	public String getLname();
 	public void setLname(String lname);
 	public String getOccupation();
@@ -41,6 +38,6 @@ public interface IDAOPlayer {
 	public void setTel1(String tel1);
     public String getTel2();
 	public void setTel2(String tel2);
-	public DAOPosition getPositionBean();
+	public IDAOPosition getPositionBean();
 	public void setPositionBean(DAOPosition positionBean);
 }
