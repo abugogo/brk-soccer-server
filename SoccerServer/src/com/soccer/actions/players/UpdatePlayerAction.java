@@ -26,8 +26,10 @@ public class UpdatePlayerAction implements RESTAction {
 			if (!p.getId().equals(path.getPathArray()[1])) {
 				throw new SoccerException("Bad input - player id in url and player id in body are different");
 			}
-			IDAOPlayer res = SoccerService.getInstance().updatePlayer(p);
-			resp.getOutputStream().write("{result=success}".getBytes());
+			if(SoccerService.getInstance().updatePlayer(p) > 0)
+				resp.getOutputStream().write("{result=success}".getBytes());
+			else
+				resp.getOutputStream().write("{result=failure}".getBytes());
 		} catch (SoccerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

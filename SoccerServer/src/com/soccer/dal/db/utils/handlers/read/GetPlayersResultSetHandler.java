@@ -1,4 +1,4 @@
-package com.soccer.dal.db.utils.handlers;
+package com.soccer.dal.db.utils.handlers.read;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +10,27 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOPlayer;
 
-public class GetPlayersResultSetHandler implements ResultSetHandler<List<IDAOPlayer>> {
-	public static final String QUERY = "SELECT * FROM %s.players";
-	public static final String QUERY_ACTIVE = " WHERE Active = ?";
-	
+public class GetPlayersResultSetHandler implements
+		ResultSetHandler<List<IDAOPlayer>> {
+	public static final String QUERY = "SELECT u.id, u.fname, u.lname,"
+			+ "u.tel1, u.tel2, u.email, u.bday, u.fb_user, u.occupation,"
+			+ "u.address1, u.address2, p.description, u.P_img, p.Active"
+			+ " FROM %s.players as p"
+			+ " INNER JOIN abugogo_soccer_sys.users as u ON p.id=u.id";
+	public static final String QUERY_ACTIVE = " WHERE p.Active = ?";
+
 	private static final GetPlayersResultSetHandler instance = new GetPlayersResultSetHandler();
-	
+
 	public static GetPlayersResultSetHandler getInstance() {
 		return instance;
 	}
-	
+
 	public static String getQuery(String schema, boolean active) {
-		if(active)
+		if (active)
 			return String.format(QUERY, schema).concat(QUERY_ACTIVE);
 		return String.format(QUERY, schema);
 	}
-	
+
 	@Override
 	public List<IDAOPlayer> handle(ResultSet rslt) throws SQLException {
 		List<IDAOPlayer> players = new ArrayList<IDAOPlayer>();

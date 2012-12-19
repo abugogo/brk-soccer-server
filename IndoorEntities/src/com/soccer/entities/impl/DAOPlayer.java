@@ -2,11 +2,12 @@ package com.soccer.entities.impl;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.IDAOPosition;
 
 
 /**
@@ -15,34 +16,22 @@ import com.soccer.entities.IDAOPlayer;
  */
 public class DAOPlayer implements Serializable, IDAOPlayer {
 	private static final long serialVersionUID = 1L;
-	private String id;
+	private DAOUser user;
 	private byte[] active;
-	private String address1;
-	private String address2;
-	private Date bday;
 	private String description;
-	private String email;
-	private String fbUser;
-	private String fname;
-	private BigInteger idNum;
-	private String lname;
-	private String occupation;
-	private String p_img;
-	private String tel1;
-	private String tel2;
 	private DAOPosition positionBean;
 
     public DAOPlayer() {
+    	user = new DAOUser();
     }
 
     public DAOPlayer(HashMap<String, Object> columns) {
-    	
+    	user = new DAOUser();
     	setPlayer(columns);
     }
 
 	private void setPlayer(HashMap<String, Object> columns) {
 		this.setId("" + columns.get("id"));
-		this.setIdNum(BigInteger.valueOf((Long)columns.get("id_num")));
 		this.setFname((String) columns.get("fname"));
 		this.setLname((String) columns.get("lname"));
 		this.setPositionBean(new DAOPosition());
@@ -60,11 +49,11 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.user.getId().toString();
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.user.setId(new BigInteger(id));
 	}
 
 
@@ -78,32 +67,32 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 
 
     public String getAddress1() {
-		return this.address1;
+		return this.user.getAddress1();
 	}
 
 	public void setAddress1(String address1) {
-		this.address1 = address1;
+		this.user.setAddress1(address1);
 	}
 
 
     public String getAddress2() {
-		return this.address2;
+		return this.user.getAddress2();
 	}
 
 	public void setAddress2(String address2) {
-		this.address2 = address2;
+		this.user.setAddress2(address2);
 	}
 
 
     public Date getBday() {
-		return this.bday;
+		return this.user.getBday();
 	}
 
     public String getBdayAsString(String format) {
     	String retStr = "";
-    	if(this.bday != null) {
+    	if(this.user.getBday() != null) {
     		Calendar cal = Calendar.getInstance();
-    		cal.setTime(this.bday);
+    		cal.setTime(this.user.getBday());
             int day = cal.get(Calendar.DAY_OF_MONTH);
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
@@ -113,7 +102,7 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 	}
     
 	public void setBday(Date bday) {
-		this.bday = bday;
+		this.user.setBday(bday);
 	}
 
 
@@ -127,86 +116,76 @@ public class DAOPlayer implements Serializable, IDAOPlayer {
 
 
     public String getEmail() {
-		return this.email;
+		return this.user.getEmail();
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.user.setEmail(email);
 	}
 
 
 	public String getFbUser() {
-		return this.fbUser;
+		return this.user.getFbUser();
 	}
 
 	public void setFbUser(String fbUser) {
-		this.fbUser = fbUser;
+		this.user.setFbUser(fbUser);
 	}
 
 
     public String getFname() {
-		return this.fname;
+		return this.user.getFname();
 	}
 
 	public void setFname(String fname) {
-		this.fname = fname;
+		this.user.setFname(fname);
 	}
-
-
-	public BigInteger getIdNum() {
-		return this.idNum;
-	}
-
-	public void setIdNum(BigInteger idNum) {
-		this.idNum = idNum;
-	}
-
 
     public String getLname() {
-		return this.lname;
+		return this.user.getLname();
 	}
 
 	public void setLname(String lname) {
-		this.lname = lname;
+		this.user.setLname(lname);
 	}
 
 
     public String getOccupation() {
-		return this.occupation;
+		return this.user.getOccupation();
 	}
 
 	public void setOccupation(String occupation) {
-		this.occupation = occupation;
+		this.user.setOccupation(occupation);
 	}
 
 
     public String getP_img() {
-		return this.p_img;
+		return this.user.getP_img();
 	}
 
 	public void setP_img(String p_img) {
-		this.p_img = p_img;
+		this.user.setP_img(p_img);
 	}
 
 
     public String getTel1() {
-		return this.tel1;
+		return this.user.getTel1();
 	}
 
 	public void setTel1(String tel1) {
-		this.tel1 = tel1;
+		this.user.setTel1(tel1);
 	}
 
 
     public String getTel2() {
-		return this.tel2;
+		return this.user.getTel2();
 	}
 
 	public void setTel2(String tel2) {
-		this.tel2 = tel2;
+		this.user.setTel2(tel2);
 	}
 
-	public DAOPosition getPositionBean() {
+	public IDAOPosition getPositionBean() {
 		return this.positionBean;
 	}
 

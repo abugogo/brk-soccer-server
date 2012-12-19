@@ -34,7 +34,7 @@ public class SeasonsService implements ISeasonAPI {
 	}
 
 	@Override
-	public void createSeason(IDAOSeason season) {
-		this.seasionAPI.createSeason(season);
+	public int createSeason(IDAOSeason season) {
+		return this.seasionAPI.createSeason(season);
 	}
 }

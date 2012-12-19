@@ -8,8 +8,8 @@ import com.soccer.entities.IWinLoseStrip;
 public interface IPlayersAPI {
 	List<IDAOPlayer> getActivePlayers();
 	IDAOPlayer getPlayer(String pid);
-	void createPlayer(IDAOPlayer p);
-	IDAOPlayer updatePlayer(IDAOPlayer p);
+	int createPlayer(IDAOPlayer p);
+	int updatePlayer(IDAOPlayer p);
 	List<IWinLoseStrip> getWinLoseStrips(String pid);
 	List<IDAOPlayer> getPlayers();
 }

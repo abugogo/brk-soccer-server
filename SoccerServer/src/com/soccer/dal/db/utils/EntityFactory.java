@@ -46,7 +46,6 @@ public final class EntityFactory {
 	public static IDAOPlayer createPlayer(ResultSet rslt) throws SQLException {
 		IDAOPlayer player = new DAOPlayer();
 		player.setId(rslt.getString("id"));
-		player.setIdNum(BigInteger.valueOf(rslt.getLong("id_num")));
 		player.setFname(rslt.getString("fname"));
 		player.setLname(rslt.getString("lname"));
 		player.setPositionBean(new DAOPosition());
