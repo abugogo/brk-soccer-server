@@ -1,13 +1,9 @@
 package com.soccer.entities;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import com.google.gson.Gson;
 import com.soccer.entities.impl.DAOGame;
@@ -19,210 +15,152 @@ import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.lib.SoccerException;
 
 public class EntityManager {
-	private static ObjectMapper mapper = new ObjectMapper();
-	
-	public static IDAOPlayer readPlayer(InputStream is) throws SoccerException {
-		try {
-			return mapper.readValue(is, DAOPlayer.class);
-		} catch (IOException e) {
-			throw new SoccerException("Could not create Player from Input Stream", e);
-		}
+	// is it thread safe?
+	private static Gson gson = new Gson();
+
+	public static IDAOPlayer readPlayer(String str) {
+		return gson.fromJson(str, DAOPlayer.class);
 	}
-	
-	public static IDAOPlayer readPlayer(String str) throws SoccerException {
-		try {
-			return mapper.readValue(str.getBytes(), DAOPlayer.class);
-		} catch (IOException e) {
-			throw new SoccerException("Could not create Player from String", e);
-		}
-	}
-	
-	public static ArrayList<IDAOPlayer> readPlayers(String str) throws SoccerException {
-		try {
-			return mapper.readValue(str.getBytes(), new TypeReference<ArrayList<DAOPlayer>>(){});
-		} catch (IOException e) {
-			throw new SoccerException("Could not create Player from Input Stream", e);
-		}
+
+	@SuppressWarnings("unchecked")
+	public static ArrayList<IDAOPlayer> readPlayers(String str) {
+		return gson.fromJson(str, (new ArrayList<DAOPlayer>()).getClass());
 	}
 
 	public static String writePlayer(IDAOPlayer player) throws SoccerException {
+		return gson.toJson(player);
+	}
+
+	public static void writePlayerToStream(IDAOPlayer player, OutputStream out)
+			throws SoccerException {
 		try {
-			return mapper.writeValueAsString(player);
+			out.write(gson.toJson(player).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not write Player to a JSON string", e);
+			throw new SoccerException("Could not write player as JSON string",
+					e);
 		}
 	}
 
-	
-	public static void writePlayerToStream(IDAOPlayer player, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, player);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write Player to a JSON string", e);
-		}
-	}
-	
-	public static String writePlayers(List<IDAOPlayer> players) throws SoccerException {
-		try {
-			return mapper.writeValueAsString(players);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Players as JSON string", e);
-		}
+	public static String writePlayers(List<IDAOPlayer> players) {
+		return gson.toJson(players);
 	}
 
-	public static void writePlayersToStream(List<IDAOPlayer> players, OutputStream out) throws SoccerException {
+	public static void writePlayersToStream(List<IDAOPlayer> players,
+			OutputStream out) throws SoccerException {
 		try {
-			Gson gson = new Gson();
 			out.write(gson.toJson(players).getBytes());
-			//mapper.writeValue(out, players);
 		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Players as JSON string", e);
-		}
-	}
-	
-	public static void writeWinLoseStripToStream(List<IWinLoseStrip> strips, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, strips);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write List<IWinLoseStrip> to OutputStream", e);
-		}
-	}
-	
-	public static List<IWinLoseStrip> readPlayerStats(String str) throws SoccerException {
-		try {
-			return mapper.readValue(str.getBytes(), new TypeReference<ArrayList<WinLoseStrip>>(){});
-		} catch (IOException e) {
-			throw new SoccerException("Could not create Player stats from Input Stream", e);
+			throw new SoccerException(
+					"Could not write List of Players as JSON string", e);
 		}
 	}
 
-	public static void writeTableToStream(List<ITableRow> table, OutputStream out) throws SoccerException {
+	public static void writeWinLoseStripToStream(List<IWinLoseStrip> strips,
+			OutputStream out) throws SoccerException {
 		try {
-			mapper.writeValue(out, table);
+			out.write(gson.toJson(strips).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not write List<ITableRow> to OutputStream", e);
+			throw new SoccerException(
+					"Could not write List of Players as JSON string", e);
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public static List<IWinLoseStrip> readPlayerStats(String str) {
+		return gson.fromJson(str, (new ArrayList<WinLoseStrip>()).getClass());
+	}
+
+	public static void writeTableToStream(List<ITableRow> table,
+			OutputStream out) throws SoccerException {
+		try {
+			out.write(gson.toJson(table).getBytes());
+		} catch (IOException e) {
+			throw new SoccerException("Could not write table as JSON string", e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public static List<ITableRow> readTable(String str) throws SoccerException {
-		try {
-			return mapper.readValue(str.getBytes(), new TypeReference<ArrayList<TableRow>>(){});
-		} catch (IOException e) {
-			throw new SoccerException("Could not create Player stats from Input Stream", e);
-		}
+		return gson.fromJson(str, (new ArrayList<TableRow>()).getClass());
 	}
-	
-	public static IDAOGame readGame(InputStream is) throws SoccerException {
-		try {
-			return mapper.readValue(is, DAOGame.class);
-		} catch (IOException e) {
-			throw new SoccerException("Could not read game from input stream", e);
-		}
+
+	public static IDAOGame readGame(String str) {
+		return gson.fromJson(str, DAOGame.class);
 	}
-	
-	public static IDAOGame readGame(String str) throws SoccerException {
+
+	public static String writeGame(IDAOGame game) {
+		return gson.toJson(game);
+	}
+
+	public static void writeGame(IDAOGame game, OutputStream out)
+			throws SoccerException {
 		try {
-			return mapper.readValue(str.getBytes(), DAOGame.class);
+			out.write(gson.toJson(game).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not read game from string", e);
+			throw new SoccerException("Could not write game as JSON string", e);
 		}
 	}
 
-	public static String writeGame(IDAOGame game) throws SoccerException {
+	public static String writeGames(List<IDAOGame> games)
+			throws SoccerException {
+		return gson.toJson(games);
+	}
+
+	public static void writeGames(List<IDAOGame> games, OutputStream out)
+			throws SoccerException {
 		try {
-			return mapper.writeValueAsString(game);
+			out.write(gson.toJson(games).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not write a Game to a JSON string", e);
+			throw new SoccerException(
+					"Could not write List of games as JSON string", e);
 		}
 	}
 
-	public static void writeGame(IDAOGame game, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, game);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write a Game to a JSON string", e);
-		}
+	public static DAOSeason readSeason(String str) {
+		return gson.fromJson(str, DAOSeason.class);
 	}
-	
-	public static String writeGames(List<IDAOGame> games) throws SoccerException {
-		try {
-			return mapper.writeValueAsString(games);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Games as JSON string", e);
-		}
+
+	public static String writeSeason(IDAOSeason season) {
+		return gson.toJson(season);
 	}
-	
-	public static void writeGames(List<IDAOGame> games, OutputStream out) throws SoccerException {
+
+	public static void writeSeason(IDAOSeason season, OutputStream out)
+			throws SoccerException {
 		try {
-			mapper.writeValue(out, games);
+			out.write(gson.toJson(season).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Games as JSON string", e);
+			throw new SoccerException("Could not write season as JSON string",
+					e);
 		}
 	}
 
-	public static DAOSeason readSeason(InputStream is) throws SoccerException {
-		try {
-			return mapper.readValue(is, DAOSeason.class);
-		} catch (IOException e) {
-			throw new SoccerException("Could not read Season from input stream", e);
-		}
+	public static String writeSeasons(List<IDAOSeason> seasons)
+			throws SoccerException {
+		return gson.toJson(seasons);
 	}
-	
-	public static DAOSeason readSeason(String str) throws SoccerException {
+
+	public static void writeSeasons(List<IDAOSeason> seasons, OutputStream out)
+			throws SoccerException {
 		try {
-			return mapper.readValue(str.getBytes(), DAOSeason.class);
+			out.write(gson.toJson(seasons).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not read Season from string", e);
+			throw new SoccerException(
+					"Could not write List of seasons as JSON string", e);
 		}
 	}
 
-	public static String writeSeason(IDAOSeason season) throws SoccerException {
+	public static IDAOUser readUser(String str) {
+		return gson.fromJson(str, DAOUser.class);
+	}
+
+	public static void writeUserToStream(IDAOUser user, OutputStream out)
+			throws SoccerException {
 		try {
-			return mapper.writeValueAsString(season);
+			out.write(gson.toJson(user).getBytes());
 		} catch (IOException e) {
-			throw new SoccerException("Could not write a Season to a JSON string", e);
+			throw new SoccerException(
+					"Could not write user as JSON string", e);
 		}
 	}
 
-	public static void writeSeason(IDAOSeason season, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, season);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write a Season to a JSON string", e);
-		}
-	}
-	
-	public static String writeSeasons(List<IDAOSeason> seasons) throws SoccerException {
-		try {
-			return mapper.writeValueAsString(seasons);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Seasons as JSON string", e);
-		}
-	}
-	
-	public static void writeSeasons(List<IDAOSeason> seasons, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, seasons);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write List of Seasons as JSON string", e);
-		}
-	}
-	
-	public static IDAOUser readUser(InputStream is) throws SoccerException {
-		try {
-			return mapper.readValue(is, DAOUser.class);
-		} catch (IOException e) {
-			throw new SoccerException("Could not create User from Input Stream", e);
-		}
-	}
-	
-	public static void writeUserToStream(IDAOUser user, OutputStream out) throws SoccerException {
-		try {
-			mapper.writeValue(out, user);
-		} catch (IOException e) {
-			throw new SoccerException("Could not write User to a JSON string", e);
-		}
-	}
-
-	
 }
