@@ -22,8 +22,8 @@ public class GetTableResultSetHandler implements ResultSetHandler<List<TableRow>
 			" 	sum(losses) losses " + 
 			" FROM ( " + 
 			" 	SELECT p.id player_id, " +
-			" 		p.fname fname, " +
-			" 		p.lname lname, " +
+			" 		u.fname fname, " +
+			" 		u.lname lname, " +
 			" 		l.goal goals, " +
 			" 		l.points points, " +
 			" 		l.o_goal own_goals,  " + 
@@ -39,7 +39,9 @@ public class GetTableResultSetHandler implements ResultSetHandler<List<TableRow>
 			" 	INNER JOIN %s.lineup l " + 
 			" 		ON l.player_id = p.id " + 
 			" 	INNER JOIN %s.games_tbl g " + 
-			" 		ON g.game_id = l.game_id " + 
+			" 		ON g.game_id = l.game_id " +
+			"	INNER JOIN abugogo_soccer_sys.users u " + 
+			"		ON u.id = l.player_id " +
 			" 	WHERE p.active = 1 " + 
 			" ) as data_tbl " + 
 			" GROUP BY player_id, fname, lname " + 
