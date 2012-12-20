@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.soccer.entities.EntityManager;
-import com.soccer.entities.IDAOGame;
+import com.soccer.entities.impl.DAOGame;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 import com.soccer.lib.SoccerException;
@@ -17,7 +17,7 @@ public class GetGamesAction implements RESTAction {
 
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
-		List<IDAOGame> l = null;
+		List<DAOGame> l = null;
 		try {
 			l = SoccerService.getInstance().getGames();
 			EntityManager.writeGames(l, resp.getOutputStream());

@@ -7,10 +7,9 @@ import java.util.List;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
-import com.soccer.entities.ITableRow;
 import com.soccer.entities.impl.TableRow;
 
-public class GetTableResultSetHandler implements ResultSetHandler<List<ITableRow>> {
+public class GetTableResultSetHandler implements ResultSetHandler<List<TableRow>> {
 	public static final String QUERY = 
 			" SELECT player_id, " +
 			" 	fname, " +
@@ -56,9 +55,9 @@ public class GetTableResultSetHandler implements ResultSetHandler<List<ITableRow
 	}
 	
 	@Override
-	public List<ITableRow> handle(ResultSet rslt) throws SQLException {
-		List<ITableRow> table = new ArrayList<ITableRow>();
-		ITableRow row;
+	public List<TableRow> handle(ResultSet rslt) throws SQLException {
+		List<TableRow> table = new ArrayList<TableRow>();
+		TableRow row;
 		while (rslt.next()) {
 			row = new TableRow();
 			row.setFname(rslt.getString("fname"));

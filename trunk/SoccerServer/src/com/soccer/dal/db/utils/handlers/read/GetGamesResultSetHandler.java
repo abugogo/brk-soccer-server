@@ -9,9 +9,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOGame;
+import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOLineup;
 
-public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>> {
+public class GetGamesResultSetHandler implements ResultSetHandler<List<DAOGame>> {
 
 	public static final String QUERY = 
 			" SELECT g.game_id, g.game_name, g.game_date, " + 
@@ -33,9 +34,9 @@ public class GetGamesResultSetHandler implements ResultSetHandler<List<IDAOGame>
 	
 	
 	@Override
-	public List<IDAOGame> handle(ResultSet rslt) throws SQLException {
-		List<IDAOGame> games = new ArrayList<IDAOGame>();
-		IDAOGame lastGame = null;
+	public List<DAOGame> handle(ResultSet rslt) throws SQLException {
+		List<DAOGame> games = new ArrayList<DAOGame>();
+		DAOGame lastGame = null;
 		while (rslt.next()) {
 			if (lastGame == null || !rslt.getString("g.game_id").equals(lastGame.getGameId())) {
 				lastGame = EntityFactory.createGame(rslt);

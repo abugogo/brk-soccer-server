@@ -9,9 +9,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 import com.soccer.dal.db.utils.EntityFactory;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.impl.DAOPlayer;
 
 public class GetPlayersResultSetHandler implements
-		ResultSetHandler<List<IDAOPlayer>> {
+		ResultSetHandler<List<DAOPlayer>> {
 	public static final String QUERY = "SELECT u.id, u.fname, u.lname,"
 			+ "u.tel1, u.tel2, u.email, u.bday, u.fb_user, u.occupation,"
 			+ "u.address1, u.address2, p.description, u.P_img, p.Active"
@@ -32,8 +33,8 @@ public class GetPlayersResultSetHandler implements
 	}
 
 	@Override
-	public List<IDAOPlayer> handle(ResultSet rslt) throws SQLException {
-		List<IDAOPlayer> players = new ArrayList<IDAOPlayer>();
+	public List<DAOPlayer> handle(ResultSet rslt) throws SQLException {
+		List<DAOPlayer> players = new ArrayList<DAOPlayer>();
 		while (rslt.next()) {
 			players.add(EntityFactory.createPlayer(rslt));
 		}

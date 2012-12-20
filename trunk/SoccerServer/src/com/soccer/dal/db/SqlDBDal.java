@@ -41,9 +41,11 @@ import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.IDAOUser;
-import com.soccer.entities.ITableRow;
-import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.image.IImage;
+import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOPlayer;
+import com.soccer.entities.impl.TableRow;
+import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.http.context.RequestContext;
 import com.soccer.http.cookie.CookieGen;
 
@@ -86,7 +88,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<IDAOPlayer> getActivePlayers() {
+	public List<DAOPlayer> getActivePlayers() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
@@ -100,7 +102,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<IDAOPlayer> getPlayers() {
+	public List<DAOPlayer> getPlayers() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
@@ -114,7 +116,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<IDAOGame> getGames() {
+	public List<DAOGame> getGames() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
@@ -223,7 +225,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<IWinLoseStrip> getWinLoseStrips(String pid) {
+	public List<WinLoseStrip> getWinLoseStrips(String pid) {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
@@ -237,7 +239,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<ITableRow> getPlayersTable() {
+	public List<TableRow> getPlayersTable() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);

@@ -7,7 +7,9 @@ import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.SqlDBDal;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
-import com.soccer.entities.IWinLoseStrip;
+import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOPlayer;
+import com.soccer.entities.impl.WinLoseStrip;
 
 public class SoccerService implements IGamesAPI, IPlayersAPI {
 	private static SoccerService instance = null;
@@ -29,12 +31,12 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	IPlayersAPI playersAPI = SqlDBDal.getInst();
 	
 	@Override
-	public List<IDAOPlayer> getPlayers() {
+	public List<DAOPlayer> getPlayers() {
 		return playersAPI.getPlayers();
 	}
 	
 	@Override
-	public List<IDAOPlayer> getActivePlayers() {
+	public List<DAOPlayer> getActivePlayers() {
 		return playersAPI.getActivePlayers();
 	}
 
@@ -44,7 +46,7 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	}
 
 	@Override
-	public List<IDAOGame> getGames() {
+	public List<DAOGame> getGames() {
 		return gameApi.getGames();
 	}
 
@@ -69,7 +71,7 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	}
 
 	@Override
-	public List<IWinLoseStrip> getWinLoseStrips(String pid) {
+	public List<WinLoseStrip> getWinLoseStrips(String pid) {
 		return playersAPI.getWinLoseStrips(pid);
 	}
 }

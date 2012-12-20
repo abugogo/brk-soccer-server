@@ -2,8 +2,8 @@ package com.soccer.dal.api;
 
 import java.util.List;
 
-import com.soccer.entities.ITableRow;
+import com.soccer.entities.impl.TableRow;
 
 public interface ITableAPI {
-	List<ITableRow> getPlayersTable();
+	List<TableRow> getPlayersTable();
 }
