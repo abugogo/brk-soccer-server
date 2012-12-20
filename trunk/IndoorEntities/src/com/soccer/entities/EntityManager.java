@@ -2,10 +2,13 @@ package com.soccer.entities;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOSeason;
@@ -16,15 +19,15 @@ import com.soccer.lib.SoccerException;
 
 public class EntityManager {
 	// is it thread safe?
-	private static Gson gson = new Gson();
+	private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
 	public static IDAOPlayer readPlayer(String str) {
 		return gson.fromJson(str, DAOPlayer.class);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static ArrayList<IDAOPlayer> readPlayers(String str) {
-		return gson.fromJson(str, (new ArrayList<DAOPlayer>()).getClass());
+	public static ArrayList<DAOPlayer> readPlayers(String str) {
+		Type tListOfPlayers = new TypeToken<List<DAOPlayer>>(){}.getType();
+		return gson.fromJson(str, tListOfPlayers);
 	}
 
 	public static String writePlayer(IDAOPlayer player) throws SoccerException {
@@ -41,47 +44,51 @@ public class EntityManager {
 		}
 	}
 
-	public static String writePlayers(List<IDAOPlayer> players) {
-		return gson.toJson(players);
+	public static String writePlayers(List<DAOPlayer> players) {
+		Type tListOfPlayers = new TypeToken<List<DAOPlayer>>(){}.getType();
+		return gson.toJson(players, tListOfPlayers);
 	}
 
-	public static void writePlayersToStream(List<IDAOPlayer> players,
+	public static void writePlayersToStream(List<DAOPlayer> players,
 			OutputStream out) throws SoccerException {
 		try {
-			out.write(gson.toJson(players).getBytes());
+			Type tListOfPlayers = new TypeToken<List<DAOPlayer>>(){}.getType();
+			out.write(gson.toJson(players, tListOfPlayers).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
 					"Could not write List of Players as JSON string", e);
 		}
 	}
 
-	public static void writeWinLoseStripToStream(List<IWinLoseStrip> strips,
+	public static void writeWinLoseStripToStream(List<WinLoseStrip> strips,
 			OutputStream out) throws SoccerException {
 		try {
-			out.write(gson.toJson(strips).getBytes());
+			Type tListOfStrips = new TypeToken<List<WinLoseStrip>>(){}.getType();
+			out.write(gson.toJson(strips, tListOfStrips).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
 					"Could not write List of Players as JSON string", e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<IWinLoseStrip> readPlayerStats(String str) {
-		return gson.fromJson(str, (new ArrayList<WinLoseStrip>()).getClass());
+		Type tListOfStrips = new TypeToken<List<WinLoseStrip>>(){}.getType();
+		return gson.fromJson(str, tListOfStrips);
 	}
 
-	public static void writeTableToStream(List<ITableRow> table,
+	public static void writeTableToStream(List<TableRow> table,
 			OutputStream out) throws SoccerException {
 		try {
-			out.write(gson.toJson(table).getBytes());
+			Type tListOfTRow = new TypeToken<List<TableRow>>(){}.getType();
+			out.write(gson.toJson(table, tListOfTRow).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException("Could not write table as JSON string", e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<ITableRow> readTable(String str) throws SoccerException {
-		return gson.fromJson(str, (new ArrayList<TableRow>()).getClass());
+		Type tListOfTRow = new TypeToken<List<TableRow>>(){}.getType();
+		return gson.fromJson(str, tListOfTRow);
 	}
 
 	public static IDAOGame readGame(String str) {
@@ -101,15 +108,17 @@ public class EntityManager {
 		}
 	}
 
-	public static String writeGames(List<IDAOGame> games)
+	public static String writeGames(List<DAOGame> games)
 			throws SoccerException {
-		return gson.toJson(games);
+		Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
+		return gson.toJson(games, tListOfGames);
 	}
 
-	public static void writeGames(List<IDAOGame> games, OutputStream out)
+	public static void writeGames(List<DAOGame> games, OutputStream out)
 			throws SoccerException {
 		try {
-			out.write(gson.toJson(games).getBytes());
+			Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
+			out.write(gson.toJson(games, tListOfGames).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
 					"Could not write List of games as JSON string", e);
@@ -134,15 +143,17 @@ public class EntityManager {
 		}
 	}
 
-	public static String writeSeasons(List<IDAOSeason> seasons)
+	public static String writeSeasons(List<DAOSeason> seasons)
 			throws SoccerException {
-		return gson.toJson(seasons);
+		Type tListOfSeasons = new TypeToken<List<DAOSeason>>(){}.getType();
+		return gson.toJson(seasons, tListOfSeasons);
 	}
 
 	public static void writeSeasons(List<IDAOSeason> seasons, OutputStream out)
 			throws SoccerException {
 		try {
-			out.write(gson.toJson(seasons).getBytes());
+			Type tListOfSeasons = new TypeToken<List<DAOSeason>>(){}.getType();
+			out.write(gson.toJson(seasons, tListOfSeasons).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
 					"Could not write List of seasons as JSON string", e);
