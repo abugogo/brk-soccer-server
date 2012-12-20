@@ -16,17 +16,18 @@ import com.soccer.services.SoccerService;
 public class UpdatePlayerAction implements RESTAction {
 
 	@Override
-	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
+	public void invoke(RESTPath path, HttpServletRequest req,
+			HttpServletResponse resp) {
 		try {
 			Gson gson = new Gson();
-			IDAOPlayer p = gson.fromJson(req.getParameter("JSON"), DAOPlayer.class);
-			//IDAOPlayer p = EntityManager.readPlayer(req.getInputStream());
-			
-			//IDAOPlayer p = EntityManager.readPlayer(req.getInputStream());
+			IDAOPlayer p = gson.fromJson(req.getParameter("JSON"),
+					DAOPlayer.class);
+
 			if (!p.getId().equals(path.getPathArray()[1])) {
-				throw new SoccerException("Bad input - player id in url and player id in body are different");
+				throw new SoccerException(
+						"Bad input - player id in url and player id in body are different");
 			}
-			if(SoccerService.getInstance().updatePlayer(p) > 0)
+			if (SoccerService.getInstance().updatePlayer(p) > 0)
 				resp.getOutputStream().write("{result=success}".getBytes());
 			else
 				resp.getOutputStream().write("{result=failure}".getBytes());

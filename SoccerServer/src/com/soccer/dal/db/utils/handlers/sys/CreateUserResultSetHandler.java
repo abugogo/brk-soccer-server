@@ -10,7 +10,7 @@ import com.soccer.entities.IDAOUser;
 
 public class CreateUserResultSetHandler implements ResultSetHandler<IDAOUser> {
 
-	public static final String QUERY = "INSERT INTO abugogo_soccer_sys.users " +
+	private static final String QUERY = "INSERT INTO abugogo_soccer_sys.users " +
 			"(id, pwd, fname, lname, " +
 			"tel1, tel2, email, bday, fb_user, " +
 			"occupation, address1, address2, " +
@@ -20,6 +20,10 @@ public class CreateUserResultSetHandler implements ResultSetHandler<IDAOUser> {
 	
 	public static CreateUserResultSetHandler getInstance() {
 		return instance;
+	}
+	
+	public static String getQuery() {
+		return QUERY;
 	}
 	
 	@Override

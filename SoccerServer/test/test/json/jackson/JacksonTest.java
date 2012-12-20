@@ -27,7 +27,7 @@ public class JacksonTest {
 		game.setWgoals(3);
 		game.setWinner("b");
 		game.setLineup(lineup);
-		
+
 		DAOLineup l = new DAOLineup();
 		l.setColor("b");
 		l.setGameId(_123459324);
@@ -35,7 +35,7 @@ public class JacksonTest {
 		l.setPlayerId("5");
 		l.setPoints((short) 3);
 		lineup.add(l);
-		
+
 		l = new DAOLineup();
 		l.setColor("w");
 		l.setGameId(_123459324);
@@ -43,20 +43,16 @@ public class JacksonTest {
 		l.setPlayerId("6");
 		l.setPoints((short) 0);
 		lineup.add(l);
-		
+
 		String data = "";
-		try {
-			data = EntityManager.writeGame(game);
-			System.out.println(data);
-			IDAOGame game2 = EntityManager.readGame(data);
-			if (game2.getLineup().get(1).getGoal() == 3) {
-				System.out.println("Read the game correctly");
-			} else {
-				System.out.println("Did *not* read the game correctly");
-			}
-		} catch (SoccerException e) {
-			throw new RuntimeException("ahhhhhhhhhhhhhhh", e);
+		data = EntityManager.writeGame(game);
+		System.out.println(data);
+		IDAOGame game2 = EntityManager.readGame(data);
+		if (game2.getLineup().get(1).getGoal() == 3) {
+			System.out.println("Read the game correctly");
+		} else {
+			System.out.println("Did *not* read the game correctly");
 		}
-		
+
 	}
 }
