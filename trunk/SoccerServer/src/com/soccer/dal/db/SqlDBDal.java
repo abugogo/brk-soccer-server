@@ -35,6 +35,7 @@ import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserPasswordResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserSaltResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.IsUserInAccountResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.UpdateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.update.UpdatePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
@@ -161,8 +162,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
 			return _queryRunner.update(CreatePlayerResultSetHandler
-					.getQuery(schema), CreatePlayerResultSetHandler
-					.getInstance(), p.getId(),
+					.getQuery(schema), p.getId(),
 					(p.getPositionBean() == null) ? null : p.getPositionBean()
 							.getId(), p.getDescription(), 1);
 		} catch (SQLException e) {
@@ -181,11 +181,16 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.update(UpdatePlayerResultSetHandler
-					.getQuery(schema), UpdatePlayerResultSetHandler
-					.getInstance(), (p.getPositionBean() == null) ? null : p
-					.getPositionBean().getId(), p.getDescription(), p
-							.getActive(), p.getId());
+			_queryRunner.update(UpdatePlayerResultSetHandler.getQuery(schema),
+					(p.getPositionBean() == null) ? null : p.getPositionBean()
+							.getId(), p.getDescription(), p.getActive(), p
+							.getId());
+			return _queryRunner.update(UpdateUserResultSetHandler.getQuery(),
+					p.getFname(), p.getLname(), p.getTel1(), p.getTel2(),
+					p.getEmail(), p.getBday(), p.getFbUser(),
+					p.getOccupation(), p.getAddress1(), p.getAddress2(),
+					p.getP_img(), p.getId());
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -292,7 +297,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public IDAOUser getUser(String u, String p) {
 		try {
 			String encPwd = CookieGen.encodeString(p.concat(getUserSalt(u)));
-			return _queryRunner.query(GetSingleUserResultSetHandler.QUERY,
+			return _queryRunner.query(GetSingleUserResultSetHandler.getQuery(),
 					GetSingleUserResultSetHandler.getInstance(), u, encPwd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -305,7 +310,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			String encPwd = CookieGen
 					.encodeString(u.getPassword().concat(salt));
-			return _queryRunner.update(CreateUserResultSetHandler.QUERY, u
+			return _queryRunner.update(CreateUserResultSetHandler.getQuery(), u
 					.getId().toString(), encPwd, u.getFname(), u.getLname(), u
 					.getTel1(), u.getTel2(), u.getEmail(), u.getBday(), u
 					.getFbUser(), u.getOccupation(), u.getAddress1(), u
@@ -319,7 +324,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	@Override
 	public String getUserSalt(String u) {
 		try {
-			return _queryRunner.query(GetUserSaltResultSetHandler.QUERY,
+			return _queryRunner.query(GetUserSaltResultSetHandler.getQuery(),
 					GetUserSaltResultSetHandler.getInstance(), u);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -332,7 +337,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	@Override
 	public String getUserPassword(String u) {
 		try {
-			return _queryRunner.query(GetUserPasswordResultSetHandler.QUERY,
+			return _queryRunner.query(
+					GetUserPasswordResultSetHandler.getQuery(),
 					GetUserPasswordResultSetHandler.getInstance(), u);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -343,7 +349,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	@Override
 	public boolean isUserInAccount(String uid, String acc) {
 		try {
-			return _queryRunner.query(IsUserInAccountResultSetHandler.QUERY,
+			return _queryRunner.query(
+					IsUserInAccountResultSetHandler.getQuery(),
 					IsUserInAccountResultSetHandler.getInstance(), uid, acc);
 		} catch (Exception e) {
 			e.printStackTrace();

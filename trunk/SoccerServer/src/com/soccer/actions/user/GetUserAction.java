@@ -18,7 +18,7 @@ public class GetUserAction implements RESTAction {
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			IDAOUser user = EntityManager.readUser(req.getInputStream());
+			IDAOUser user = EntityManager.readUser(req.getParameter("JSON"));
 			if(user != null && user.getId().signum() == 1) {
 				IDAOUser u = SystemService.getInstance().getUser(user.getId().toString(), user.getPassword());
 				EntityManager.writeUserToStream(u, resp.getOutputStream());
@@ -26,10 +26,8 @@ public class GetUserAction implements RESTAction {
 			}
 			
 		} catch (SoccerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
