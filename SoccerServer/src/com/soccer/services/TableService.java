@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.soccer.dal.api.ITableAPI;
 import com.soccer.dal.db.SqlDBDal;
-import com.soccer.entities.ITableRow;
+import com.soccer.entities.impl.TableRow;
 
 public class TableService implements ITableAPI {
 	private static TableService instance = null;
@@ -25,7 +25,7 @@ public class TableService implements ITableAPI {
 	private ITableAPI tableAPI = SqlDBDal.getInst();
 
 	@Override
-	public List<ITableRow> getPlayersTable() {
+	public List<TableRow> getPlayersTable() {
 		return tableAPI.getPlayersTable();
 	}
 

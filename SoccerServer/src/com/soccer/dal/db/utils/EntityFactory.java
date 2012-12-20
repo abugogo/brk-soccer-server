@@ -4,8 +4,6 @@ import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.soccer.entities.IDAOGame;
-import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.IDAOUser;
 import com.soccer.entities.impl.DAOGame;
@@ -16,7 +14,7 @@ import com.soccer.entities.impl.DAOSeason;
 import com.soccer.entities.impl.DAOUser;
 
 public final class EntityFactory {
-	public static IDAOGame createGame(ResultSet rslt) throws SQLException {
+	public static DAOGame createGame(ResultSet rslt) throws SQLException {
 		DAOGame game = new DAOGame();
 		game.setGameId(rslt.getString("g.game_id"));
 		game.setBgoals(rslt.getInt("g.bgoals"));
@@ -43,8 +41,8 @@ public final class EntityFactory {
 		return lineup;
 	}
 	
-	public static IDAOPlayer createPlayer(ResultSet rslt) throws SQLException {
-		IDAOPlayer player = new DAOPlayer();
+	public static DAOPlayer createPlayer(ResultSet rslt) throws SQLException {
+		DAOPlayer player = new DAOPlayer();
 		player.setId(rslt.getString("id"));
 		player.setFname(rslt.getString("fname"));
 		player.setLname(rslt.getString("lname"));

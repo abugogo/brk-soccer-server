@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.soccer.entities.EntityManager;
 import com.soccer.entities.ITableRow;
+import com.soccer.entities.impl.TableRow;
 import com.soccer.http.ContentType;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
@@ -23,7 +24,7 @@ public class GetTableAction implements RESTAction {
 //			if (startDateStr != null) {
 //				
 //			}
-			List<ITableRow> table = TableService.getInstance().getPlayersTable();
+			List<TableRow> table = TableService.getInstance().getPlayersTable();
 			EntityManager.writeTableToStream(table, resp.getOutputStream());
 			resp.setContentType(ContentType.JSON.getType());
 		} catch (SoccerException e) {

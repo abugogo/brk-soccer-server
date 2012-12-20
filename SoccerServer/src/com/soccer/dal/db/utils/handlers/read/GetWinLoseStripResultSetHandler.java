@@ -7,10 +7,9 @@ import java.util.List;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
-import com.soccer.entities.IWinLoseStrip;
 import com.soccer.entities.impl.WinLoseStrip;
 
-public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<IWinLoseStrip>> {
+public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<WinLoseStrip>> {
 	
 	public static final String QUERY = 
 			"SELECT LNP.points, GMS.game_date " +
@@ -30,10 +29,10 @@ public class GetWinLoseStripResultSetHandler implements ResultSetHandler<List<IW
 	}
 
 	@Override
-	public List<IWinLoseStrip> handle(ResultSet rslt) throws SQLException {
-		List<IWinLoseStrip> res = new ArrayList<IWinLoseStrip>();
+	public List<WinLoseStrip> handle(ResultSet rslt) throws SQLException {
+		List<WinLoseStrip> res = new ArrayList<WinLoseStrip>();
 		Type lastType = null;
-		IWinLoseStrip strip = null;
+		WinLoseStrip strip = null;
 		int counter = 0;
 		while (rslt.next()) {
 			Type type = Type.fromPoints(rslt.getInt("points"), lastType);

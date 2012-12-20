@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.soccer.entities.EntityManager;
-import com.soccer.entities.IWinLoseStrip;
+import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.http.ContentType;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
@@ -20,7 +20,7 @@ public class GetPlayerStatsAction implements RESTAction {
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			String playerId = path.getPathArray()[1];
-			List<IWinLoseStrip> strips = SoccerService.getInstance().getWinLoseStrips(playerId);
+			List<WinLoseStrip> strips = SoccerService.getInstance().getWinLoseStrips(playerId);
 			EntityManager.writeWinLoseStripToStream(strips, resp.getOutputStream());
 			resp.setContentType(ContentType.JSON.getType());
 		} catch (SoccerException e) {
