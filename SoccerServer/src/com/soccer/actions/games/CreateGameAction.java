@@ -1,7 +1,11 @@
 package com.soccer.actions.games;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.http.HttpStatus;
 
 import com.soccer.entities.EntityManager;
 import com.soccer.entities.IDAOGame;
@@ -15,7 +19,18 @@ public class CreateGameAction implements RESTAction {
 	public void invoke(RESTPath path, HttpServletRequest req,
 			HttpServletResponse resp) {
 		IDAOGame game = EntityManager.readGame(req.getParameter("JSON"));
-		SoccerService.getInstance().createGame(game);
+		try {
+			if (SoccerService.getInstance().createGame(game) > 0) {
+				resp.getOutputStream().write("{result=success}".getBytes());
+				resp.setStatus(HttpStatus.SC_OK);
+			}
+			else {
+				resp.getOutputStream().write("{result=failure}".getBytes());
+				resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 }
