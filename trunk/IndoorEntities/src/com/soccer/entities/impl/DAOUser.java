@@ -1,5 +1,6 @@
 package com.soccer.entities.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
@@ -7,9 +8,8 @@ import java.util.Set;
 
 import com.soccer.entities.IDAOUser;
 
-public class DAOUser implements IDAOUser {
+public class DAOUser implements IDAOUser, Serializable  {
 
-	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	private String address1;
 	private String address2;
