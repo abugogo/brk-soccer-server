@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import com.soccer.entities.IDAOLineup;
 
-
 /**
  * The persistent class for the lineup database table.
  * 
@@ -14,18 +13,18 @@ public class DAOLineup implements Serializable, IDAOLineup {
 	private String gameId;
 	private String playerId;
 	private Object color;
-	private int goal;
+	private int goal = 0;
 	private String misc;
-	private int oGoal;
-	private short points;
+	private int oGoal = 0;
+	private short points = 0;
 
-    public DAOLineup() {
-    }
-
+	public DAOLineup() {
+	}
 
 	public String getGameId() {
 		return this.gameId;
 	}
+
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
@@ -33,6 +32,7 @@ public class DAOLineup implements Serializable, IDAOLineup {
 	public String getPlayerId() {
 		return this.playerId;
 	}
+
 	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
 	}
@@ -45,7 +45,6 @@ public class DAOLineup implements Serializable, IDAOLineup {
 		this.color = color;
 	}
 
-
 	public int getGoal() {
 		return this.goal;
 	}
@@ -53,7 +52,6 @@ public class DAOLineup implements Serializable, IDAOLineup {
 	public void setGoal(int goal) {
 		this.goal = goal;
 	}
-
 
 	public String getMisc() {
 		return this.misc;
@@ -63,7 +61,6 @@ public class DAOLineup implements Serializable, IDAOLineup {
 		this.misc = misc;
 	}
 
-
 	public int getOGoal() {
 		return this.oGoal;
 	}
@@ -72,7 +69,6 @@ public class DAOLineup implements Serializable, IDAOLineup {
 		this.oGoal = oGoal;
 	}
 
-
 	public short getPoints() {
 		return this.points;
 	}
@@ -80,6 +76,5 @@ public class DAOLineup implements Serializable, IDAOLineup {
 	public void setPoints(short points) {
 		this.points = points;
 	}
-
 
 }

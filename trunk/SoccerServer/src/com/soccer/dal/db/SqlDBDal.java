@@ -175,7 +175,13 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 
 	@Override
 	public int createGame(IDAOGame game) {
-		return CreateGameHandler.handle(_queryRunner, game);
+		try {
+			return CreateGameHandler.handle(_queryRunner, game);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
