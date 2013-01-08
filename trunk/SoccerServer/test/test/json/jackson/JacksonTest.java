@@ -10,7 +10,6 @@ import com.soccer.entities.EntityManager;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOLineup;
-import com.soccer.lib.SoccerException;
 
 public class JacksonTest {
 	private static final String _123459324 = "123459324";

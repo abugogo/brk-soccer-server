@@ -1,6 +1,5 @@
 package com.soccer.actions.games;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +19,13 @@ public class CreateGameAction implements RESTAction {
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req,
 			HttpServletResponse resp) {
-		
 
 		String json = RequestUtils.ReadJSON(req);
-		if(json != null && !json.isEmpty()) {
+		if (json != null && !json.isEmpty()) {
 			IDAOGame igame = EntityManager.readGame(json);
 			try {
-				if (SoccerService.getInstance().createGame(igame) > 0) {
+				if (igame != null
+						&& SoccerService.getInstance().createGame(igame) > 0) {
 					resp.getOutputStream().write("{result=success}".getBytes());
 					resp.setStatus(HttpStatus.SC_OK);
 				} else {

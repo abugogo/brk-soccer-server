@@ -49,7 +49,7 @@ public class SystemService implements IUsersAPI, ISchemaAPI {
 	}
 
 	@Override
-	public boolean isUserInAccount(String uid, String acc) {
+	public String isUserInAccount(String uid, String acc) {
 		return this.schemaApi.isUserInAccount(uid, acc);
 	}
 
