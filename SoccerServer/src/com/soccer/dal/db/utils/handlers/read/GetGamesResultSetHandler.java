@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 import com.soccer.dal.db.utils.EntityFactory;
-import com.soccer.entities.IDAOGame;
 import com.soccer.entities.impl.DAOGame;
 import com.soccer.entities.impl.DAOLineup;
 

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.soccer.entities.EntityManager;
-import com.soccer.entities.ITableRow;
 import com.soccer.entities.impl.TableRow;
 import com.soccer.http.ContentType;
 import com.soccer.http.rest.RESTAction;

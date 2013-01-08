@@ -12,32 +12,40 @@ public class RESTPathCtxtImpl implements RESTPath {
 	private String[] pathArray;
 	private String context;
 	private HttpMethod method;
-	
+
 	public RESTPathCtxtImpl(String path, HttpMethod method) throws Exception {
 		this.method = method;
-		
+
 		if (path == null) {
 			this.pathArray = new String[0];
 		} else {
-			if (path.startsWith("/")) { // Removing the first slash (/) if there is one.
+			if (path.startsWith("/")) { // Removing the first slash (/) if there
+										// is one.
 				path = path.substring(1);
 			}
 			String[] sarray = path.split("/");
-			if(sarray.length > 1) {
+			if (sarray.length > 1) {
 				context = sarray[0];
-				String uid = (String) RequestContext.getAttribute(RequestContext.LOGGED_IN_USER);
-				if(SystemService.getInstance().isUserInAccount(uid, context))
-					RequestContext.setAttribute(RequestContext.REQ_CONTEXT, context);
-				else 
-					throw new Exception("Unauthorised user. Does not belong to account");
-				this.pathArray = Arrays.copyOfRange(sarray, 1, sarray.length);//path.split("/");
+				String uid = (String) RequestContext
+						.getAttribute(RequestContext.LOGGED_IN_USER);
+				context = SystemService.getInstance().isUserInAccount(uid,
+						context);
+				if (context != null && !context.isEmpty())
+					RequestContext.setAttribute(RequestContext.REQ_CONTEXT,
+							context);
+				else
+					throw new Exception(
+							"Unauthorised user. Does not belong to account");
+				this.pathArray = Arrays.copyOfRange(sarray, 1, sarray.length);// path.split("/");
 			}
 		}
 
 		this.pathStr = path;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.soccer.http.rest.RESTPath#getPathStr()
 	 */
 	@Override
@@ -48,8 +56,10 @@ public class RESTPathCtxtImpl implements RESTPath {
 	public String getContext() {
 		return this.context;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.soccer.http.rest.RESTPath#getPathArray()
 	 */
 	@Override
@@ -57,14 +67,16 @@ public class RESTPathCtxtImpl implements RESTPath {
 		return pathArray;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.soccer.http.rest.RESTPath#getMethod()
 	 */
 	@Override
 	public HttpMethod getMethod() {
 		return method;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub

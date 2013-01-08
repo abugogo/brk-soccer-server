@@ -355,14 +355,14 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public boolean isUserInAccount(String uid, String acc) {
+	public String isUserInAccount(String uid, String acc) {
 		try {
 			return _queryRunner.query(
 					IsUserInAccountResultSetHandler.getQuery(),
 					IsUserInAccountResultSetHandler.getInstance(), uid, acc);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return "";
 		}
 	}
 
