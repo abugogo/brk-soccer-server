@@ -30,7 +30,7 @@ public class EntityManager {
 		return gson.fromJson(str, tListOfPlayers);
 	}
 
-	public static String writePlayer(IDAOPlayer player) throws SoccerException {
+	public static String writePlayer(IDAOPlayer player) {
 		return gson.toJson(player);
 	}
 

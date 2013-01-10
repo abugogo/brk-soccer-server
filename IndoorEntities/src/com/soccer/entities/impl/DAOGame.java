@@ -1,6 +1,7 @@
 package com.soccer.entities.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public class DAOGame implements Serializable, IDAOGame {
 	private String more;
 	private int wgoals;
 	private Object winner;
-	private List<DAOLineup> lineup;
+	private List<DAOLineup> lineup = new ArrayList<DAOLineup>();
 
     public DAOGame() {
     	
