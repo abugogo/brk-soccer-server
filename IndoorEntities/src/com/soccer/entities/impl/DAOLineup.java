@@ -13,12 +13,12 @@ import com.soccer.entities.IDAOLineup;
  */
 public class DAOLineup implements Serializable, IDAOLineup {
 	private static final long serialVersionUID = 1L;
-	private String gameId;
-	private String playerId;
-	private Object color;
-	private String misc;
-	private short points = 0;
-	private List<DAOLEvent> lstEvents = new ArrayList<DAOLEvent>();
+	protected String gameId;
+	protected String playerId;
+	protected Object color;
+	protected String misc;
+	protected short points = 0;
+	protected List<DAOLEvent> lstEvents = new ArrayList<DAOLEvent>();
 
 	public DAOLineup() {
 	}
@@ -92,33 +92,4 @@ public class DAOLineup implements Serializable, IDAOLineup {
 	public void addEvent(DAOLEvent ev) {
 		lstEvents.add(ev);
 	}
-
-	public String toStringEvents() {
-		String evts = "";
-		int g = 0, og = 0, r = 0, y = 0, c = 0;
-		for (DAOLEvent ge : lstEvents) {
-			switch (ge.getType()) {
-			case Goal:
-				g++;
-				break;
-			case O_Goal:
-				og++;
-				break;
-			case Y_Card:
-				y++;
-				break;
-			case R_Card:
-				r++;
-				break;
-			case Cook:
-				c++;
-				break;
-			}
-		}
-		evts = playerId
-				+ (((g + og + r + y + c) > 0) ? "(" + g + "," + og + "," + r
-						+ "," + y + "," + c + ")" : "");
-		return evts;
-	}
-
 }
