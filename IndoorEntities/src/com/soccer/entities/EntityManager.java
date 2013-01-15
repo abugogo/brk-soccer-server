@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -108,16 +109,16 @@ public class EntityManager {
 		}
 	}
 
-	public static String writeGames(List<DAOGame> games)
+	public static String writeGames(HashMap<String, DAOGame> games)
 			throws SoccerException {
-		Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
+		Type tListOfGames = new TypeToken<HashMap<String, DAOGame>>(){}.getType();
 		return gson.toJson(games, tListOfGames);
 	}
 
-	public static void writeGames(List<DAOGame> games, OutputStream out)
+	public static void writeGames(HashMap<String, DAOGame> games, OutputStream out)
 			throws SoccerException {
 		try {
-			Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
+			Type tListOfGames = new TypeToken<HashMap<String, DAOGame>>(){}.getType();
 			out.write(gson.toJson(games, tListOfGames).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
