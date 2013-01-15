@@ -10,8 +10,8 @@ import java.util.Set;
  * 
  */
 public interface IDAOUser {
-	public BigInteger getId();
-	public void setId(BigInteger id);
+	public String getId();
+	public void setId(String id);
 	public String getPassword();
 	public void setPassword(String pwd);
 	public String getAddress1() ;
