@@ -5,12 +5,13 @@ import java.sql.Time;
 
 import com.soccer.entities.IDAOLEvent;
 
-public class DAOLEvent implements Serializable,IDAOLEvent {
+public class DAOLEvent implements Serializable, IDAOLEvent {
 	private static final long serialVersionUID = 1L;
 	private EventType type;
 	private String gid = "";
 	private String pid = "";
 	private Time time = null;
+	public static EventType[] enumAsArray = EventType.values();
 
 	public EventType getType() {
 		return type;
@@ -19,6 +20,11 @@ public class DAOLEvent implements Serializable,IDAOLEvent {
 	public void setType(EventType t) {
 		type = t;
 
+	}
+
+	public void setType(int t) {
+		if (t < enumAsArray.length)
+			type = enumAsArray[t];
 	}
 
 	public String getGameId() {
@@ -43,7 +49,7 @@ public class DAOLEvent implements Serializable,IDAOLEvent {
 	}
 
 	public void setTime(Time t) {
-		time = t;		
+		time = t;
 	}
 
 }
