@@ -12,8 +12,8 @@ import com.soccer.entities.impl.DAOPosition;
 public interface IDAOPlayer {
 	public String getId();
 	public void setId(String id);
-	public byte[] getActive();
-	public void setActive(byte[] active);
+	public boolean isActive();
+	public void setActive(boolean active);
 	public String getAddress1() ;
 	public void setAddress1(String address1);
 	public String getAddress2() ;
@@ -34,10 +34,12 @@ public interface IDAOPlayer {
 	public void setOccupation(String occupation);
 	public String getP_img();
 	public void setP_img(String p_img);
-	public String getTel1();
+	public String getTel1(); 
 	public void setTel1(String tel1);
     public String getTel2();
 	public void setTel2(String tel2);
 	public IDAOPosition getPositionBean();
 	public void setPositionBean(DAOPosition positionBean);
+	public boolean isAdmin();
+	public boolean setAdmin(boolean val);
 }
