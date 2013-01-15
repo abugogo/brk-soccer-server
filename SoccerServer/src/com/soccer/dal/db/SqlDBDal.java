@@ -192,8 +192,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 					.getAttribute(RequestContext.REQ_CONTEXT);
 			_queryRunner.update(UpdatePlayerResultSetHandler.getQuery(schema),
 					(p.getPositionBean() == null) ? null : p.getPositionBean()
-							.getId(), p.getDescription(), p.getActive(), p
-							.getId());
+							.getId(), p.getDescription(), p.isActive(), p
+							.isAdmin(), p.getId());
 			return _queryRunner.update(UpdateUserResultSetHandler.getQuery(),
 					p.getFname(), p.getLname(), p.getTel1(), p.getTel2(),
 					p.getEmail(), p.getBday(), p.getFbUser(),

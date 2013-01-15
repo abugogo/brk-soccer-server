@@ -15,7 +15,7 @@ public class CreateUserAction implements RESTAction {
 	public void invoke(RESTPath path, HttpServletRequest req,
 			HttpServletResponse resp) {
 		IDAOUser user = EntityManager.readUser(req.getParameter("JSON"));
-		if (user != null && user.getId().signum() == 1) {
+		if (user != null && !"".equals(user.getId())) {
 			SystemService.getInstance().createUser(user, "");
 		}
 	}

@@ -12,7 +12,7 @@ public class GetSinglePlayerResultSetHandler implements
 		ResultSetHandler<IDAOPlayer> {
 	public static final String QUERY = "SELECT u.id, u.fname, u.lname,"
 			+ " u.tel1, u.tel2, u.email, u.bday, u.fb_user, u.occupation,"
-			+ " u.address1, u.address2, p.description, u.P_img, p.Active"
+			+ " u.address1, u.address2, p.description, u.P_img, p.Active, p.isAdmin"
 			+ " FROM %s.players as p"
 			+ " INNER JOIN abugogo_soccer_sys.users as u ON p.id=u.id"
 			+ " WHERE id = ?";
