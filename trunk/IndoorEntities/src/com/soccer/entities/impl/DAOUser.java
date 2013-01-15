@@ -1,8 +1,9 @@
 package com.soccer.entities.impl;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class DAOUser implements IDAOUser, Serializable  {
 	private String email;
 	private String fbUser;
 	private String fname;
-	private BigInteger id;
+	private String id;
 	private String lname;
 	private String occupation;
 	private String p_img;
@@ -26,6 +27,24 @@ public class DAOUser implements IDAOUser, Serializable  {
 	private String password;
 	Set<String> accounts = null;
 
+	public DAOUser() {
+		
+	}
+	
+	public DAOUser(HashMap<String, Object> columns) {
+		this.setId("" + columns.get("id"));
+		this.setFname((String) columns.get("fname"));
+		this.setLname((String) columns.get("lname"));
+		this.setTel1("" + columns.get("tel1"));
+		this.setTel2("" + columns.get("tel2"));
+		this.setEmail("" + columns.get("email"));
+		this.setBday((Date)columns.get("bday"));
+		this.setFbUser((String) columns.get("fb_user"));
+		this.setOccupation("" + columns.get("occupation"));
+		this.setAddress1("" + columns.get("address1"));
+		this.setAddress2("" + columns.get("address2"));
+		this.setP_img(null);		
+	}
 	public String getAddress1() {
 		return address1;
 	}
@@ -46,6 +65,18 @@ public class DAOUser implements IDAOUser, Serializable  {
 		return bday;
 	}
 
+    public String getBdayAsString(String format) {
+    	String retStr = "";
+    	if(this.getBday() != null) {
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(this.getBday());
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR);
+    		retStr = day + "." + month + "." + year;
+    	}
+		return retStr;
+	}
 	public void setBday(Date bday) {
 		this.bday = bday;
 	}
@@ -74,11 +105,11 @@ public class DAOUser implements IDAOUser, Serializable  {
 		this.fname = fname;
 	}
 
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
