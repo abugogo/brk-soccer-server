@@ -11,7 +11,7 @@ import com.soccer.entities.IDAOPlayer;
 public class UpdatePlayerResultSetHandler implements ResultSetHandler<IDAOPlayer> {
 
 	public static final String QUERY = "UPDATE %s.players " + "SET position = ?, "
-			+ "description = ?, Active = ? "
+			+ "description = ?, Active = ?, isAdmin = ? "
 			+ "WHERE id = ?";
 	private static final UpdatePlayerResultSetHandler instance = new UpdatePlayerResultSetHandler();
 	

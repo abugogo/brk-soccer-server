@@ -19,7 +19,7 @@ public class GetUserAction implements RESTAction {
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			IDAOUser user = EntityManager.readUser(req.getParameter("JSON"));
-			if(user != null && user.getId().signum() == 1) {
+			if(user != null && !"".equals(user.getId())) {
 				IDAOUser u = SystemService.getInstance().getUser(user.getId().toString(), user.getPassword());
 				EntityManager.writeUserToStream(u, resp.getOutputStream());
 				resp.setContentType(ContentType.JSON.getType());

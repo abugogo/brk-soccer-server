@@ -1,6 +1,5 @@
 package com.soccer.dal.db.utils;
 
-import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -56,7 +55,8 @@ public final class EntityFactory {
 		player.setAddress2(rslt.getString("address2"));
 		player.setDescription(rslt.getString("description"));
 		player.setP_img(rslt.getString("P_img"));
-		player.setActive(null);
+		player.setActive(rslt.getBoolean("Active"));
+		player.setAdmin(rslt.getBoolean("isAdmin"));
 		return player;
 	}
 
@@ -72,7 +72,7 @@ public final class EntityFactory {
 
 	public static IDAOUser createUser(ResultSet rslt) throws SQLException {
 		IDAOUser user = new DAOUser();
-		user.setId(BigInteger.valueOf(rslt.getLong("id")));
+		user.setId(rslt.getString("id"));
 		user.setFname(rslt.getString("fname"));
 		user.setLname(rslt.getString("lname"));
 		user.setTel1(rslt.getString("tel1"));

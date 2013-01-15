@@ -78,7 +78,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			DAOUser user = (DAOUser) SystemService.getInstance().getUser(
 					userID, password);
-			if (user != null && user.getId().signum() == 1) {
+			if (user != null && !"".equals(user.getId())) {
 				// set cookie
 				try {
 					String uid = user.getId().toString();
