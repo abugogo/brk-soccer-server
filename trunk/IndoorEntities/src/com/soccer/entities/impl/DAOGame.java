@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.soccer.entities.IDAOGame;
 
-
 /**
  * The persistent class for the games_tbl database table.
  * 
@@ -25,25 +24,25 @@ public class DAOGame implements Serializable, IDAOGame {
 	private String more;
 	private int wgoals;
 	private Object winner;
-	private List<DAOLineup> lineup = new ArrayList<DAOLineup>();
+	private List<PrintableLineup> lineup = new ArrayList<PrintableLineup>();
 
-    public DAOGame() {
-    	
-    }
+	public DAOGame() {
 
-    public DAOGame(HashMap<String, Object> columns) {
-    	this.setGameId("" + columns.get("game_id"));
-    	this.setBgoals((Integer) columns.get("bgoals"));
-    	this.setDescription((String) columns.get("description"));
-    	this.setGameDate((Date)columns.get("game_date"));
-    	this.setGameName((String) columns.get("game_name"));
-    	this.setHasDraft((byte)((Boolean) columns.get("has_draft")?1:0));
-    	this.setMisc((String) columns.get("misc"));
-    	this.setMore((String) columns.get("more"));
-    	this.setWgoals((Integer)columns.get("wgoals"));
-    	this.setWinner((String) columns.get("winner"));
 	}
-    
+
+	public DAOGame(HashMap<String, Object> columns) {
+		this.setGameId("" + columns.get("game_id"));
+		this.setBgoals((Integer) columns.get("bgoals"));
+		this.setDescription((String) columns.get("description"));
+		this.setGameDate((Date) columns.get("game_date"));
+		this.setGameName((String) columns.get("game_name"));
+		this.setHasDraft((byte) ((Boolean) columns.get("has_draft") ? 1 : 0));
+		this.setMisc((String) columns.get("misc"));
+		this.setMore((String) columns.get("more"));
+		this.setWgoals((Integer) columns.get("wgoals"));
+		this.setWinner((String) columns.get("winner"));
+	}
+
 	public String getGameId() {
 		return this.gameId;
 	}
@@ -51,7 +50,6 @@ public class DAOGame implements Serializable, IDAOGame {
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
-
 
 	public int getBgoals() {
 		return this.bgoals;
@@ -61,7 +59,6 @@ public class DAOGame implements Serializable, IDAOGame {
 		this.bgoals = bgoals;
 	}
 
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -69,7 +66,6 @@ public class DAOGame implements Serializable, IDAOGame {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 
 	public Date getGameDate() {
 		return this.gameDate;
@@ -79,7 +75,6 @@ public class DAOGame implements Serializable, IDAOGame {
 		this.gameDate = gameDate;
 	}
 
-
 	public String getGameName() {
 		return this.gameName;
 	}
@@ -87,7 +82,6 @@ public class DAOGame implements Serializable, IDAOGame {
 	public void setGameName(String gameName) {
 		this.gameName = gameName;
 	}
-
 
 	public byte getHasDraft() {
 		return this.hasDraft;
@@ -97,7 +91,6 @@ public class DAOGame implements Serializable, IDAOGame {
 		this.hasDraft = hasDraft;
 	}
 
-
 	public String getMisc() {
 		return this.misc;
 	}
@@ -105,7 +98,6 @@ public class DAOGame implements Serializable, IDAOGame {
 	public void setMisc(String misc) {
 		this.misc = misc;
 	}
-
 
 	public String getMore() {
 		return this.more;
@@ -115,7 +107,6 @@ public class DAOGame implements Serializable, IDAOGame {
 		this.more = more;
 	}
 
-
 	public int getWgoals() {
 		return this.wgoals;
 	}
@@ -123,7 +114,6 @@ public class DAOGame implements Serializable, IDAOGame {
 	public void setWgoals(int wgoals) {
 		this.wgoals = wgoals;
 	}
-
 
 	public Object getWinner() {
 		return this.winner;
@@ -133,11 +123,11 @@ public class DAOGame implements Serializable, IDAOGame {
 		this.winner = winner;
 	}
 
-	public List<DAOLineup> getLineup() {
+	public List<PrintableLineup> getLineup() {
 		return this.lineup;
 	}
 
-	public void setLineup(List<DAOLineup> lineup) {
+	public void setLineup(List<PrintableLineup> lineup) {
 		this.lineup = lineup;
 	}
 }

@@ -11,7 +11,8 @@ import com.soccer.entities.IDAOLineup;
  * The persistent class for the lineup database table.
  * 
  */
-public class DAOLineup implements Serializable, IDAOLineup {
+public class DAOLineup implements Serializable, Comparable<DAOLineup>,
+		IDAOLineup {
 	private static final long serialVersionUID = 1L;
 	protected String gameId;
 	protected String playerId;
@@ -91,5 +92,21 @@ public class DAOLineup implements Serializable, IDAOLineup {
 
 	public void addEvent(DAOLEvent ev) {
 		lstEvents.add(ev);
+	}
+
+	public int compareTo(DAOLineup another) {
+		int c = -1;
+		try {
+			if (another != null) {
+				if (playerId.compareTo(another.getPlayerId()) == 0
+						&& gameId.compareTo(another.getGameId()) == 0) {
+					c = 0;
+				}
+			}
+		} catch (NullPointerException npe) {
+			// should not get here. DAOLineup with either one of the values null
+			// is illegal
+		}
+		return c;
 	}
 }
