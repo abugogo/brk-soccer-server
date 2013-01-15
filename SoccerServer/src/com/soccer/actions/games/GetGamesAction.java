@@ -1,7 +1,7 @@
 package com.soccer.actions.games;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ public class GetGamesAction implements RESTAction {
 
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
-		List<DAOGame> l = null;
+		HashMap<String, DAOGame> l = null;
 		try {
 			l = SoccerService.getInstance().getGames();
 			EntityManager.writeGames(l, resp.getOutputStream());

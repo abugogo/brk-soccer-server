@@ -1,5 +1,6 @@
 package com.soccer.services;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.soccer.dal.api.IGamesAPI;
@@ -46,7 +47,7 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	}
 
 	@Override
-	public List<DAOGame> getGames() {
+	public HashMap<String, DAOGame> getGames() {
 		return gameApi.getGames();
 	}
 

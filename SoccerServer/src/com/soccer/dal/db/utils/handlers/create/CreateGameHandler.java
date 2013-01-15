@@ -10,7 +10,9 @@ import java.util.Iterator;
 import org.apache.commons.dbutils.QueryRunner;
 
 import com.soccer.entities.IDAOGame;
+import com.soccer.entities.impl.DAOLEvent;
 import com.soccer.entities.impl.DAOLineup;
+import com.soccer.entities.impl.PrintableLineup;
 import com.soccer.http.context.RequestContext;
 
 public class CreateGameHandler {
@@ -47,6 +49,7 @@ public class CreateGameHandler {
 			stmt.executeUpdate();
 			ResultSet res = stmt.getGeneratedKeys();
 			int game_id = 0;
+			int events_num = 0;
 			if (res.next())
 				game_id = res.getInt(1);
 			if (game_id != 0) {
@@ -54,22 +57,40 @@ public class CreateGameHandler {
 				PreparedStatement lustmt = conn
 						.prepareStatement(CreateLineupResultSetHandler
 								.getQuery(schema));
-				for (Iterator<DAOLineup> it = game.getLineup().iterator(); it
+				PreparedStatement evtstmt = conn
+						.prepareStatement(CreateLineupEventsResultSetHandler
+								.getQuery(schema));
+				for (Iterator<PrintableLineup> it = game.getLineup().iterator(); it
 						.hasNext();) {
 					DAOLineup lineup = it.next();
 					lustmt.setInt(1, game_id);
-					lustmt.setInt(2, Integer.parseInt(lineup.getPlayerId()));
+					lustmt.setString(2, lineup.getPlayerId());
 					lustmt.setString(3, lineup.getColor().toString());
 					lustmt.setInt(4, lineup.getGoal());
 					lustmt.setInt(5, lineup.getOGoal());
 					lustmt.setInt(6, lineup.getPoints());
 					lustmt.setString(7, "");
 					lustmt.addBatch();
-					// succUp += stmt.executeUpdate();
+					if (lineup.getEvents() != null) {
+						for (Iterator<DAOLEvent> evtit = lineup.getEvents()
+								.iterator(); evtit.hasNext();) {
+							DAOLEvent evt = evtit.next();
+							evtstmt.setString(1, evt.getPlayerId());
+							evtstmt.setInt(2, game_id);
+							evtstmt.setInt(3, evt.getType().ordinal());
+							evtstmt.setTime(4, evt.getTime());
+							evtstmt.addBatch();
+							events_num++;
+						}
+					}
 				}
 				succUp = lustmt.executeBatch();
 				commit = (succUp != null && succUp.length == game.getLineup()
 						.size());
+				if (commit) {
+					int[] succEvts = evtstmt.executeBatch();
+					commit &= (succEvts != null && succEvts.length == events_num);
+				}
 			} else
 				commit = false;
 

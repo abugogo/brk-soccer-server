@@ -9,14 +9,14 @@ import org.junit.Test;
 import com.soccer.entities.EntityManager;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.impl.DAOGame;
-import com.soccer.entities.impl.DAOLineup;
+import com.soccer.entities.impl.PrintableLineup;
 
 public class JacksonTest {
 	private static final String _123459324 = "123459324";
 
 	@Test
 	public void testDAOGame() {
-		List<DAOLineup> lineup = new ArrayList<DAOLineup>();
+		List<PrintableLineup> lineup = new ArrayList<PrintableLineup>();
 		IDAOGame game = new DAOGame();
 		game.setBgoals(5);
 		game.setDescription("Game desc");
@@ -27,18 +27,16 @@ public class JacksonTest {
 		game.setWinner("b");
 		game.setLineup(lineup);
 
-		DAOLineup l = new DAOLineup();
+		PrintableLineup l = new PrintableLineup();
 		l.setColor("b");
 		l.setGameId(_123459324);
-		l.setGoal(5);
 		l.setPlayerId("5");
 		l.setPoints((short) 3);
 		lineup.add(l);
 
-		l = new DAOLineup();
+		l = new PrintableLineup();
 		l.setColor("w");
 		l.setGameId(_123459324);
-		l.setGoal(3);
 		l.setPlayerId("6");
 		l.setPoints((short) 0);
 		lineup.add(l);
