@@ -24,6 +24,7 @@ public class DAOGame implements Serializable, IDAOGame {
 	private String more;
 	private int wgoals;
 	private Object winner;
+	private GameStatus gameStatus; 
 	private List<PrintableLineup> lineup = new ArrayList<PrintableLineup>();
 
 	public DAOGame() {
@@ -129,5 +130,13 @@ public class DAOGame implements Serializable, IDAOGame {
 
 	public void setLineup(List<PrintableLineup> lineup) {
 		this.lineup = lineup;
+	}
+
+	public GameStatus getStatus() {
+		return gameStatus;
+	}
+
+	public void setStatus(GameStatus gs) {
+		gameStatus = gs;
 	}
 }
