@@ -2,6 +2,7 @@ package com.soccer.dal.db.utils.handlers.read;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -12,7 +13,7 @@ import com.soccer.entities.impl.DAOLEvent;
 import com.soccer.entities.impl.PrintableLineup;
 
 public class GetGamesResultSetHandler implements
-		ResultSetHandler<HashMap<String, DAOGame>> {
+		ResultSetHandler<Collection<DAOGame>> {
 
 	public static final String QUERY = " SELECT g.game_id, g.game_name, g.game_date, "
 			+ "   g.winner, g.wgoals, g.bgoals, g.has_draft, "
@@ -34,7 +35,7 @@ public class GetGamesResultSetHandler implements
 	}
 
 	@Override
-	public HashMap<String, DAOGame> handle(ResultSet rslt) throws SQLException {
+	public Collection<DAOGame> handle(ResultSet rslt) throws SQLException {
 		HashMap<String, DAOGame> games = new HashMap<String, DAOGame>();
 
 		while (rslt.next()) {
@@ -55,7 +56,7 @@ public class GetGamesResultSetHandler implements
 			
 
 		}
-		return games;
+		return games.values();
 	}
 
 }

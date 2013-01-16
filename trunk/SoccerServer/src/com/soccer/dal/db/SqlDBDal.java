@@ -2,7 +2,7 @@ package com.soccer.dal.db;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 
 import javax.naming.Context;
@@ -117,7 +117,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public HashMap<String, DAOGame> getGames() {
+	public Collection<DAOGame> getGames() {
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT);
