@@ -92,7 +92,7 @@ public class EntityManager {
 		return gson.fromJson(str, tListOfTRow);
 	}
 
-	public static IDAOGame readGame(String str) {
+	public static DAOGame readGame(String str) {
 		return gson.fromJson(str, DAOGame.class);
 	}
 
