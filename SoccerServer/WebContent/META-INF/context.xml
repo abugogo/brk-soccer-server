@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" reloadable="true">
 	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver"
-		maxActive="30" maxIdle="1000" name="jdbc/SoccerServerDB" password=""
-		type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/abugogo_soccer_sys"
+		maxActive="30" maxIdle="1000" name="jdbc/SoccerServerDB" password="1234"
+		type="javax.sql.DataSource"
+		url="jdbc:mysql://localhost:3306/abugogo_soccer_sys?zeroDateTimeBehavior=convertToNull"
 		username="root" />
 </Context>
