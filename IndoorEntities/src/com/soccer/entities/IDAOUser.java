@@ -1,6 +1,5 @@
 package com.soccer.entities;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.Set;
 
