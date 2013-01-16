@@ -6,6 +6,12 @@ import java.util.List;
 import com.soccer.entities.impl.PrintableLineup;
 
 public interface IDAOGame {
+	public static enum GameStatus {
+		Pending,
+		Failed,
+		Success
+	}
+	
 	public String getGameId();
 
 	public void setGameId(String gameId);
@@ -49,4 +55,8 @@ public interface IDAOGame {
 	public List<PrintableLineup> getLineup();
 
 	public void setLineup(List<PrintableLineup> lineup);
+	
+	public GameStatus getStatus();
+	
+	public void setStatus(GameStatus gs);
 }
