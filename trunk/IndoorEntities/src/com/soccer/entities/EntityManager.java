@@ -95,6 +95,11 @@ public class EntityManager {
 	public static DAOGame readGame(String str) {
 		return gson.fromJson(str, DAOGame.class);
 	}
+	
+	public static ArrayList<DAOGame> readGames(String str) {
+		Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
+		return gson.fromJson(str, tListOfGames);
+	}
 
 	public static String writeGame(IDAOGame game) {
 		return gson.toJson(game);
@@ -115,14 +120,14 @@ public class EntityManager {
 		return gson.toJson(games, tListOfGames);
 	}
 
-	public static void writeGames(HashMap<String, DAOGame> games, OutputStream out)
-			throws SoccerException {
+	public static void writeGamesToStream(List<DAOGame> games,
+			OutputStream out) throws SoccerException {
 		try {
-			Type tListOfGames = new TypeToken<HashMap<String, DAOGame>>(){}.getType();
+			Type tListOfGames = new TypeToken<List<DAOGame>>(){}.getType();
 			out.write(gson.toJson(games, tListOfGames).getBytes());
 		} catch (IOException e) {
 			throw new SoccerException(
-					"Could not write List of games as JSON string", e);
+					"Could not write List of Games as JSON string", e);
 		}
 	}
 
