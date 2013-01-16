@@ -1,7 +1,7 @@
 package com.soccer.actions.games;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +17,10 @@ public class GetGamesAction implements RESTAction {
 
 	@Override
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
-		HashMap<String, DAOGame> l = null;
+		LinkedList<DAOGame> l = null;
 		try {
-			l = SoccerService.getInstance().getGames();
-			EntityManager.writeGames(l, resp.getOutputStream());
+			l = new LinkedList<DAOGame>(SoccerService.getInstance().getGames());
+			EntityManager.writeGamesToStream(l, resp.getOutputStream());
 			resp.setContentType("application/json");
 		} catch (IOException e) {
 			e.printStackTrace();
