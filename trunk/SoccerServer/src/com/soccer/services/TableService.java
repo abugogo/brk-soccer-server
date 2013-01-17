@@ -25,8 +25,8 @@ public class TableService implements ITableAPI {
 	private ITableAPI tableAPI = SqlDBDal.getInst();
 
 	@Override
-	public List<TableRow> getPlayersTable() {
-		return tableAPI.getPlayersTable();
+	public List<TableRow> getPlayersTable(String schema) {
+		return tableAPI.getPlayersTable(schema);
 	}
 
 }

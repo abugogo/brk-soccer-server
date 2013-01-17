@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import com.soccer.data.access.StatsDA;
 import com.soccer.entities.EntityManager;
 import com.soccer.entities.IDAOGame;
+import com.soccer.http.context.RequestContext;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 import com.soccer.http.utils.RequestUtils;
@@ -26,6 +28,8 @@ public class CreateGameAction implements RESTAction {
 			try {
 				if (igame != null
 						&& SoccerService.getInstance().createGame(igame) > 0) {
+					StatsDA.getInst().remove((String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT));
 					resp.getOutputStream().write("{result=success}".getBytes());
 					resp.setStatus(HttpStatus.SC_OK);
 				} else {

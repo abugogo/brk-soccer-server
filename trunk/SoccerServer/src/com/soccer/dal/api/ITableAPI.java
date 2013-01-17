@@ -5,5 +5,5 @@ import java.util.List;
 import com.soccer.entities.impl.TableRow;
 
 public interface ITableAPI {
-	List<TableRow> getPlayersTable();
+	List<TableRow> getPlayersTable(String schema);
 }
