@@ -6,13 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.soccer.data.access.StatsDA;
 import com.soccer.entities.EntityManager;
 import com.soccer.entities.impl.TableRow;
 import com.soccer.http.ContentType;
+import com.soccer.http.context.RequestContext;
 import com.soccer.http.rest.RESTAction;
 import com.soccer.http.rest.RESTPath;
 import com.soccer.lib.SoccerException;
-import com.soccer.services.TableService;
 
 public class GetTableAction implements RESTAction {
 
@@ -23,7 +24,8 @@ public class GetTableAction implements RESTAction {
 //			if (startDateStr != null) {
 //				
 //			}
-			List<TableRow> table = TableService.getInstance().getPlayersTable();
+			List<TableRow> table = StatsDA.getInst().getPlayersTable((String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT));
 			EntityManager.writeTableToStream(table, resp.getOutputStream());
 			resp.setContentType(ContentType.JSON.getType());
 		} catch (SoccerException e) {

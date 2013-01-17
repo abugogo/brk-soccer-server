@@ -246,10 +246,8 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public List<TableRow> getPlayersTable() {
+	public List<TableRow> getPlayersTable(String schema) {
 		try {
-			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
 			return _queryRunner.query(
 					GetTableResultSetHandler.getQuery(schema),
 					GetTableResultSetHandler.getInstance());
