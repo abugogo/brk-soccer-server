@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.openid4java.discovery.Identifier;
 
-@WebServlet("/openid")
+//@WebServlet("/openid")
 public class OpenIDServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
