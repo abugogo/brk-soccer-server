@@ -4,17 +4,17 @@ import java.util.Date;
 
 import com.soccer.entities.IWinLoseStrip;
 
-public class WinLoseStrip implements IWinLoseStrip {
-	private String type;
+public class WinLoseStrip implements IWinLoseStrip {	
+	private GameResultType type;
 	private int number;
 	private Date startDate;
 	private Date endDate;
 	
-	public String getType() {
+	public GameResultType getType() {
 		return this.type;
 	}
 
-	public void setType(String type) {
+	public void setType(GameResultType type) {
 		this.type = type;
 	}
 
