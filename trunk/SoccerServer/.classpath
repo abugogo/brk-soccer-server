@@ -21,12 +21,12 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/openid4java-0.9.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar" sourcepath="C:/Users/user/Udi/commons-fileupload-1.2.2/src"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-all-1.9.8.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/SoccerEntities.jar" sourcepath="/IndoorEntities"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="external/servlet-api.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SoccerServerEntities"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

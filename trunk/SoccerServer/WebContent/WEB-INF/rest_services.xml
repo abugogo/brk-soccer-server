@@ -40,7 +40,7 @@
         <method>PUT</method>
         <class>com.soccer.actions.games.CreateGameAction</class>
     </entity>
-    <entity>
+    <!-- entity>
         <uri>images</uri>
         <method>POST</method>
         <class>com.soccer.actions.images.SaveImageAction</class>
@@ -54,7 +54,7 @@
         <uri>images/*</uri>
         <method>GET</method>
         <class>com.soccer.actions.images.GetImageAction</class>
-    </entity>
+    </entity-->
     <entity>
         <uri>table</uri>
         <method>GET</method>
