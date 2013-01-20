@@ -20,7 +20,7 @@ import com.soccer.lib.SoccerException;
 
 public class EntityManager {
 	// is it thread safe?
-	private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+	private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 
 	public static IDAOPlayer readPlayer(String str) {
 		return gson.fromJson(str, DAOPlayer.class);
