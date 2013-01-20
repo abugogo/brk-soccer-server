@@ -3,8 +3,12 @@ package com.soccer.entities;
 import java.util.Date;
 
 public interface IWinLoseStrip {
-	String getType();
-	void setType(String type);
+	public enum GameResultType {
+		WIN, LOSE, TIE;
+	}
+	
+	GameResultType getType();
+	void setType(GameResultType type);
 	int getNumber();
 	void setNumber(int number);
 	Date getStartDate();
