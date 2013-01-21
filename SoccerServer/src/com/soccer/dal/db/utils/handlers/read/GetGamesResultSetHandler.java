@@ -2,8 +2,8 @@ package com.soccer.dal.db.utils.handlers.read;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -13,7 +13,7 @@ import com.soccer.entities.impl.DAOLEvent;
 import com.soccer.entities.impl.PrintableLineup;
 
 public class GetGamesResultSetHandler implements
-		ResultSetHandler<Collection<DAOGame>> {
+		ResultSetHandler<Map<String, DAOGame>> {
 
 	public static final String QUERY = " SELECT g.game_id, g.game_name, g.game_date, "
 			+ "   g.winner, g.wgoals, g.bgoals, g.has_draft, "
@@ -22,7 +22,8 @@ public class GetGamesResultSetHandler implements
 			+ "   e.pid, e.gid, e.type, e.time, e.id"
 			+ " FROM %s.games_tbl g "
 			+ " LEFT OUTER JOIN %s.lineup l ON g.game_id = l.game_id "
-			+ " LEFT OUTER JOIN %s.lineup_events e ON l.game_id = e.gid AND l.player_id = e.pid;";
+			+ " LEFT OUTER JOIN %s.lineup_events e ON l.game_id = e.gid AND l.player_id = e.pid "
+			+ " ORDER BY g.game_date DESC;";
 
 	private static final GetGamesResultSetHandler instance = new GetGamesResultSetHandler();
 
@@ -35,8 +36,8 @@ public class GetGamesResultSetHandler implements
 	}
 
 	@Override
-	public Collection<DAOGame> handle(ResultSet rslt) throws SQLException {
-		HashMap<String, DAOGame> games = new HashMap<String, DAOGame>();
+	public Map<String, DAOGame> handle(ResultSet rslt) throws SQLException {
+		Map<String, DAOGame> games = new LinkedHashMap<String, DAOGame>();
 
 		while (rslt.next()) {
 			// first create a lineup. if the lineup's game was not created,
@@ -56,7 +57,7 @@ public class GetGamesResultSetHandler implements
 			
 
 		}
-		return games.values();
+		return games;
 	}
 
 }

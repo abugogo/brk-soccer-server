@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Iterator;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -37,7 +38,7 @@ public class CreateGameHandler {
 			PreparedStatement stmt = conn.prepareStatement(getQuery(schema),
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, "");
-			stmt.setDate(2, new java.sql.Date(game.getGameDate().getTime()));
+			stmt.setTimestamp(2, new Timestamp(game.getGameDate().getTime()));
 			stmt.setString(3, game.getWinner().toString());
 			stmt.setInt(4, game.getWgoals());
 			stmt.setInt(5, game.getBgoals());
