@@ -31,6 +31,21 @@ public class DAOGame implements Serializable, IDAOGame {
 
 	}
 
+	public DAOGame(DAOGame g) {
+		setGameId(g.getGameId());
+		setBgoals(g.getBgoals());
+		setWgoals(g.getWgoals());
+		setDescription(g.getDescription());
+		setGameDate(g.getGameDate());
+		setGameName(g.getGameName());
+		setHasDraft(g.getHasDraft());
+		setMisc(g.getMisc());
+		setMore(g.getMore());
+		setWinner(g.getWinner());
+		setLineup(g.getLineup());
+		
+	}
+	
 	public DAOGame(HashMap<String, Object> columns) {
 		this.setGameId("" + columns.get("game_id"));
 		this.setBgoals((Integer) columns.get("bgoals"));
@@ -129,7 +144,7 @@ public class DAOGame implements Serializable, IDAOGame {
 	}
 
 	public void setLineup(List<PrintableLineup> lineup) {
-		this.lineup = lineup;
+		this.lineup = new ArrayList<PrintableLineup>(lineup);
 	}
 
 	public GameStatus getStatus() {
