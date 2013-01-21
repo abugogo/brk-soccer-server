@@ -19,7 +19,7 @@ public final class EntityFactory {
 		game.setGameId(rslt.getString("g.game_id"));
 		game.setBgoals(rslt.getInt("g.bgoals"));
 		game.setDescription(rslt.getString("g.description"));
-		game.setGameDate(rslt.getDate("g.game_date"));
+		game.setGameDate(rslt.getTimestamp("g.game_date"));
 		game.setGameName(rslt.getString("g.game_name"));
 		game.setHasDraft((byte) (rslt.getBoolean("g.has_draft") ? 1 : 0));
 		game.setMisc(rslt.getString("g.misc"));

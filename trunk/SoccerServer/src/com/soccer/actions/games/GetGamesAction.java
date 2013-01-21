@@ -19,7 +19,7 @@ public class GetGamesAction implements RESTAction {
 	public void invoke(RESTPath path, HttpServletRequest req, HttpServletResponse resp) {
 		LinkedList<DAOGame> l = null;
 		try {
-			l = new LinkedList<DAOGame>(SoccerService.getInstance().getGames());
+			l = new LinkedList<DAOGame>(SoccerService.getInstance().getGames().values());
 			EntityManager.writeGamesToStream(l, resp.getOutputStream());
 			resp.setContentType("application/json");
 		} catch (IOException e) {
