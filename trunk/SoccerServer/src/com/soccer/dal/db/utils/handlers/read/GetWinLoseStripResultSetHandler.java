@@ -98,9 +98,11 @@ public class GetWinLoseStripResultSetHandler implements
 			wstrip = strip;
 		} else if (!win_stripe && strip.getNumber() > lstrip.getNumber())
 			lstrip = strip;
-		res.add(wstrip);
-		res.add(lstrip);
-		
+		if (wstrip.getStartDate() != null && wstrip.getEndDate() != null)
+			res.add(wstrip);
+		if (lstrip.getStartDate() != null && lstrip.getEndDate() != null)
+			res.add(lstrip);
+
 		return res;
 	}
 
