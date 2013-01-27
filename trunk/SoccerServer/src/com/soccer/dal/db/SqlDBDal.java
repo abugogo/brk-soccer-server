@@ -2,6 +2,7 @@ package com.soccer.dal.db;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,18 +20,20 @@ import com.soccer.dal.api.ISchemaAPI;
 import com.soccer.dal.api.ISeasonAPI;
 import com.soccer.dal.api.ITableAPI;
 import com.soccer.dal.api.IUsersAPI;
+import com.soccer.dal.db.utils.ProcRunner;
 import com.soccer.dal.db.utils.handlers.create.CreateGameHandler;
 import com.soccer.dal.db.utils.handlers.create.CreatePlayerResultSetHandler;
 import com.soccer.dal.db.utils.handlers.create.CreateSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetIImageResultHandler;
+import com.soccer.dal.db.utils.handlers.read.GetPlayerRecordsResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetPlayerStatsResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSeasonsResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSingleGameResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSinglePlayerResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSingleSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetTableResultSetHandler;
-import com.soccer.dal.db.utils.handlers.read.GetWinLoseStripResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.CreateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserPasswordResultSetHandler;
@@ -43,10 +46,11 @@ import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.IDAOUser;
 import com.soccer.entities.image.IImage;
+import com.soccer.entities.impl.DAOAggrLEvents;
 import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOMedal;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.TableRow;
-import com.soccer.entities.impl.WinLoseStrip;
 import com.soccer.http.context.RequestContext;
 import com.soccer.http.cookie.CookieGen;
 
@@ -179,7 +183,6 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		try {
 			return CreateGameHandler.handle(_queryRunner, game);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
@@ -225,20 +228,6 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 					.getAttribute(RequestContext.REQ_CONTEXT);
 			return _queryRunner.query(GetIImageResultHandler.getQuery(schema),
 					GetIImageResultHandler.getInstance(), id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public List<WinLoseStrip> getWinLoseStrips(String pid) {
-		try {
-			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
-			return _queryRunner.query(
-					GetWinLoseStripResultSetHandler.getQuery(schema),
-					GetWinLoseStripResultSetHandler.getInstance(), pid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -362,6 +351,39 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+
+	@Override
+	public List<DAOMedal> getPlayerStats(String pid) {
+		try {
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT);
+			return _queryRunner.query(
+					GetPlayerStatsResultSetHandler.getQuery(schema),
+					GetPlayerStatsResultSetHandler.getInstance(), pid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<DAOAggrLEvents> getPlayerRecords(String pid, Date start, Date end) {
+		try {
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT);
+			ProcRunner prun = new ProcRunner();
+			return prun.queryProc(_queryRunner.getDataSource().getConnection(),
+					GetPlayerRecordsResultSetHandler.getQuery(schema),
+					GetPlayerRecordsResultSetHandler.getInstance(), pid, start,
+					end);
+
+		} catch (Exception e) {
+			System.out.println("error in dbutil queryProc call, "
+                    + e.getMessage());
+			e.printStackTrace();
+			return null;
 		}
 	}
 

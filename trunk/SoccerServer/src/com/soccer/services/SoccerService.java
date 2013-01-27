@@ -1,5 +1,6 @@
 package com.soccer.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +9,10 @@ import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.SqlDBDal;
 import com.soccer.entities.IDAOGame;
 import com.soccer.entities.IDAOPlayer;
+import com.soccer.entities.impl.DAOAggrLEvents;
 import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOMedal;
 import com.soccer.entities.impl.DAOPlayer;
-import com.soccer.entities.impl.WinLoseStrip;
 
 public class SoccerService implements IGamesAPI, IPlayersAPI {
 	private static SoccerService instance = null;
@@ -72,7 +74,13 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	}
 
 	@Override
-	public List<WinLoseStrip> getWinLoseStrips(String pid) {
-		return playersAPI.getWinLoseStrips(pid);
+	public List<DAOMedal> getPlayerStats(String pid) {
+		return playersAPI.getPlayerStats(pid);
 	}
+
+	@Override
+	public List<DAOAggrLEvents> getPlayerRecords(String pid, Date start, Date end) {
+		return playersAPI.getPlayerRecords(pid, start, end);
+	}
+
 }
