@@ -4,9 +4,9 @@ import java.util.Date;
 
 public interface IDAOMedal {
 	public enum MedalEnum{
-		HATTRICK,
-		TWENTY_FIVE_GOALS,
-		TEN_GAME_WIN_STREEK
+		GOALS_PER_GAME,
+		AGGR_GOALS,
+		WIN_STREEK
 	}
 	
 	public MedalEnum getMedalType();

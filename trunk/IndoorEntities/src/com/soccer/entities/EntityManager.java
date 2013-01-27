@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.soccer.entities.impl.DAOGame;
+import com.soccer.entities.impl.DAOMedal;
 import com.soccer.entities.impl.DAOPlayer;
 import com.soccer.entities.impl.DAOSeason;
 import com.soccer.entities.impl.DAOUser;
@@ -58,6 +59,17 @@ public class EntityManager {
 		} catch (IOException e) {
 			throw new SoccerException(
 					"Could not write List of Players as JSON string", e);
+		}
+	}
+	
+	public static void writePlayerStats(List<DAOMedal> medals,
+			OutputStream out) throws SoccerException {
+		try {
+			Type tListOfMedals = new TypeToken<List<DAOMedal>>(){}.getType();
+			out.write(gson.toJson(medals, tListOfMedals).getBytes());
+		} catch (IOException e) {
+			throw new SoccerException(
+					"Could not write List of medals as JSON string", e);
 		}
 	}
 
