@@ -37,4 +37,5 @@ public interface IDAOUser {
 	public void setTel2(String tel2);
 	public Set<String> getAccounts();
 	public void addAccount(String accs);
+	public String getAccount(int pos);
 }

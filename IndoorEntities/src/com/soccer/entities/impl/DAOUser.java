@@ -170,5 +170,14 @@ public class DAOUser implements IDAOUser, Serializable  {
 			accounts = new HashSet<String>();
 		accounts.add(accs);
 	}
+	
+	public String getAccount(int pos) {
+		String acc = "";
+		if(accounts.size()>0) {
+			acc = accounts.toArray()[0].toString();
+		}
+		
+		return acc;
+	}
 
 }
