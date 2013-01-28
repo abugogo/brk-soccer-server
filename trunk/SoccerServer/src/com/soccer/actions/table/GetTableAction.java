@@ -25,7 +25,7 @@ public class GetTableAction implements RESTAction {
 //				
 //			}
 			List<TableRow> table = StatsDA.getInst().getPlayersTable((String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT));
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA));
 			EntityManager.writeTableToStream(table, resp.getOutputStream());
 			resp.setContentType(ContentType.JSON.getType());
 		} catch (SoccerException e) {

@@ -33,7 +33,7 @@ public class CreateGameHandler {
 			conn = qr.getDataSource().getConnection();
 			conn.setAutoCommit(false);
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 
 			PreparedStatement stmt = conn.prepareStatement(getQuery(schema),
 					Statement.RETURN_GENERATED_KEYS);

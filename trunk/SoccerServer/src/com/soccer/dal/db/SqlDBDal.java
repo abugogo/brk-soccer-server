@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
 import com.soccer.actions.images.ImageContentType;
+import com.soccer.dal.api.IAccountAPI;
 import com.soccer.dal.api.IGamesAPI;
 import com.soccer.dal.api.IImageAPI;
 import com.soccer.dal.api.IPlayersAPI;
@@ -35,10 +36,13 @@ import com.soccer.dal.db.utils.handlers.read.GetSinglePlayerResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSingleSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.CreateUserResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.GetSchemaForAccountResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetSingleUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserPasswordResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.GetUserSaltResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.IsUserExistResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.IsUserInAccountResultSetHandler;
+import com.soccer.dal.db.utils.handlers.sys.SetUserInAccountResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.UpdateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.update.UpdatePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
@@ -55,7 +59,7 @@ import com.soccer.http.context.RequestContext;
 import com.soccer.http.cookie.CookieGen;
 
 public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
-		ISeasonAPI, IUsersAPI, ISchemaAPI {
+		ISeasonAPI, IUsersAPI, ISchemaAPI, IAccountAPI {
 	protected static SqlDBDal _inst = null;
 	private static DataSource _datasource = null;
 	private static QueryRunner _queryRunner = null;
@@ -96,7 +100,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public List<DAOPlayer> getActivePlayers() {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetPlayersResultSetHandler.getQuery(schema, true),
 					GetPlayersResultSetHandler.getInstance(), 1);
@@ -110,7 +114,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public List<DAOPlayer> getPlayers() {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetPlayersResultSetHandler.getQuery(schema, false),
 					GetPlayersResultSetHandler.getInstance());
@@ -124,7 +128,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public Map<String, DAOGame> getGames() {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 
 			return _queryRunner.query(
 					GetGamesResultSetHandler.getQuery(schema),
@@ -139,7 +143,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public IDAOPlayer getPlayer(String pid) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetSinglePlayerResultSetHandler.getQuery(schema),
 					GetSinglePlayerResultSetHandler.getInstance(), pid);
@@ -153,7 +157,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public IDAOGame getGame(String gid) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetSingleGameResultSetHandler.getQuery(schema),
 					GetSingleGameResultSetHandler.getInstance(), gid);
@@ -167,7 +171,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public int createPlayer(IDAOPlayer p) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.update(CreatePlayerResultSetHandler
 					.getQuery(schema), p.getId(),
 					(p.getPositionBean() == null) ? null : p.getPositionBean()
@@ -192,7 +196,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public int updatePlayer(IDAOPlayer p) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			_queryRunner.update(UpdatePlayerResultSetHandler.getQuery(schema),
 					(p.getPositionBean() == null) ? null : p.getPositionBean()
 							.getId(), p.getDescription(), p.isActive(), p
@@ -225,7 +229,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public IImage readImage(String id) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(GetIImageResultHandler.getQuery(schema),
 					GetIImageResultHandler.getInstance(), id);
 		} catch (SQLException e) {
@@ -250,7 +254,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public IDAOSeason getSeason(int id) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetSingleSeasonResultSetHandler.getQuery(schema),
 					GetSingleSeasonResultSetHandler.getInstance(), id);
@@ -264,7 +268,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public List<IDAOSeason> getSeasons() {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetSeasonsResultSetHandler.getQuery(schema),
 					GetSeasonsResultSetHandler.getInstance());
@@ -278,7 +282,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public int createSeason(IDAOSeason season) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.update(
 					CreateSeasonResultSetHandler.getQuery(schema),
 					season.getId(), season.getSdate(), season.getEdate(),
@@ -304,8 +308,9 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	@Override
 	public int createUser(IDAOUser u, String salt) {
 		try {
+			String pwd = (u.getPassword()==null)?"":u.getPassword();
 			String encPwd = CookieGen
-					.encodeString(u.getPassword().concat(salt));
+					.encodeString(pwd.concat(salt));
 			return _queryRunner.update(CreateUserResultSetHandler.getQuery(), u
 					.getId().toString(), encPwd, u.getFname(), u.getLname(), u
 					.getTel1(), u.getTel2(), u.getEmail(), u.getBday(), u
@@ -343,11 +348,11 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	}
 
 	@Override
-	public String isUserInAccount(String uid, String acc) {
+	public String getSchemaForAccount(String uid, String acc) {
 		try {
 			return _queryRunner.query(
-					IsUserInAccountResultSetHandler.getQuery(),
-					IsUserInAccountResultSetHandler.getInstance(), uid, acc);
+					GetSchemaForAccountResultSetHandler.getQuery(),
+					GetSchemaForAccountResultSetHandler.getInstance(), uid, acc);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
@@ -358,7 +363,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public List<DAOMedal> getPlayerStats(String pid) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			return _queryRunner.query(
 					GetPlayerStatsResultSetHandler.getQuery(schema),
 					GetPlayerStatsResultSetHandler.getInstance(), pid);
@@ -372,7 +377,7 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 	public List<DAOAggrLEvents> getPlayerRecords(String pid, Date start, Date end) {
 		try {
 			String schema = (String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT);
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
 			ProcRunner prun = new ProcRunner();
 			return prun.queryProc(_queryRunner.getDataSource().getConnection(),
 					GetPlayerRecordsResultSetHandler.getQuery(schema),
@@ -384,6 +389,43 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
                     + e.getMessage());
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public boolean isUserExists(String id) {
+		try {
+			return _queryRunner.query(
+					IsUserExistResultSetHandler.getQuery(),
+					IsUserExistResultSetHandler.getInstance(), id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isUserInAccount(String uid, String acc) {
+		try {
+			return _queryRunner.query(
+					IsUserInAccountResultSetHandler.getQuery(),
+					IsUserInAccountResultSetHandler.getInstance(), uid, acc);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public void setUserInAccount(String uid) {
+		try {
+			String account = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT_ACCOUNT);
+			_queryRunner.update(
+					SetUserInAccountResultSetHandler
+					.getQuery(), uid, account);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
