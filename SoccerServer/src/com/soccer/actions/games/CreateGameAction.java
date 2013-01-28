@@ -29,7 +29,7 @@ public class CreateGameAction implements RESTAction {
 				if (igame != null
 						&& SoccerService.getInstance().createGame(igame) > 0) {
 					StatsDA.getInst().remove((String) RequestContext
-					.getAttribute(RequestContext.REQ_CONTEXT));
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA));
 					resp.getOutputStream().write("{result=success}".getBytes());
 					resp.setStatus(HttpStatus.SC_OK);
 				} else {

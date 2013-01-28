@@ -10,7 +10,7 @@ import com.soccer.services.SystemService;
 public class RESTPathCtxtImpl implements RESTPath {
 	private String pathStr;
 	private String[] pathArray;
-	private String context;
+	private String account, context_schema;
 	private HttpMethod method;
 
 	public RESTPathCtxtImpl(String path, HttpMethod method) throws Exception {
@@ -25,14 +25,17 @@ public class RESTPathCtxtImpl implements RESTPath {
 			}
 			String[] sarray = path.split("/");
 			if (sarray.length > 1) {
-				context = sarray[0];
+				account = sarray[0];
 				String uid = (String) RequestContext
 						.getAttribute(RequestContext.LOGGED_IN_USER);
-				context = SystemService.getInstance().isUserInAccount(uid,
-						context);
-				if (context != null && !context.isEmpty())
-					RequestContext.setAttribute(RequestContext.REQ_CONTEXT,
-							context);
+				context_schema = SystemService.getInstance().getSchemaForAccount(uid,
+						account);
+				if (context_schema != null && !context_schema.isEmpty()) {
+					RequestContext.setAttribute(RequestContext.REQ_CONTEXT_SCHEMA,
+							context_schema);
+					RequestContext.setAttribute(RequestContext.REQ_CONTEXT_ACCOUNT,
+							account);
+				}
 				else
 					throw new Exception(
 							"Unauthorised user. Does not belong to account");
@@ -54,7 +57,7 @@ public class RESTPathCtxtImpl implements RESTPath {
 	}
 
 	public String getContext() {
-		return this.context;
+		return this.account;
 	}
 
 	/*

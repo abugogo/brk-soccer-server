@@ -60,7 +60,17 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 
 	@Override
 	public int createPlayer(IDAOPlayer p) {
-		return playersAPI.createPlayer(p);
+		int res = 1;
+		if(!SystemService.getInstance().isUserExists(p.getId()))
+			res = SystemService.getInstance().createUser(p, p.getPassword());
+		if(res > 0) {
+			res = playersAPI.createPlayer(p);
+			if(res > 0) {
+				SystemService.getInstance().setUserInAccount(p.getId());
+			}
+
+		}
+		return res;
 	}
 
 	@Override

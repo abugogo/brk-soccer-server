@@ -5,16 +5,16 @@ import java.sql.SQLException;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
-public class IsUserInAccountResultSetHandler implements ResultSetHandler<Boolean> {
-	private static final String QUERY = "SELECT 1 FROM abugogo_soccer_sys.usersacc WHERE uid = ? AND acc = ? LIMIT 1";
+public class IsUserExistResultSetHandler implements ResultSetHandler<Boolean> {
+	private static final String QUERY = "SELECT 1 FROM abugogo_soccer_sys.users WHERE id = ? LIMIT 1";
 
-	private static final IsUserInAccountResultSetHandler instance = new IsUserInAccountResultSetHandler();
+	private static final IsUserExistResultSetHandler instance = new IsUserExistResultSetHandler();
 
 	public static String getQuery() {
 		return QUERY;
 	}
 
-	public static IsUserInAccountResultSetHandler getInstance() {
+	public static IsUserExistResultSetHandler getInstance() {
 		return instance;
 	}
 
