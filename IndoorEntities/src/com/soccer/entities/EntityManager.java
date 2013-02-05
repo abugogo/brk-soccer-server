@@ -115,6 +115,11 @@ public class EntityManager {
 		Type tListOfTRow = new TypeToken<List<TableRow>>(){}.getType();
 		return gson.fromJson(str, tListOfTRow);
 	}
+	
+	public static List<DAOAggrLEvents> readAggrEvtTable(String str) throws SoccerException {
+		Type tListOfAggrEvt = new TypeToken<List<DAOAggrLEvents>>(){}.getType();
+		return gson.fromJson(str, tListOfAggrEvt);
+	}
 
 	public static DAOGame readGame(String str) {
 		return gson.fromJson(str, DAOGame.class);
