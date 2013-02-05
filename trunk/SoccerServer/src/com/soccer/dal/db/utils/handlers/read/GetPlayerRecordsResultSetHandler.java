@@ -28,27 +28,37 @@ public class GetPlayerRecordsResultSetHandler implements
 	public List<DAOAggrLEvents> handle(ResultSet rslt) throws SQLException {
 		List<DAOAggrLEvents> res = new LinkedList<DAOAggrLEvents>();
 
-		int maxc = 0, maxg = 0;
-		DAOAggrLEvents max_cooks_evt  = new DAOAggrLEvents(), max_goals_evt  = new DAOAggrLEvents();
-		
+		int maxc = 0, maxg = 0, maxog = 0;
+		DAOAggrLEvents max_cooks_evt = new DAOAggrLEvents(), max_goals_evt = new DAOAggrLEvents(), max_ogoals_evt = new DAOAggrLEvents();
+
 		while (rslt.next()) {
 			int tc = rslt.getInt("tc");
-			if (maxc ==0 || tc > maxc) {
-				max_cooks_evt = initEvent(rslt.getString("g"), rslt.getString("pid"), EventType.Cook, tc);
+			if (maxc == 0 || tc > maxc) {
+				max_cooks_evt = initEvent(rslt.getString("g"),
+						rslt.getString("pid"), EventType.Cook, tc);
 				maxc = tc;
 			}
 			int tg = rslt.getInt("tg");
 			if (maxg == 0 || tg > maxg) {
-				max_goals_evt = initEvent(rslt.getString("g"), rslt.getString("pid"), EventType.Goal, tg);
+				max_goals_evt = initEvent(rslt.getString("g"),
+						rslt.getString("pid"), EventType.Goal, tg);
 				maxg = tg;
+			}
+			int tog = rslt.getInt("tog");
+			if (maxog == 0 || tog > maxog) {
+				max_ogoals_evt = initEvent(rslt.getString("g"),
+						rslt.getString("pid"), EventType.O_Goal, tog);
+				maxog = tog;
 			}
 		}
 		res.add(max_goals_evt);
 		res.add(max_cooks_evt);
+		res.add(max_ogoals_evt);
 		return res;
 	}
-	
-	private DAOAggrLEvents initEvent(String game_id, String player_id, EventType type, int count) {
+
+	private DAOAggrLEvents initEvent(String game_id, String player_id,
+			EventType type, int count) {
 		DAOAggrLEvents evt = new DAOAggrLEvents();
 		evt.setGameId(game_id);
 		evt.setPlayerId(player_id);

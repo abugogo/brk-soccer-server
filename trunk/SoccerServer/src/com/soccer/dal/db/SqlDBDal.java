@@ -3,6 +3,7 @@ package com.soccer.dal.db;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +28,9 @@ import com.soccer.dal.db.utils.handlers.create.CreatePlayerResultSetHandler;
 import com.soccer.dal.db.utils.handlers.create.CreateSeasonResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetGamesResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetIImageResultHandler;
+import com.soccer.dal.db.utils.handlers.read.GetPlayerMaxStreekResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetPlayerRecordsResultSetHandler;
-import com.soccer.dal.db.utils.handlers.read.GetPlayerStatsResultSetHandler;
+import com.soccer.dal.db.utils.handlers.read.GetPlayersAggrEventTableResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetPlayersResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSeasonsResultSetHandler;
 import com.soccer.dal.db.utils.handlers.read.GetSingleGameResultSetHandler;
@@ -46,6 +48,7 @@ import com.soccer.dal.db.utils.handlers.sys.SetUserInAccountResultSetHandler;
 import com.soccer.dal.db.utils.handlers.sys.UpdateUserResultSetHandler;
 import com.soccer.dal.db.utils.handlers.update.UpdatePlayerResultSetHandler;
 import com.soccer.entities.IDAOGame;
+import com.soccer.entities.IDAOLEvent.EventType;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.IDAOSeason;
 import com.soccer.entities.IDAOUser;
@@ -361,16 +364,19 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 
 	@Override
 	public List<DAOMedal> getPlayerStats(String pid) {
+		List<DAOMedal> list = new LinkedList<DAOMedal>();
 		try {
 			String schema = (String) RequestContext
 					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
-			return _queryRunner.query(
-					GetPlayerStatsResultSetHandler.getQuery(schema),
-					GetPlayerStatsResultSetHandler.getInstance(), pid);
+			DAOMedal streekmedal =  _queryRunner.query(
+					GetPlayerMaxStreekResultSetHandler.getQuery(schema),
+					GetPlayerMaxStreekResultSetHandler.getInstance(), pid);
+			list.add(streekmedal);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
+		return list;
 	}
 
 	@Override
@@ -426,6 +432,25 @@ public class SqlDBDal implements IPlayersAPI, IGamesAPI, IImageAPI, ITableAPI,
 					.getQuery(), uid, account);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<DAOAggrLEvents> getPlayersAggrEventTable(Date start, Date end, EventType type) {
+		try {
+			String schema = (String) RequestContext
+					.getAttribute(RequestContext.REQ_CONTEXT_SCHEMA);
+			ProcRunner prun = new ProcRunner();
+			return prun.queryProc(_queryRunner.getDataSource().getConnection(),
+					GetPlayersAggrEventTableResultSetHandler.getQuery(schema),
+					GetPlayersAggrEventTableResultSetHandler.getInstance(), type.ordinal(), start,
+					end);
+
+		} catch (Exception e) {
+			System.out.println("error in dbutil queryProc call, "
+                    + e.getMessage());
+			e.printStackTrace();
+			return null;
 		}
 	}
 

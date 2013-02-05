@@ -8,6 +8,7 @@ import com.soccer.dal.api.IGamesAPI;
 import com.soccer.dal.api.IPlayersAPI;
 import com.soccer.dal.db.SqlDBDal;
 import com.soccer.entities.IDAOGame;
+import com.soccer.entities.IDAOLEvent.EventType;
 import com.soccer.entities.IDAOPlayer;
 import com.soccer.entities.impl.DAOAggrLEvents;
 import com.soccer.entities.impl.DAOGame;
@@ -91,6 +92,11 @@ public class SoccerService implements IGamesAPI, IPlayersAPI {
 	@Override
 	public List<DAOAggrLEvents> getPlayerRecords(String pid, Date start, Date end) {
 		return playersAPI.getPlayerRecords(pid, start, end);
+	}
+
+	@Override
+	public List<DAOAggrLEvents> getPlayersAggrEventTable(Date start, Date end, EventType type) {
+		return playersAPI.getPlayersAggrEventTable(start, end, type);
 	}
 
 }
