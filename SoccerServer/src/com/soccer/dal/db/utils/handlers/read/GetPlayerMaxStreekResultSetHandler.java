@@ -3,19 +3,16 @@ package com.soccer.dal.db.utils.handlers.read;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.soccer.entities.IDAOMedal;
-import com.soccer.entities.impl.DAOMedal;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
+import com.soccer.entities.IDAOMedal;
 import com.soccer.entities.IWinLoseStrip.GameResultType;
+import com.soccer.entities.impl.DAOMedal;
 import com.soccer.entities.impl.WinLoseStrip;
 
-public class GetPlayerStatsResultSetHandler implements
-		ResultSetHandler<List<DAOMedal>> {
+public class GetPlayerMaxStreekResultSetHandler implements
+		ResultSetHandler<DAOMedal> {
 
 	public static final String QUERY = "SELECT LNP.color as c, GMS.game_date as d, GMS.winner as w "
 			+ "FROM %s.lineup LNP "
@@ -23,9 +20,9 @@ public class GetPlayerStatsResultSetHandler implements
 			+ "  ON LNP.game_id=GMS.game_id "
 			+ "WHERE LNP.player_id = ? "
 			+ "ORDER BY GMS.game_date";
-	private static final GetPlayerStatsResultSetHandler instance = new GetPlayerStatsResultSetHandler();
+	private static final GetPlayerMaxStreekResultSetHandler instance = new GetPlayerMaxStreekResultSetHandler();
 
-	public static GetPlayerStatsResultSetHandler getInstance() {
+	public static GetPlayerMaxStreekResultSetHandler getInstance() {
 		return instance;
 	}
 
@@ -34,8 +31,7 @@ public class GetPlayerStatsResultSetHandler implements
 	}
 
 	@Override
-	public List<DAOMedal> handle(ResultSet rslt) throws SQLException {
-		List<DAOMedal> res = new LinkedList<DAOMedal>();
+	public DAOMedal handle(ResultSet rslt) throws SQLException {
 		WinLoseStrip strip = new WinLoseStrip(), lstrip = new WinLoseStrip(), wstrip = new WinLoseStrip();
 		int counter = 0;
 		boolean win_stripe = true, start = true;
@@ -99,17 +95,18 @@ public class GetPlayerStatsResultSetHandler implements
 			wstrip = strip;
 		} else if (!win_stripe && strip.getNumber() > lstrip.getNumber())
 			lstrip = strip;
+		
+		DAOMedal medal = new DAOMedal();
 		if (wstrip.getStartDate() != null && wstrip.getEndDate() != null) {
-			DAOMedal medal = new DAOMedal();
+			
 			medal.setCount(wstrip.getNumber());
 			medal.setMedalType(IDAOMedal.MedalEnum.WIN_STREEK);
 			medal.setDate(wstrip.getEndDate());
-			res.add(medal);
 		}
 		/*if (lstrip.getStartDate() != null && lstrip.getEndDate() != null)
 			res.add(lstrip);*/
 
-		return res;
+		return medal;
 	}
 
 	private WinLoseStrip initLineupStripe(GameResultType type, Date date) {

@@ -15,7 +15,7 @@ public class GetSinglePlayerResultSetHandler implements
 			+ " u.address1, u.address2, p.description, u.P_img, p.Active, p.isAdmin"
 			+ " FROM %s.players as p"
 			+ " INNER JOIN abugogo_soccer_sys.users as u ON p.id=u.id"
-			+ " WHERE id = ?";
+			+ " WHERE u.id = ?";
 	private static final GetSinglePlayerResultSetHandler instance = new GetSinglePlayerResultSetHandler();
 
 	public static GetSinglePlayerResultSetHandler getInstance() {

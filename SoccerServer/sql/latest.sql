@@ -141,7 +141,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-28 14:14:29
+-- Dump completed on 2013-02-05 22:41:25
 CREATE DATABASE  IF NOT EXISTS `abugogo_acc_super` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `abugogo_acc_super`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
@@ -333,7 +333,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-28 14:14:30
+-- Dump completed on 2013-02-05 22:41:27
 CREATE DATABASE  IF NOT EXISTS `abugogo_acc_winn` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `abugogo_acc_winn`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
@@ -529,7 +529,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-28 14:14:32
+-- Dump completed on 2013-02-05 22:41:28
 CREATE DATABASE  IF NOT EXISTS `abugogo_acc_star` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `abugogo_acc_star`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
@@ -725,4 +725,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-28 14:14:33
+-- Dump completed on 2013-02-05 22:41:29

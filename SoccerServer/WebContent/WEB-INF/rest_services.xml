@@ -30,11 +30,11 @@
         <method>GET</method>
         <class>com.soccer.actions.players.stats.GetPlayerRecordsAction</class>
     </entity>
-    <entity>
+    <!-- entity>
         <uri>players/records</uri>
         <method>GET</method>
         <class>com.soccer.actions.players.stats.GetPlayersRecordsAction</class>
-    </entity>
+    </entity-->
     <entity>
         <uri>games/*</uri>
         <method>GET</method>
@@ -69,6 +69,11 @@
         <uri>table</uri>
         <method>GET</method>
         <class>com.soccer.actions.table.GetTableAction</class>
+    </entity>
+    <entity>
+        <uri>table/*</uri>
+        <method>GET</method>
+        <class>com.soccer.actions.table.GetPlayersAggrEventTableAction</class>
     </entity>
     <entity>
     	<uri>seasons</uri>
