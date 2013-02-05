@@ -16,6 +16,10 @@ public interface IDAOLEvent {
 	public void setGameId(String gameId);
 	public String getPlayerId();
 	public void setPlayerId(String id);
+	public String getPlayerFName();
+	public void setPlayerFName(String name);
+	public String getPlayerLName();
+	public void setPlayerLName(String name);
 	public Time getTime();
 	public void setTime(Time t);
 }
